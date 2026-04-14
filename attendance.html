@@ -410,12 +410,32 @@ let currentState = {
 
 let isSubmitting = false;
 
-function formatToday(){
+// ===== 4時切り替え =====
+function getWorkDate(){
   const now = new Date();
-  const y = now.getFullYear();
-  const m = now.getMonth() + 1;
-  const d = now.getDate();
+
+  // 朝4時前なら前日扱い
+  if(now.getHours() < 4){
+    now.setDate(now.getDate() - 1);
+  }
+
+  return now;
+}
+
+function formatToday(){
+  const workDate = getWorkDate();
+  const y = workDate.getFullYear();
+  const m = workDate.getMonth() + 1;
+  const d = workDate.getDate();
   return `${y}年${m}月${d}日`;
+}
+
+function getWorkDateKey(){
+  const workDate = getWorkDate();
+  const y = workDate.getFullYear();
+  const m = String(workDate.getMonth() + 1).padStart(2,'0');
+  const d = String(workDate.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
 }
 
 function nowTime(){
@@ -513,6 +533,9 @@ function renderScreen(){
 }
 
 async function init(){
+  // 今は仮データ
+  // 後で GAS と繋いだときは getWorkDateKey() を使って
+  // その業務日の状態を取得する
   currentState = {
     status: 'not_started',
     driverName: '石塚 歩汰',
@@ -548,6 +571,10 @@ async function submitAttendance(type){
       type === 'start' ? '出勤を記録中...' : '退勤を記録中...',
       'しばらくお待ちください'
     );
+
+    // 後で GAS に送るときは getWorkDateKey() を送信に含める
+    const workDate = getWorkDateKey();
+    console.log('workDate:', workDate);
 
     await new Promise(resolve => setTimeout(resolve, 700));
 
