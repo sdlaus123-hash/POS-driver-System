@@ -3,30 +3,41 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>退勤</title>
+<title>勤務報告</title>
 <style>
 :root{
-  --bg:#f7f4ee;
-  --card:#ffffff;
-  --text:#1f1f1c;
-  --muted:#6f6a61;
-  --line:#e8e1d3;
-  --brand:#171714;
-  --brand-2:#2a2824;
-  --accent:#f2c94c;
-  --accent-2:#ffd86b;
-  --accent-soft:#fff5cf;
-  --success-bg:#eef8ef;
-  --success-line:#b9dcbd;
-  --success-text:#1f5f2a;
-  --info-bg:#fff8e8;
-  --info-line:#f2dfaa;
+  --bg-1:#f8f2e8;
+  --bg-2:#f4ede2;
+  --card:#fffdf8;
+  --text:#241f1a;
+  --muted:#766b5f;
+  --line:#eadfcd;
+
+  --brand:#1d1a17;
+  --brand-2:#332b22;
+
+  --gold:#f2c14e;
+  --gold-2:#ffd97b;
+  --gold-soft:#fff1c8;
+  --gold-line:#efd68f;
+
+  --green-bg:#eef8f1;
+  --green-line:#b9ddc3;
+  --green-text:#205b32;
+
+  --info-bg:#fff7e6;
+  --info-line:#f0dc9d;
+  --info-text:#5a4a2b;
+
   --danger:#b3261e;
-  --shadow-xl:0 24px 50px rgba(26,23,18,.12);
-  --shadow-lg:0 14px 32px rgba(26,23,18,.08);
-  --radius-xl:26px;
-  --radius-lg:18px;
-  --radius-md:14px;
+
+  --shadow-xl:0 24px 60px rgba(40,31,20,.14);
+  --shadow-lg:0 14px 34px rgba(40,31,20,.10);
+  --shadow-md:0 8px 20px rgba(40,31,20,.08);
+
+  --radius-xl:28px;
+  --radius-lg:20px;
+  --radius-md:16px;
 }
 
 *{
@@ -38,9 +49,9 @@ html,body{
   margin:0;
   padding:0;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
-  background:
-    radial-gradient(circle at top, #fff6dc 0%, #f7f4ee 28%, #f7f4ee 100%);
   color:var(--text);
+  background:
+    radial-gradient(circle at top, #fff8df 0%, var(--bg-1) 22%, var(--bg-2) 100%);
 }
 
 body{
@@ -51,53 +62,73 @@ body{
   width:100%;
   max-width:430px;
   margin:0 auto;
-  padding:16px 14px 110px;
+  padding:18px 14px 110px;
 }
 
 .hero{
   position:relative;
   overflow:hidden;
-  background:linear-gradient(135deg,var(--brand) 0%, var(--brand-2) 100%);
+  padding:22px 18px 20px;
+  border-radius:30px;
+  background:
+    linear-gradient(135deg, var(--brand) 0%, #2a231d 45%, var(--brand-2) 100%);
   color:#fff;
-  padding:22px 18px;
-  border-radius:28px;
-  margin-bottom:16px;
   box-shadow:var(--shadow-xl);
+  margin-bottom:16px;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  right:-30px;
+  top:-26px;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,217,123,.22), rgba(255,217,123,0));
 }
 
 .hero::after{
   content:"";
   position:absolute;
-  right:-36px;
-  top:-36px;
-  width:140px;
-  height:140px;
+  left:-40px;
+  bottom:-50px;
+  width:160px;
+  height:160px;
   border-radius:50%;
-  background:radial-gradient(circle, rgba(255,216,107,.22), rgba(255,216,107,0));
+  background:radial-gradient(circle, rgba(242,193,78,.12), rgba(242,193,78,0));
 }
 
-.hero small{
+.hero-badge{
+  position:relative;
+  z-index:1;
   display:inline-flex;
   align-items:center;
-  gap:6px;
-  color:#ffe08a;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
   font-size:12px;
   font-weight:800;
-  letter-spacing:.04em;
-  padding:7px 10px;
-  border-radius:999px;
+  letter-spacing:.05em;
+  color:#ffe7a0;
   background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(10px);
 }
 
-.hero h1{
+.hero-title{
+  position:relative;
+  z-index:1;
   margin:14px 0 6px;
-  font-size:28px;
-  line-height:1.15;
+  font-size:30px;
+  line-height:1.1;
   letter-spacing:-.03em;
+  font-weight:900;
 }
 
-.hero p{
+.hero-subtitle{
+  position:relative;
+  z-index:1;
   margin:0;
   color:rgba(255,255,255,.72);
   font-size:13px;
@@ -105,12 +136,12 @@ body{
 }
 
 .card{
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.85);
+  background:rgba(255,253,248,.92);
+  border:1px solid rgba(255,255,255,.8);
   border-radius:var(--radius-xl);
   padding:16px;
   box-shadow:var(--shadow-lg);
+  backdrop-filter:blur(10px);
 }
 
 .hidden{display:none !important;}
@@ -144,42 +175,44 @@ body{
 }
 
 .banner{
-  background:linear-gradient(180deg,var(--info-bg),#fff4d7);
-  border:1px solid var(--info-line);
   border-radius:18px;
   padding:13px 14px;
   font-size:14px;
-  line-height:1.6;
-  color:#524b3e;
+  line-height:1.65;
+  background:linear-gradient(180deg,var(--info-bg),#fff1ce);
+  border:1px solid var(--info-line);
+  color:var(--info-text);
 }
 
 .banner.success{
-  background:var(--success-bg);
-  border-color:var(--success-line);
-  color:var(--success-text);
+  background:linear-gradient(180deg,var(--green-bg),#e7f6eb);
+  border-color:var(--green-line);
+  color:var(--green-text);
   font-weight:800;
 }
 
-.driver-info{
-  margin:14px 0 8px;
+.driver-card{
+  margin-top:14px;
   padding:16px 14px;
-  border-radius:18px;
-  background:linear-gradient(180deg,#fff9e6,#fff4d0);
-  border:1px solid #f0dfaa;
+  border-radius:22px;
+  background:
+    linear-gradient(180deg, #fff8df 0%, #fff1c8 100%);
+  border:1px solid var(--gold-line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
   text-align:center;
 }
 
 .driver-name{
-  font-size:19px;
+  font-size:20px;
   font-weight:900;
+  color:#2c251d;
   letter-spacing:.01em;
-  color:#2c2823;
 }
 
 .driver-site{
-  margin-top:5px;
+  margin-top:6px;
   font-size:13px;
-  color:#6f6a61;
+  color:#6f6355;
   line-height:1.5;
 }
 
@@ -187,26 +220,27 @@ body{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  margin:10px 0 4px;
+  margin:12px 0 2px;
 }
 
 .pill{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:8px 12px;
+  padding:9px 12px;
   border-radius:999px;
-  background:var(--accent-soft);
-  border:1px solid #f0df9d;
   font-size:13px;
   font-weight:800;
   line-height:1;
+  border:1px solid var(--gold-line);
+  background:var(--gold-soft);
+  color:#5e4a14;
 }
 
 .pill.dark{
-  background:#f5f3ee;
-  border-color:#e9e1d3;
-  color:#3f3b35;
+  background:#f4efe8;
+  border-color:#e7dccd;
+  color:#4c4339;
 }
 
 .section{
@@ -217,27 +251,27 @@ body{
   font-size:14px;
   font-weight:800;
   margin:0 0 8px;
-  color:#34312c;
+  color:#332d26;
 }
 
 textarea{
   width:100%;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px;
-  font-size:16px;
-  background:#fff;
-  color:var(--text);
-  transition:border-color .15s ease, box-shadow .15s ease;
   min-height:110px;
   resize:vertical;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px 14px;
+  font-size:16px;
+  background:#fffefa;
+  color:var(--text);
   line-height:1.65;
+  transition:border-color .15s ease, box-shadow .15s ease, transform .08s ease;
 }
 
 textarea:focus{
   outline:none;
-  border-color:#d7c58d;
-  box-shadow:0 0 0 4px rgba(242,201,76,.16);
+  border-color:#e2c66d;
+  box-shadow:0 0 0 4px rgba(242,193,78,.15);
 }
 
 .actions{
@@ -247,10 +281,10 @@ textarea:focus{
 .btn{
   width:100%;
   border:none;
-  border-radius:18px;
-  padding:15px 16px;
+  border-radius:20px;
+  padding:16px;
   font-size:16px;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
   transition:transform .08s ease, opacity .12s ease, filter .12s ease, box-shadow .12s ease;
   box-shadow:0 14px 26px rgba(0,0,0,.08);
@@ -267,13 +301,15 @@ textarea:focus{
 }
 
 .btn-primary{
-  background:linear-gradient(180deg,#1f1f1c 0%, #11110f 100%);
   color:#fff;
+  background:linear-gradient(180deg, #23201c 0%, #141210 100%);
+  box-shadow:0 16px 30px rgba(20,18,16,.18);
 }
 
 .btn-secondary{
-  background:linear-gradient(180deg,var(--accent-2) 0%, var(--accent) 100%);
-  color:#3c2d00;
+  color:#3e2f06;
+  background:linear-gradient(180deg, var(--gold-2) 0%, var(--gold) 100%);
+  box-shadow:0 16px 30px rgba(242,193,78,.24);
 }
 
 .error{
@@ -286,14 +322,14 @@ textarea:focus{
 .grid{
   display:grid;
   gap:10px;
-  margin-top:12px;
+  margin-top:14px;
 }
 
 .info-box{
-  border:1px solid #eee7d9;
-  border-radius:16px;
-  padding:12px 13px;
-  background:#fbfaf7;
+  border:1px solid #eee3d4;
+  border-radius:18px;
+  padding:13px 14px;
+  background:linear-gradient(180deg,#fffefa,#faf5ee);
 }
 
 .info-box .title{
@@ -312,8 +348,8 @@ textarea:focus{
 .loading-overlay{
   position:fixed;
   inset:0;
-  background:rgba(247,244,238,.58);
-  backdrop-filter:blur(3px);
+  background:rgba(247,244,238,.62);
+  backdrop-filter:blur(4px);
   z-index:999;
   display:flex;
   align-items:center;
@@ -329,20 +365,21 @@ textarea:focus{
 }
 
 .loading-box{
-  background:#fff;
-  border-radius:18px;
-  padding:16px 18px;
-  box-shadow:0 14px 28px rgba(0,0,0,.12);
-  min-width:180px;
+  min-width:190px;
   text-align:center;
+  padding:18px 18px;
+  border-radius:20px;
+  background:rgba(255,253,248,.96);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:0 18px 34px rgba(0,0,0,.12);
 }
 
 .spinner{
-  width:28px;
-  height:28px;
+  width:30px;
+  height:30px;
   margin:0 auto 10px;
-  border:3px solid #ece7dc;
-  border-top-color:#111;
+  border:3px solid #efe6d4;
+  border-top-color:#1b1714;
   border-radius:50%;
   animation:spin .8s linear infinite;
 }
@@ -353,7 +390,7 @@ textarea:focus{
 
 .loading-title{
   font-size:14px;
-  font-weight:700;
+  font-weight:800;
   color:#222;
 }
 
@@ -368,7 +405,7 @@ textarea:focus{
   left:50%;
   bottom:24px;
   transform:translateX(-50%) translateY(14px);
-  background:#111;
+  background:#1d1a17;
   color:#fff;
   padding:11px 14px;
   border-radius:999px;
@@ -392,12 +429,12 @@ textarea:focus{
     padding:12px;
   }
 
-  .hero h1{
-    font-size:24px;
+  .hero-title{
+    font-size:26px;
   }
 
   .driver-name{
-    font-size:17px;
+    font-size:18px;
   }
 }
 </style>
@@ -406,9 +443,9 @@ textarea:focus{
 
 <div class="wrap">
   <div class="hero">
-    <small>勤務報告</small>
-    <h1 id="pageTitle">退勤確認</h1>
-    <p id="pageSubtitle">出勤・退勤の状態を記録します</p>
+    <div class="hero-badge">勤務報告</div>
+    <h1 id="pageTitle" class="hero-title">本日の勤務報告</h1>
+    <p id="pageSubtitle" class="hero-subtitle">出勤・退勤の状態を記録します</p>
   </div>
 
   <div id="formCard" class="card fade-in">
@@ -416,7 +453,7 @@ textarea:focus{
       本日の勤務状態に応じて、出勤または退勤を記録してください。
     </div>
 
-    <div class="driver-info">
+    <div class="driver-card">
       <div id="driverName" class="driver-name">石塚 歩汰</div>
       <div id="driverSite" class="driver-site">川口領家 Amazon</div>
     </div>
@@ -442,7 +479,7 @@ textarea:focus{
   <div id="doneCard" class="card hidden">
     <div class="banner success pop-in">本日の勤務報告は完了しました。</div>
 
-    <div class="driver-info">
+    <div class="driver-card">
       <div id="doneDriverName" class="driver-name">石塚 歩汰</div>
       <div id="doneDriverSite" class="driver-site">川口領家 Amazon</div>
     </div>
@@ -486,7 +523,7 @@ const API = '/api/attendance';
 const USER = 'demo-user-001';
 
 let currentState = {
-  status: 'not_started', // not_started | started | finished
+  status: 'not_started',
   driverName: '石塚 歩汰',
   siteName: '川口領家 Amazon',
   note: '',
@@ -602,8 +639,6 @@ function renderFormState(){
 }
 
 async function init(){
-  // 今は見た目確認用の仮データ
-  // 後で GAS / LIFF 接続時にここで本日の状態・氏名・現場を取得
   currentState = {
     status: 'not_started',
     driverName: '石塚 歩汰',
@@ -642,7 +677,6 @@ async function submitAttendance(type){
       'しばらくお待ちください'
     );
 
-    // 今はダミー送信
     await new Promise(resolve => setTimeout(resolve, 700));
 
     if(type === 'start'){
