@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>勤務報告</title>
+<style>
+:root{
+  --bg:#f6f4ee;
+  --text:#222;
+  --muted:#666;
+  --panel:#fff;
+  --line:#ddd;
+  --line-soft:#eee;
+  --brand:#111;
+  --accent:#ffd95c;
+  --accent-deep:#e0b93d;
+  --accent-soft:#fff4c7;
+  --success-bg:#eef8ef;
+  --success-line:#b9dcbd;
+  --success-text:#1f5f2a;
+  --info-bg:#fff6dc;
+  --info-line:#f0dfaa;
+  --danger:#b3261e;
+  --shadow-lg:0 10px 25px rgba(0,0,0,.12);
+  --shadow-md:0 10px 25px rgba(0,0,0,.08);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.wrap{
+  max-width:420px;
+  margin:auto;
+  padding:16px;
+}
+
+.header{
+  background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);
+  color:#fff;
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow-lg);
+}
+
+.header small{
+  color:var(--accent);
+  display:block;
+  margin-bottom:6px;
+  font-weight:700;
+  letter-spacing:.02em;
+}
+
+.card{
+  background:var(--panel);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:var(--shadow-md);
+}
+
+.hidden{display:none !important;}
+
+.fade-in{
+  animation:fadeIn .22s ease both;
+}
+
+.pop-in{
+  animation:popIn .26s ease both;
+}
+
+.shake{
+  animation:shake .22s ease both;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(8px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes popIn{
+  from{opacity:0; transform:scale(.985) translateY(6px);}
+  to{opacity:1; transform:scale(1) translateY(0);}
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-4px);}
+  75%{transform:translateX(4px);}
+}
+
+.label{
+  font-size:14px;
+  font-weight:700;
+  margin:10px 0 8px;
+}
+
+input, textarea, select{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  font-size:16px;
+  margin-bottom:10px;
+  background:#fff;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+
+input:focus, textarea:focus, select:focus{
+  outline:none;
+  border-color:#c8c8c8;
+  box-shadow:0 0 0 4px rgba(0,0,0,.04);
+}
+
+textarea{
+  min-height:96px;
+  resize:vertical;
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  margin-top:12px;
+  font-size:16px;
+  font-weight:700;
+  transition:transform .08s ease, opacity .12s ease, filter .12s ease;
+}
+
+.btn:active{
+  transform:scale(.99);
+}
+
+.btn[disabled]{
+  opacity:.7;
+  cursor:not-allowed;
+}
+
+.main{
+  background:var(--brand);
+  color:#fff;
+}
+
+.sub{
+  background:var(--accent);
+  color:#111;
+}
+
+.info{
+  background:var(--info-bg);
+  border:1px solid var(--info-line);
+  padding:12px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+.success{
+  background:var(--success-bg);
+  border:1px solid var(--success-line);
+  color:var(--success-text);
+  padding:12px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:12px;
+  font-weight:700;
+}
+
+.error{
+  color:var(--danger);
+  font-size:14px;
+  margin-top:10px;
+  white-space:pre-wrap;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.box{
+  border:1px solid var(--line-soft);
+  border-radius:14px;
+  padding:12px;
+  margin-top:10px;
+  background:#fafafa;
+}
+
+.pill-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:10px 0 4px;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:999px;
+  background:var(--accent-soft);
+  border:1px solid #f0df9d;
+  font-size:13px;
+  font-weight:700;
+}
+
+.loading-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(246,244,238,.55);
+  backdrop-filter:blur(2px);
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease;
+}
+
+.loading-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.loading-box{
+  background:#fff;
+  border-radius:18px;
+  padding:16px 18px;
+  box-shadow:0 14px 28px rgba(0,0,0,.12);
+  min-width:180px;
+  text-align:center;
+}
+
+.spinner{
+  width:28px;
+  height:28px;
+  margin:0 auto 10px;
+  border:3px solid #ece7dc;
+  border-top-color:#111;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
+
+.loading-title{
+  font-size:14px;
+  font-weight:700;
+  color:#222;
+}
+
+.loading-sub{
+  margin-top:4px;
+  font-size:12px;
+  color:#777;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  transform:translateX(-50%) translateY(14px);
+  background:#111;
+  color:#fff;
+  padding:11px 14px;
+  border-radius:999px;
+  font-size:13px;
+  box-shadow:0 10px 20px rgba(0,0,0,.18);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease, transform .18s ease;
+  z-index:1000;
+  max-width:calc(100vw - 32px);
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+@media (max-width:380px){
+  .wrap{
+    padding:12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="header">
+    <small>勤務報告</small>
+    <h2 id="title" style="margin:0 0 6px;">本日の勤務報告</h2>
+    <div id="subtitle" style="font-size:14px;color:rgba(255,255,255,.7);">出勤・退勤の状態を記録します</div>
+  </div>
+
+  <div id="attendanceCard" class="card fade-in">
+    <div id="statusInfo" class="info">
+      本日の状態に応じて、出勤または退勤を記録してください。
+    </div>
+
+    <div class="pill-row">
+      <div class="pill" id="todayLabel">本日</div>
+      <div class="pill" id="statusLabel">未出勤</div>
+    </div>
+
+    <div class="label">現場名</div>
+    <input id="site" placeholder="例：川口領家 Amazon" />
+
+    <div class="label">備考（任意）</div>
+    <textarea id="note" placeholder="備考"></textarea>
+
+    <button id="startBtn" class="btn main" onclick="submitAttendance('start')">出勤する</button>
+    <button id="endBtn" class="btn sub hidden" onclick="submitAttendance('end')">退勤する</button>
+
+    <div id="attendanceError" class="error"></div>
+  </div>
+
+  <div id="doneCard" class="card hidden">
+    <div class="success pop-in">本日の勤務報告は完了しました。</div>
+
+    <div class="box">
+      <div class="muted">状態</div>
+      <div id="doneStatus">退勤済み</div>
+    </div>
+
+    <div class="box">
+      <div class="muted">現場</div>
+      <div id="doneSite">-</div>
+    </div>
+
+    <div class="box">
+      <div class="muted">出勤時刻</div>
+      <div id="doneStart">-</div>
+    </div>
+
+    <div class="box">
+      <div class="muted">退勤時刻</div>
+      <div id="doneEnd">-</div>
+    </div>
+
+    <div class="box">
+      <div class="muted">備考</div>
+      <div id="doneNote">なし</div>
+    </div>
+  </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <div id="loadingTitle" class="loading-title">処理中...</div>
+    <div id="loadingSub" class="loading-sub">しばらくお待ちください</div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const API = '/api/attendance';
+const USER = 'demo-user-001';
+
+let currentState = {
+  status: 'not_started', // not_started | started | finished
+  site: '',
+  note: '',
+  startTime: '',
+  endTime: ''
+};
+
+let isSubmitting = false;
+
+function formatToday(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth() + 1;
+  const d = now.getDate();
+  return `${y}年${m}月${d}日`;
+}
+
+function nowTime(){
+  return new Date().toLocaleTimeString('ja-JP', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function show(id){
+  ['attendanceCard','doneCard'].forEach(v=>{
+    const el = document.getElementById(v);
+    el.classList.add('hidden');
+    el.classList.remove('fade-in');
+  });
+  const target = document.getElementById(id);
+  target.classList.remove('hidden');
+  target.classList.add('fade-in');
+}
+
+function showLoading(title = '処理中...', sub = 'しばらくお待ちください'){
+  document.getElementById('loadingTitle').textContent = title;
+  document.getElementById('loadingSub').textContent = sub;
+  document.getElementById('loadingOverlay').classList.add('show');
+}
+
+function hideLoading(){
+  document.getElementById('loadingOverlay').classList.remove('show');
+}
+
+function showToast(message){
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(()=>{
+    toast.classList.remove('show');
+  }, 1800);
+}
+
+function setButtonLoading(btn, loading, loadingText, normalText){
+  if(!btn) return;
+  if(loading){
+    btn.dataset.normalText = normalText || btn.textContent;
+    btn.textContent = loadingText;
+    btn.disabled = true;
+  }else{
+    btn.textContent = btn.dataset.normalText || normalText || btn.textContent;
+    btn.disabled = false;
+  }
+}
+
+function renderAttendanceScreen(){
+  document.getElementById('todayLabel').textContent = formatToday();
+  document.getElementById('site').value = currentState.site || '';
+  document.getElementById('note').value = currentState.note || '';
+
+  const startBtn = document.getElementById('startBtn');
+  const endBtn = document.getElementById('endBtn');
+  const statusInfo = document.getElementById('statusInfo');
+  const statusLabel = document.getElementById('statusLabel');
+
+  if(currentState.status === 'not_started'){
+    statusLabel.textContent = '未出勤';
+    statusInfo.innerHTML = '本日はまだ出勤していません。<br>勤務を開始する場合は出勤ボタンを押してください。';
+    startBtn.classList.remove('hidden');
+    endBtn.classList.add('hidden');
+    show('attendanceCard');
+    return;
+  }
+
+  if(currentState.status === 'started'){
+    statusLabel.textContent = '出勤済み';
+    statusInfo.innerHTML = `出勤時刻は <strong>${currentState.startTime || '-'}</strong> です。<br>勤務終了時に退勤ボタンを押してください。`;
+    startBtn.classList.add('hidden');
+    endBtn.classList.remove('hidden');
+    show('attendanceCard');
+    return;
+  }
+
+  if(currentState.status === 'finished'){
+    document.getElementById('doneStatus').textContent = '退勤済み';
+    document.getElementById('doneSite').textContent = currentState.site || '未入力';
+    document.getElementById('doneStart').textContent = currentState.startTime || '-';
+    document.getElementById('doneEnd').textContent = currentState.endTime || '-';
+    document.getElementById('doneNote').textContent = currentState.note || 'なし';
+    show('doneCard');
+  }
+}
+
+async function init(){
+  // 今はデモ状態
+  // 後でGAS接続したら、ここで本日の状態を取得します
+  currentState = {
+    status: 'not_started',
+    site: '',
+    note: '',
+    startTime: '',
+    endTime: ''
+  };
+
+  renderAttendanceScreen();
+}
+
+async function submitAttendance(type){
+  if(isSubmitting) return;
+
+  const errorEl = document.getElementById('attendanceError');
+  errorEl.textContent = '';
+
+  const site = document.getElementById('site').value.trim();
+  const note = document.getElementById('note').value.trim();
+
+  if(type === 'start' && !site){
+    errorEl.textContent = '現場名を入力してください';
+    document.getElementById('attendanceCard').classList.remove('shake');
+    void document.getElementById('attendanceCard').offsetWidth;
+    document.getElementById('attendanceCard').classList.add('shake');
+    return;
+  }
+
+  const btn = type === 'start'
+    ? document.getElementById('startBtn')
+    : document.getElementById('endBtn');
+
+  try{
+    isSubmitting = true;
+    setButtonLoading(
+      btn,
+      true,
+      type === 'start' ? '出勤中...' : '退勤中...',
+      type === 'start' ? '出勤する' : '退勤する'
+    );
+
+    showLoading(
+      type === 'start' ? '出勤を記録中...' : '退勤を記録中...',
+      'しばらくお待ちください'
+    );
+
+    // 今は見た目確認用のダミー処理
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    if(type === 'start'){
+      currentState = {
+        ...currentState,
+        status: 'started',
+        site,
+        note,
+        startTime: nowTime()
+      };
+      renderAttendanceScreen();
+      showToast('出勤を記録しました');
+    } else {
+      currentState = {
+        ...currentState,
+        status: 'finished',
+        site,
+        note,
+        endTime: nowTime()
+      };
+      renderAttendanceScreen();
+      showToast('退勤を記録しました');
+    }
+
+  } catch(err){
+    errorEl.textContent = String(err);
+  } finally{
+    isSubmitting = false;
+    setButtonLoading(
+      btn,
+      false,
+      type === 'start' ? '出勤中...' : '退勤中...',
+      type === 'start' ? '出勤する' : '退勤する'
+    );
+    hideLoading();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
