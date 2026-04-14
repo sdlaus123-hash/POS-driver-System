@@ -6,24 +6,27 @@
 <title>勤務報告</title>
 <style>
 :root{
-  --bg:#f6f4ee;
-  --text:#222;
-  --muted:#666;
-  --panel:#fff;
-  --line:#ddd;
-  --line-soft:#eee;
-  --brand:#111;
-  --accent:#ffd95c;
-  --accent-deep:#e0b93d;
-  --accent-soft:#fff4c7;
+  --bg:#f7f4ee;
+  --card:#ffffff;
+  --text:#1f1f1c;
+  --muted:#6f6a61;
+  --line:#e8e1d3;
+  --brand:#171714;
+  --brand-2:#2a2824;
+  --accent:#f2c94c;
+  --accent-2:#ffd86b;
+  --accent-soft:#fff5cf;
   --success-bg:#eef8ef;
   --success-line:#b9dcbd;
   --success-text:#1f5f2a;
-  --info-bg:#fff6dc;
-  --info-line:#f0dfaa;
+  --info-bg:#fff8e8;
+  --info-line:#f2dfaa;
   --danger:#b3261e;
-  --shadow-lg:0 10px 25px rgba(0,0,0,.12);
-  --shadow-md:0 10px 25px rgba(0,0,0,.08);
+  --shadow-xl:0 24px 50px rgba(26,23,18,.12);
+  --shadow-lg:0 14px 32px rgba(26,23,18,.08);
+  --radius-xl:26px;
+  --radius-lg:18px;
+  --radius-md:14px;
 }
 
 *{
@@ -31,64 +34,106 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-body{
+html,body{
   margin:0;
+  padding:0;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
-  background:var(--bg);
+  background:
+    radial-gradient(circle at top, #fff6dc 0%, #f7f4ee 28%, #f7f4ee 100%);
   color:var(--text);
 }
 
+body{
+  min-height:100vh;
+}
+
 .wrap{
-  max-width:420px;
-  margin:auto;
-  padding:16px;
+  width:100%;
+  max-width:430px;
+  margin:0 auto;
+  padding:16px 14px 110px;
 }
 
-.header{
-  background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,var(--brand) 0%, var(--brand-2) 100%);
   color:#fff;
-  padding:20px;
-  border-radius:20px;
+  padding:22px 18px;
+  border-radius:28px;
   margin-bottom:16px;
-  box-shadow:var(--shadow-lg);
+  box-shadow:var(--shadow-xl);
 }
 
-.header small{
-  color:var(--accent);
-  display:block;
-  margin-bottom:6px;
-  font-weight:700;
-  letter-spacing:.02em;
+.hero::after{
+  content:"";
+  position:absolute;
+  right:-36px;
+  top:-36px;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,216,107,.22), rgba(255,216,107,0));
+}
+
+.hero small{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#ffe08a;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.04em;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.09);
+}
+
+.hero h1{
+  margin:14px 0 6px;
+  font-size:28px;
+  line-height:1.15;
+  letter-spacing:-.03em;
+}
+
+.hero p{
+  margin:0;
+  color:rgba(255,255,255,.72);
+  font-size:13px;
+  line-height:1.65;
 }
 
 .card{
-  background:var(--panel);
-  border-radius:20px;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:var(--radius-xl);
   padding:16px;
-  box-shadow:var(--shadow-md);
+  box-shadow:var(--shadow-lg);
 }
 
 .hidden{display:none !important;}
 
 .fade-in{
-  animation:fadeIn .22s ease both;
+  animation:fadeIn .24s ease both;
 }
 
 .pop-in{
-  animation:popIn .26s ease both;
+  animation:popIn .28s ease both;
 }
 
 .shake{
-  animation:shake .22s ease both;
+  animation:shake .24s ease both;
 }
 
 @keyframes fadeIn{
-  from{opacity:0; transform:translateY(8px);}
+  from{opacity:0; transform:translateY(10px);}
   to{opacity:1; transform:translateY(0);}
 }
 
 @keyframes popIn{
-  from{opacity:0; transform:scale(.985) translateY(6px);}
+  from{opacity:0; transform:scale(.985) translateY(8px);}
   to{opacity:1; transform:scale(1) translateY(0);}
 }
 
@@ -98,108 +143,47 @@ body{
   75%{transform:translateX(4px);}
 }
 
-.label{
-  font-size:14px;
-  font-weight:700;
-  margin:10px 0 8px;
-}
-
-input, textarea, select{
-  width:100%;
-  box-sizing:border-box;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-  font-size:16px;
-  margin-bottom:10px;
-  background:#fff;
-  transition:border-color .15s ease, box-shadow .15s ease;
-}
-
-input:focus, textarea:focus, select:focus{
-  outline:none;
-  border-color:#c8c8c8;
-  box-shadow:0 0 0 4px rgba(0,0,0,.04);
-}
-
-textarea{
-  min-height:96px;
-  resize:vertical;
-}
-
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  margin-top:12px;
-  font-size:16px;
-  font-weight:700;
-  transition:transform .08s ease, opacity .12s ease, filter .12s ease;
-}
-
-.btn:active{
-  transform:scale(.99);
-}
-
-.btn[disabled]{
-  opacity:.7;
-  cursor:not-allowed;
-}
-
-.main{
-  background:var(--brand);
-  color:#fff;
-}
-
-.sub{
-  background:var(--accent);
-  color:#111;
-}
-
-.info{
-  background:var(--info-bg);
+.banner{
+  background:linear-gradient(180deg,var(--info-bg),#fff4d7);
   border:1px solid var(--info-line);
-  padding:12px;
-  border-radius:14px;
+  border-radius:18px;
+  padding:13px 14px;
   font-size:14px;
   line-height:1.6;
-  margin-bottom:12px;
+  color:#524b3e;
 }
 
-.success{
+.banner.success{
   background:var(--success-bg);
-  border:1px solid var(--success-line);
+  border-color:var(--success-line);
   color:var(--success-text);
-  padding:12px;
-  border-radius:14px;
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:12px;
-  font-weight:700;
+  font-weight:800;
 }
 
-.error{
-  color:var(--danger);
-  font-size:14px;
-  margin-top:10px;
-  white-space:pre-wrap;
+.driver-info{
+  margin:14px 0 8px;
+  padding:16px 14px;
+  border-radius:18px;
+  background:linear-gradient(180deg,#fff9e6,#fff4d0);
+  border:1px solid #f0dfaa;
+  text-align:center;
 }
 
-.muted{
-  color:var(--muted);
-  font-size:14px;
+.driver-name{
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:.01em;
+  color:#2c2823;
 }
 
-.box{
-  border:1px solid var(--line-soft);
-  border-radius:14px;
-  padding:12px;
-  margin-top:10px;
-  background:#fafafa;
+.driver-site{
+  margin-top:5px;
+  font-size:13px;
+  color:#6f6a61;
+  line-height:1.5;
 }
 
-.pill-row{
+.status-row{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
@@ -215,14 +199,121 @@ textarea{
   background:var(--accent-soft);
   border:1px solid #f0df9d;
   font-size:13px;
-  font-weight:700;
+  font-weight:800;
+  line-height:1;
+}
+
+.pill.dark{
+  background:#f5f3ee;
+  border-color:#e9e1d3;
+  color:#3f3b35;
+}
+
+.section{
+  margin-top:16px;
+}
+
+.label{
+  font-size:14px;
+  font-weight:800;
+  margin:0 0 8px;
+  color:#34312c;
+}
+
+textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  font-size:16px;
+  background:#fff;
+  color:var(--text);
+  transition:border-color .15s ease, box-shadow .15s ease;
+  min-height:110px;
+  resize:vertical;
+  line-height:1.65;
+}
+
+textarea:focus{
+  outline:none;
+  border-color:#d7c58d;
+  box-shadow:0 0 0 4px rgba(242,201,76,.16);
+}
+
+.actions{
+  margin-top:18px;
+}
+
+.btn{
+  width:100%;
+  border:none;
+  border-radius:18px;
+  padding:15px 16px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .08s ease, opacity .12s ease, filter .12s ease, box-shadow .12s ease;
+  box-shadow:0 14px 26px rgba(0,0,0,.08);
+}
+
+.btn:active{
+  transform:scale(.99);
+}
+
+.btn[disabled]{
+  opacity:.72;
+  cursor:not-allowed;
+  filter:saturate(.9);
+}
+
+.btn-primary{
+  background:linear-gradient(180deg,#1f1f1c 0%, #11110f 100%);
+  color:#fff;
+}
+
+.btn-secondary{
+  background:linear-gradient(180deg,var(--accent-2) 0%, var(--accent) 100%);
+  color:#3c2d00;
+}
+
+.error{
+  color:var(--danger);
+  font-size:14px;
+  margin-top:10px;
+  white-space:pre-wrap;
+}
+
+.grid{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+
+.info-box{
+  border:1px solid #eee7d9;
+  border-radius:16px;
+  padding:12px 13px;
+  background:#fbfaf7;
+}
+
+.info-box .title{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+
+.info-box .value{
+  font-size:15px;
+  line-height:1.6;
+  color:var(--text);
+  word-break:break-word;
 }
 
 .loading-overlay{
   position:fixed;
   inset:0;
-  background:rgba(246,244,238,.55);
-  backdrop-filter:blur(2px);
+  background:rgba(247,244,238,.58);
+  backdrop-filter:blur(3px);
   z-index:999;
   display:flex;
   align-items:center;
@@ -300,66 +391,82 @@ textarea{
   .wrap{
     padding:12px;
   }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  .driver-name{
+    font-size:17px;
+  }
 }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <div class="header">
+  <div class="hero">
     <small>勤務報告</small>
-    <h2 id="title" style="margin:0 0 6px;">本日の勤務報告</h2>
-    <div id="subtitle" style="font-size:14px;color:rgba(255,255,255,.7);">出勤・退勤の状態を記録します</div>
+    <h1 id="pageTitle">本日の勤務報告</h1>
+    <p id="pageSubtitle">出勤・退勤の状態を記録します</p>
   </div>
 
-  <div id="attendanceCard" class="card fade-in">
-    <div id="statusInfo" class="info">
-      本日の状態に応じて、出勤または退勤を記録してください。
+  <div id="formCard" class="card fade-in">
+    <div id="topBanner" class="banner">
+      本日の勤務状態に応じて、出勤または退勤を記録してください。
     </div>
 
-    <div class="pill-row">
-      <div class="pill" id="todayLabel">本日</div>
-      <div class="pill" id="statusLabel">未出勤</div>
+    <div class="driver-info">
+      <div id="driverName" class="driver-name">石塚 歩汰</div>
+      <div id="driverSite" class="driver-site">川口領家 Amazon</div>
     </div>
 
-    <div class="label">現場名</div>
-    <input id="site" placeholder="例：川口領家 Amazon" />
+    <div class="status-row">
+      <div class="pill" id="todayPill">本日</div>
+      <div class="pill dark" id="statusPill">未出勤</div>
+    </div>
 
-    <div class="label">備考（任意）</div>
-    <textarea id="note" placeholder="備考"></textarea>
+    <div class="section">
+      <div class="label">備考（任意）</div>
+      <textarea id="note" placeholder="備考を入力"></textarea>
+    </div>
 
-    <button id="startBtn" class="btn main" onclick="submitAttendance('start')">出勤する</button>
-    <button id="endBtn" class="btn sub hidden" onclick="submitAttendance('end')">退勤する</button>
+    <div class="actions">
+      <button id="startBtn" class="btn btn-primary" onclick="submitAttendance('start')">出勤する</button>
+      <button id="endBtn" class="btn btn-secondary hidden" onclick="submitAttendance('end')">退勤する</button>
+    </div>
 
-    <div id="attendanceError" class="error"></div>
+    <div id="formError" class="error"></div>
   </div>
 
   <div id="doneCard" class="card hidden">
-    <div class="success pop-in">本日の勤務報告は完了しました。</div>
+    <div class="banner success pop-in">本日の勤務報告は完了しました。</div>
 
-    <div class="box">
-      <div class="muted">状態</div>
-      <div id="doneStatus">退勤済み</div>
+    <div class="driver-info">
+      <div id="doneDriverName" class="driver-name">石塚 歩汰</div>
+      <div id="doneDriverSite" class="driver-site">川口領家 Amazon</div>
     </div>
 
-    <div class="box">
-      <div class="muted">現場</div>
-      <div id="doneSite">-</div>
-    </div>
+    <div class="grid">
+      <div class="info-box">
+        <div class="title">状態</div>
+        <div id="doneStatus" class="value">退勤済み</div>
+      </div>
 
-    <div class="box">
-      <div class="muted">出勤時刻</div>
-      <div id="doneStart">-</div>
-    </div>
+      <div class="info-box">
+        <div class="title">出勤時刻</div>
+        <div id="doneStart" class="value">-</div>
+      </div>
 
-    <div class="box">
-      <div class="muted">退勤時刻</div>
-      <div id="doneEnd">-</div>
-    </div>
+      <div class="info-box">
+        <div class="title">退勤時刻</div>
+        <div id="doneEnd" class="value">-</div>
+      </div>
 
-    <div class="box">
-      <div class="muted">備考</div>
-      <div id="doneNote">なし</div>
+      <div class="info-box">
+        <div class="title">備考</div>
+        <div id="doneNote" class="value">なし</div>
+      </div>
     </div>
   </div>
 </div>
@@ -380,7 +487,8 @@ const USER = 'demo-user-001';
 
 let currentState = {
   status: 'not_started', // not_started | started | finished
-  site: '',
+  driverName: '石塚 歩汰',
+  siteName: '川口領家 Amazon',
   note: '',
   startTime: '',
   endTime: ''
@@ -404,7 +512,7 @@ function nowTime(){
 }
 
 function show(id){
-  ['attendanceCard','doneCard'].forEach(v=>{
+  ['formCard','doneCard'].forEach(v=>{
     const el = document.getElementById(v);
     el.classList.add('hidden');
     el.classList.remove('fade-in');
@@ -446,37 +554,46 @@ function setButtonLoading(btn, loading, loadingText, normalText){
   }
 }
 
-function renderAttendanceScreen(){
-  document.getElementById('todayLabel').textContent = formatToday();
-  document.getElementById('site').value = currentState.site || '';
+function applyDriverInfo(){
+  document.getElementById('driverName').textContent = currentState.driverName || 'ーーー';
+  document.getElementById('driverSite').textContent = currentState.siteName || 'ーーー';
+  document.getElementById('doneDriverName').textContent = currentState.driverName || 'ーーー';
+  document.getElementById('doneDriverSite').textContent = currentState.siteName || 'ーーー';
+}
+
+function renderFormState(){
+  applyDriverInfo();
+
+  document.getElementById('todayPill').textContent = formatToday();
   document.getElementById('note').value = currentState.note || '';
 
   const startBtn = document.getElementById('startBtn');
   const endBtn = document.getElementById('endBtn');
-  const statusInfo = document.getElementById('statusInfo');
-  const statusLabel = document.getElementById('statusLabel');
+  const banner = document.getElementById('topBanner');
+  const statusPill = document.getElementById('statusPill');
 
   if(currentState.status === 'not_started'){
-    statusLabel.textContent = '未出勤';
-    statusInfo.innerHTML = '本日はまだ出勤していません。<br>勤務を開始する場合は出勤ボタンを押してください。';
+    statusPill.textContent = '未出勤';
+    banner.className = 'banner';
+    banner.innerHTML = '本日はまだ出勤していません。<br>勤務を開始する場合は出勤ボタンを押してください。';
     startBtn.classList.remove('hidden');
     endBtn.classList.add('hidden');
-    show('attendanceCard');
+    show('formCard');
     return;
   }
 
   if(currentState.status === 'started'){
-    statusLabel.textContent = '出勤済み';
-    statusInfo.innerHTML = `出勤時刻は <strong>${currentState.startTime || '-'}</strong> です。<br>勤務終了時に退勤ボタンを押してください。`;
+    statusPill.textContent = '出勤済み';
+    banner.className = 'banner';
+    banner.innerHTML = `出勤時刻は <strong>${currentState.startTime || '-'}</strong> です。<br>勤務終了時に退勤ボタンを押してください。`;
     startBtn.classList.add('hidden');
     endBtn.classList.remove('hidden');
-    show('attendanceCard');
+    show('formCard');
     return;
   }
 
   if(currentState.status === 'finished'){
     document.getElementById('doneStatus').textContent = '退勤済み';
-    document.getElementById('doneSite').textContent = currentState.site || '未入力';
     document.getElementById('doneStart').textContent = currentState.startTime || '-';
     document.getElementById('doneEnd').textContent = currentState.endTime || '-';
     document.getElementById('doneNote').textContent = currentState.note || 'なし';
@@ -485,42 +602,34 @@ function renderAttendanceScreen(){
 }
 
 async function init(){
-  // 今はデモ状態
-  // 後でGAS接続したら、ここで本日の状態を取得します
+  // 今は見た目確認用の仮データ
+  // 後で GAS / LIFF 接続時にここで本日の状態・氏名・現場を取得
   currentState = {
     status: 'not_started',
-    site: '',
+    driverName: '石塚 歩汰',
+    siteName: '川口領家 Amazon',
     note: '',
     startTime: '',
     endTime: ''
   };
 
-  renderAttendanceScreen();
+  renderFormState();
 }
 
 async function submitAttendance(type){
   if(isSubmitting) return;
 
-  const errorEl = document.getElementById('attendanceError');
+  const errorEl = document.getElementById('formError');
   errorEl.textContent = '';
 
-  const site = document.getElementById('site').value.trim();
   const note = document.getElementById('note').value.trim();
-
-  if(type === 'start' && !site){
-    errorEl.textContent = '現場名を入力してください';
-    document.getElementById('attendanceCard').classList.remove('shake');
-    void document.getElementById('attendanceCard').offsetWidth;
-    document.getElementById('attendanceCard').classList.add('shake');
-    return;
-  }
-
   const btn = type === 'start'
     ? document.getElementById('startBtn')
     : document.getElementById('endBtn');
 
   try{
     isSubmitting = true;
+
     setButtonLoading(
       btn,
       true,
@@ -533,33 +642,35 @@ async function submitAttendance(type){
       'しばらくお待ちください'
     );
 
-    // 今は見た目確認用のダミー処理
+    // 今はダミー送信
     await new Promise(resolve => setTimeout(resolve, 700));
 
     if(type === 'start'){
       currentState = {
         ...currentState,
-        status: 'started',
-        site,
         note,
+        status: 'started',
         startTime: nowTime()
       };
-      renderAttendanceScreen();
+      renderFormState();
       showToast('出勤を記録しました');
     } else {
       currentState = {
         ...currentState,
-        status: 'finished',
-        site,
         note,
+        status: 'finished',
         endTime: nowTime()
       };
-      renderAttendanceScreen();
+      renderFormState();
       showToast('退勤を記録しました');
     }
 
   } catch(err){
     errorEl.textContent = String(err);
+    const formCard = document.getElementById('formCard');
+    formCard.classList.remove('shake');
+    void formCard.offsetWidth;
+    formCard.classList.add('shake');
   } finally{
     isSubmitting = false;
     setButtonLoading(
