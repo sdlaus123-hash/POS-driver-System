@@ -2,216 +2,69 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>勤務報告</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ドライバーアプリ</title>
 
 <style>
-:root{
-  --bg:#0e0f12;
-  --card:#17181c;
-  --card-soft:#1f2126;
-  --text:#ffffff;
-  --muted:#8b8f98;
-  --accent:#ffd95c;
-  --accent2:#ffb800;
-  --success:#22c55e;
-}
-
-*{box-sizing:border-box;}
-
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
-  background:radial-gradient(circle at top,#1a1c22,#0e0f12);
-  color:var(--text);
+  font-family:-apple-system;
+  background:#0e0f12;
+  color:#fff;
 }
 
-/* レイアウト */
 .wrap{
   max-width:420px;
   margin:auto;
-  padding:20px;
-}
-
-/* ヘッダー */
-.header{
-  background:linear-gradient(135deg,#111,#1c1c1f);
-  padding:24px;
-  border-radius:24px;
-  margin-bottom:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
-  animation:fadeUp .6s ease;
-}
-
-.header small{
-  color:var(--accent);
-  font-weight:700;
-}
-
-.header h2{
-  margin:6px 0;
-  font-size:22px;
-  font-weight:800;
-}
-
-/* カード */
-.card{
-  background:var(--card);
-  border-radius:20px;
-  padding:18px;
-  box-shadow:0 20px 50px rgba(0,0,0,.4);
-  animation:fadeUp .5s ease;
-}
-
-/* ドライバー */
-.driver-box{
-  background:linear-gradient(135deg,#1b1c20,#111);
-  border-radius:16px;
   padding:16px;
-  text-align:center;
-  margin-bottom:14px;
-  border:1px solid #2a2c30;
 }
 
-.driver-name{
-  font-size:20px;
-  font-weight:800;
-}
-
-.driver-site{
-  font-size:13px;
-  color:var(--muted);
-}
-
-/* チップ */
-.chips{
+.tab{
   display:flex;
-  gap:8px;
-  margin:12px 0;
+  gap:6px;
+  margin-bottom:12px;
 }
 
-.chip{
-  padding:6px 10px;
-  border-radius:999px;
-  background:#25272d;
-  font-size:12px;
-}
-
-/* テキストエリア */
-textarea{
-  width:100%;
+.tab button{
+  flex:1;
+  padding:10px;
   border:none;
-  border-radius:14px;
-  padding:14px;
-  background:#111;
+  border-radius:10px;
+  background:#222;
   color:#fff;
-  margin-top:8px;
-  border:1px solid #2a2c30;
 }
 
-/* ボタン */
+.tab .active{
+  background:#ffd95c;
+  color:#000;
+}
+
+.card{
+  background:#17181c;
+  padding:16px;
+  border-radius:16px;
+}
+
 .btn{
   width:100%;
-  padding:16px;
+  padding:14px;
   border:none;
-  border-radius:14px;
-  margin-top:14px;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.2s;
+  border-radius:12px;
+  margin-top:10px;
+  font-weight:bold;
 }
 
-.main{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#111;
-}
+.main{background:#ffd95c;color:#000;}
+.sub{background:#333;color:#fff;}
 
-.sub{
-  background:#2a2c30;
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
+  border:none;
+  background:#111;
   color:#fff;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-}
-
-.btn:active{
-  transform:scale(.98);
-}
-
-/* 成功画面 */
-.success{
-  text-align:center;
-  padding:30px 10px;
-}
-
-.check{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:var(--success);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  margin:0 auto 14px;
-  animation:pop .5s ease;
-}
-
-/* トースト */
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#000;
-  padding:12px 18px;
-  border-radius:999px;
-  opacity:0;
-  transition:.3s;
-}
-
-.toast.show{
-  opacity:1;
-}
-
-/* ローディング */
-.loader{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(6px);
-  opacity:0;
-  pointer-events:none;
-}
-
-.loader.show{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.spinner{
-  width:40px;
-  height:40px;
-  border:3px solid #333;
-  border-top:3px solid #fff;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-/* アニメーション */
-@keyframes spin{to{transform:rotate(360deg);}}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;}
-}
-@keyframes pop{
-  from{transform:scale(.7);}
-  to{transform:scale(1);}
 }
 </style>
 </head>
@@ -220,76 +73,91 @@ textarea{
 
 <div class="wrap">
 
-  <div class="header">
-    <small>勤務報告</small>
-    <h2>本日の勤務</h2>
-    <div style="color:var(--muted)">ワンタップで完了</div>
+  <div class="tab">
+    <button class="active" onclick="showTab('work')">勤務</button>
+    <button onclick="showTab('advance')">前払い</button>
+    <button onclick="showTab('holiday')">休み</button>
   </div>
 
-  <div class="card" id="input">
-
-    <div class="driver-box">
-      <div class="driver-name">石塚 歩汰</div>
-      <div class="driver-site">川口領家 Amazon</div>
-    </div>
-
-    <div class="chips">
-      <div class="chip" id="date"></div>
-      <div class="chip" id="status">未出勤</div>
-    </div>
-
-    <textarea id="note" placeholder="備考（任意）"></textarea>
-
-    <button class="btn main" onclick="start()">出勤する</button>
-    <button class="btn sub" onclick="end()">退勤する</button>
-
+  <!-- 勤務 -->
+  <div id="work" class="card">
+    <h3>勤務報告</h3>
+    <button class="btn main" onclick="send('start')">出勤</button>
+    <button class="btn sub" onclick="send('end')">退勤</button>
   </div>
 
-  <div class="card success" id="done" style="display:none;">
-    <div class="check">✓</div>
-    <h3>送信完了</h3>
-    <p style="color:var(--muted)">今日もお疲れ様でした</p>
+  <!-- 前払い -->
+  <div id="advance" class="card" style="display:none;">
+    <h3>前払い申請</h3>
+    <input id="days" placeholder="何日分">
+    <button class="btn main" onclick="advance()">申請</button>
+  </div>
+
+  <!-- 休み -->
+  <div id="holiday" class="card" style="display:none;">
+    <h3>休み希望</h3>
+    <input type="date" id="holidayDate">
+    <button class="btn main" onclick="holiday()">送信</button>
   </div>
 
 </div>
-
-<div class="loader" id="loader">
-  <div class="spinner"></div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-const dateEl = document.getElementById("date");
-dateEl.innerText = new Date().toLocaleDateString("ja-JP");
+const API = "YOUR_GAS_URL";
+const USER_ID = "LINE_USER_ID";
 
-function showLoader(v){
-  document.getElementById("loader").classList.toggle("show",v);
+/* タブ切替 */
+function showTab(id){
+  document.querySelectorAll(".card").forEach(e=>e.style.display="none");
+  document.getElementById(id).style.display="block";
+
+  document.querySelectorAll(".tab button").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
 }
 
-function toast(msg){
-  const t = document.getElementById("toast");
-  t.innerText = msg;
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2000);
+/* 勤務 */
+function send(type){
+  fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      type:"attendance",
+      action:type,
+      userId:USER_ID
+    })
+  });
+  alert(type==="start"?"出勤しました":"退勤しました");
 }
 
-function start(){
-  showLoader(true);
-  setTimeout(()=>{
-    showLoader(false);
-    document.getElementById("status").innerText="出勤済み";
-    toast("出勤しました");
-  },800);
+/* 前払い */
+function advance(){
+  const days = document.getElementById("days").value;
+
+  fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      type:"advance",
+      days:days,
+      userId:USER_ID
+    })
+  });
+
+  alert("申請しました");
 }
 
-function end(){
-  showLoader(true);
-  setTimeout(()=>{
-    showLoader(false);
-    document.getElementById("input").style.display="none";
-    document.getElementById("done").style.display="block";
-  },800);
+/* 休み */
+function holiday(){
+  const date = document.getElementById("holidayDate").value;
+
+  fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      type:"holiday",
+      date:date,
+      userId:USER_ID
+    })
+  });
+
+  alert("送信しました");
 }
 </script>
 
