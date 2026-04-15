@@ -1,0 +1,256 @@
+export default function DriverAdminDashboard() {
+  const sites = [
+    {
+      name: "川口領家 Amazon",
+      activeCount: 5,
+      drivers: ["石塚 歩汰", "田中 一樹", "佐藤 優", "山本 直", "中村 海斗"],
+    },
+    {
+      name: "新宿上落合 Amazon",
+      activeCount: 3,
+      drivers: ["小林 陸", "高橋 蓮", "渡辺 蒼"],
+    },
+  ];
+
+  const activeDrivers = [
+    { name: "石塚 歩汰", site: "川口領家 Amazon", start: "08:12", status: "稼働中" },
+    { name: "田中 一樹", site: "川口領家 Amazon", start: "08:30", status: "稼働中" },
+    { name: "小林 陸", site: "新宿上落合 Amazon", start: "09:01", status: "稼働中" },
+  ];
+
+  const advances = [
+    { name: "石塚 歩汰", count: 3, total: "¥120,000" },
+    { name: "田中 一樹", count: 1, total: "¥40,000" },
+    { name: "佐藤 優", count: 2, total: "¥80,000" },
+  ];
+
+  const holidays = [
+    { name: "石塚 歩汰", dates: ["5/14(木)", "5/21(木)"] },
+    { name: "高橋 蓮", dates: ["5/18(月)"] },
+  ];
+
+  const fixedShifts = [
+    { name: "石塚 歩汰", offDays: ["5/14(木)", "5/21(木)"] },
+    { name: "田中 一樹", offDays: ["5/16(土)"] },
+  ];
+
+  const drivers = [
+    { name: "石塚 歩汰", site: "川口領家 Amazon", type: "日当", status: "active" },
+    { name: "田中 一樹", site: "川口領家 Amazon", type: "日当", status: "active" },
+    { name: "小林 陸", site: "新宿上落合 Amazon", type: "歩合", status: "active" },
+    { name: "旧ドライバーA", site: "新宿上落合 Amazon", type: "日当", status: "inactive" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="mx-auto max-w-md px-4 pb-28 pt-4">
+        <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+            <span className="h-2 w-2 rounded-full bg-blue-600" />
+            管理画面
+          </div>
+          <h1 className="mt-3 text-[30px] font-black leading-tight tracking-tight">
+            全体の人とお金を
+            <br />
+            一画面で把握
+          </h1>
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            本日の稼働状況、現場別人数、前払い、休み希望、確定シフト、ドライバー管理をまとめて確認できます。
+          </p>
+        </header>
+
+        <section className="mt-4 grid grid-cols-2 gap-3">
+          <KpiCard label="本日稼働中" value="8人" sub="退勤前のみ" />
+          <KpiCard label="前払い合計" value="¥240,000" sub="今月累計" />
+          <KpiCard label="休み希望" value="3人" sub="提出済み" />
+          <KpiCard label="未退勤" value="2人" sub="要確認" />
+        </section>
+
+        <Section title="本日稼働中のドライバー" subtitle="いま動いている人を確認できます">
+          <div className="space-y-3">
+            {activeDrivers.map((driver) => (
+              <div
+                key={driver.name}
+                className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4"
+              >
+                <div>
+                  <div className="text-[15px] font-extrabold tracking-tight">{driver.name}</div>
+                  <div className="mt-1 text-xs text-slate-500">{driver.site} ・ 出勤 {driver.start}</div>
+                </div>
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
+                  {driver.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="現場ごとの人数" subtitle="タップで所属ドライバーを確認できます">
+          <div className="space-y-3">
+            {sites.map((site) => (
+              <details key={site.name} className="group rounded-2xl border border-slate-200 bg-white p-4 open:shadow-sm">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+                  <div>
+                    <div className="text-[15px] font-extrabold tracking-tight">{site.name}</div>
+                    <div className="mt-1 text-xs text-slate-500">現在の稼働人数</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-bold text-slate-700">
+                      {site.activeCount}人
+                    </span>
+                    <span className="text-slate-400 transition group-open:rotate-180">⌄</span>
+                  </div>
+                </summary>
+                <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
+                  {site.drivers.map((name) => (
+                    <div key={name} className="rounded-xl bg-slate-50 px-3 py-3 text-sm font-semibold text-slate-700">
+                      {name}
+                    </div>
+                  ))}
+                </div>
+              </details>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="前払い一覧" subtitle="回数と合計金額を確認できます">
+          <div className="space-y-3">
+            {advances.map((item) => (
+              <div key={item.name} className="rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-[15px] font-extrabold tracking-tight">{item.name}</div>
+                    <div className="mt-1 text-xs text-slate-500">前払い申請履歴</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-black text-slate-900">{item.total}</div>
+                    <div className="mt-1 text-xs font-semibold text-slate-500">{item.count}回</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="休み希望" subtitle="記録用の希望日を一覧で確認できます">
+          <div className="space-y-3">
+            {holidays.map((item) => (
+              <div key={item.name} className="rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="text-[15px] font-extrabold tracking-tight">{item.name}</div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {item.dates.map((date) => (
+                    <span key={date} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700">
+                      {date}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="確定シフト" subtitle="通知対象外になる休みを管理します">
+          <div className="space-y-3">
+            {fixedShifts.map((item) => (
+              <div key={item.name} className="rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-[15px] font-extrabold tracking-tight">{item.name}</div>
+                  <button className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-bold text-white">
+                    変更
+                  </button>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {item.offDays.map((date) => (
+                    <span key={date} className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700">
+                      {date}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="ドライバー管理" subtitle="追加・変更・無効化を1か所で行います">
+          <div className="rounded-[24px] border border-slate-200 bg-white p-4">
+            <button className="mb-4 w-full rounded-2xl bg-slate-900 px-4 py-4 text-sm font-extrabold text-white shadow-sm">
+              ＋ ドライバーを追加
+            </button>
+            <div className="space-y-3">
+              {drivers.map((driver) => (
+                <div key={driver.name} className="rounded-2xl bg-slate-50 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="text-[15px] font-extrabold tracking-tight">{driver.name}</div>
+                      <div className="mt-1 text-xs text-slate-500">
+                        {driver.site} ・ {driver.type}
+                      </div>
+                    </div>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold ${
+                        driver.status === "active"
+                          ? "bg-emerald-50 text-emerald-700"
+                          : "bg-slate-200 text-slate-600"
+                      }`}
+                    >
+                      {driver.status}
+                    </span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    <button className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700">
+                      編集
+                    </button>
+                    <button className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700">
+                      無効化
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      <nav className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto grid max-w-md grid-cols-5 px-3 py-3 text-center text-[11px] font-semibold text-slate-500">
+          <TabItem active label="ホーム" icon="⌂" />
+          <TabItem label="人" icon="◯" />
+          <TabItem label="前払い" icon="¥" />
+          <TabItem label="休み" icon="☷" />
+          <TabItem label="設定" icon="⚙" />
+        </div>
+      </nav>
+    </div>
+  );
+}
+
+function Section({ title, subtitle, children }) {
+  return (
+    <section className="mt-4 rounded-[28px] border border-slate-200 bg-slate-50/80 p-3">
+      <div className="rounded-[22px] bg-white/70 p-4">
+        <div className="text-[18px] font-black tracking-tight text-slate-900">{title}</div>
+        <div className="mt-1 text-xs leading-5 text-slate-500">{subtitle}</div>
+      </div>
+      <div className="mt-3">{children}</div>
+    </section>
+  );
+}
+
+function KpiCard({ label, value, sub }) {
+  return (
+    <div className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="text-xs font-semibold text-slate-500">{label}</div>
+      <div className="mt-2 text-[26px] font-black tracking-tight text-slate-900">{value}</div>
+      <div className="mt-1 text-xs text-slate-400">{sub}</div>
+    </div>
+  );
+}
+
+function TabItem({ label, icon, active = false }) {
+  return (
+    <div className={active ? "text-slate-900" : "text-slate-500"}>
+      <div className="text-lg leading-none">{icon}</div>
+      <div className="mt-1">{label}</div>
+    </div>
+  );
+}
