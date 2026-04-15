@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POMS 管理画面</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>POMS Pro Dashboard</title>
 
 <style>
+:root{
+  --bg:#f6f8ff;
+  --card:#ffffff;
+  --text:#0f172a;
+  --sub:#64748b;
+  --blue:#2563eb;
+  --violet:#7c3aed;
+  --green:#16a34a;
+  --orange:#f59e0b;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  margin:0;
   font-family:-apple-system,BlinkMacSystemFont;
-  background:#f5f7fb;
+  background:linear-gradient(180deg,#f6f8ff,#eef2ff);
+  color:var(--text);
 }
 
-/* コンテナ */
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
-  padding:16px;
+  padding:20px;
 }
 
-/* タイトル */
-.title{
-  font-size:24px;
-  font-weight:800;
-  margin-bottom:16px;
+.header{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:20px;
 }
 
 /* KPI */
@@ -33,136 +43,161 @@ body{
   overflow-x:auto;
   margin-bottom:20px;
 }
+
 .kpi-card{
-  min-width:140px;
-  background:#fff;
+  min-width:180px;
+  padding:18px;
+  border-radius:18px;
+  color:#fff;
+  font-weight:700;
+}
+
+.kpi-blue{background:linear-gradient(135deg,#2563eb,#1e40af)}
+.kpi-violet{background:linear-gradient(135deg,#7c3aed,#4c1d95)}
+.kpi-orange{background:linear-gradient(135deg,#f59e0b,#c2410c)}
+.kpi-green{background:linear-gradient(135deg,#16a34a,#065f46)}
+
+.kpi-value{font-size:32px;font-weight:900;margin-top:8px}
+
+/* GRID */
+.grid{
+  display:grid;
+  gap:16px;
+}
+
+@media(min-width:900px){
+  .grid{grid-template-columns:2fr 1fr}
+}
+
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.section-title{
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+/* SITE */
+.site{
   padding:16px;
   border-radius:16px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-}
-.kpi-card strong{
-  font-size:24px;
-}
-
-/* セクション */
-.section{
-  margin-bottom:24px;
-}
-.section-title{
-  font-weight:700;
-  margin-bottom:10px;
-}
-
-/* 現場 */
-.site{
-  background:#fff;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
+  background:#f8fafc;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  margin-bottom:10px;
 }
 
-/* ドライバー */
+.site strong{font-size:22px}
+
+/* DRIVER */
 .driver{
-  background:#fff;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:8px;
+  padding:14px;
+  border-radius:14px;
+  background:#f8fafc;
+  margin-bottom:10px;
+}
+
+.driver-top{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  box-shadow:0 4px 10px rgba(0,0,0,.05);
 }
 
 .status{
-  font-size:12px;
   padding:4px 10px;
   border-radius:999px;
+  font-size:12px;
 }
 .ok{background:#dcfce7}
 .warn{background:#fef3c7}
 .off{background:#e0e7ff}
 
-/* PC用2カラム */
-@media(min-width:900px){
-  .grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-  }
+/* ACTION */
+.alert{
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:10px;
+  background:#fff7ed;
 }
+
+/* BUTTON */
+.btn{
+  margin-top:10px;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:black;
+  color:white;
+  width:100%;
+}
+
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<div class="title">管理ダッシュボード</div>
+<div class="header">管理ダッシュボード</div>
 
-<!-- KPI -->
 <div class="kpi">
-  <div class="kpi-card"><div>稼働中</div><strong>8</strong></div>
-  <div class="kpi-card"><div>未退勤</div><strong>2</strong></div>
-  <div class="kpi-card"><div>前払い</div><strong>¥240K</strong></div>
+  <div class="kpi-card kpi-blue">稼働中<div class="kpi-value">8</div></div>
+  <div class="kpi-card kpi-violet">未退勤<div class="kpi-value">2</div></div>
+  <div class="kpi-card kpi-orange">前払い<div class="kpi-value">¥240K</div></div>
+  <div class="kpi-card kpi-green">稼働率<div class="kpi-value">87%</div></div>
 </div>
 
 <div class="grid">
 
-<!-- 左側 -->
 <div>
 
-  <!-- 現場 -->
-  <div class="section">
-    <div class="section-title">現場</div>
+<div class="card">
+<div class="section-title">現場</div>
 
-    <div class="site">
-      <div>川口Amazon</div>
-      <strong>5人</strong>
-    </div>
-
-    <div class="site">
-      <div>新宿Amazon</div>
-      <strong>3人</strong>
-    </div>
-  </div>
-
-  <!-- ドライバー -->
-  <div class="section">
-    <div class="section-title">ドライバー</div>
-
-    <div class="driver">
-      <div>石塚</div>
-      <div class="status ok">稼働中</div>
-    </div>
-
-    <div class="driver">
-      <div>田中</div>
-      <div class="status warn">未退勤</div>
-    </div>
-
-    <div class="driver">
-      <div>佐藤</div>
-      <div class="status off">休み</div>
-    </div>
-
-  </div>
+<div class="site">川口 Amazon <strong>5</strong></div>
+<div class="site">新宿 Amazon <strong>3</strong></div>
 
 </div>
 
-<!-- 右側 -->
+<div class="card">
+<div class="section-title">ドライバー</div>
+
+<div class="driver">
+<div class="driver-top">石塚 <span class="status ok">稼働中</span></div>
+<button class="btn">詳細</button>
+</div>
+
+<div class="driver">
+<div class="driver-top">田中 <span class="status warn">未退勤</span></div>
+<button class="btn">修正</button>
+</div>
+
+<div class="driver">
+<div class="driver-top">佐藤 <span class="status off">休み</span></div>
+<button class="btn">詳細</button>
+</div>
+
+</div>
+
+</div>
+
 <div>
 
-  <div class="section">
-    <div class="section-title">重要</div>
+<div class="card">
+<div class="section-title">重要</div>
 
-    <div class="driver">未退勤 2人</div>
-    <div class="driver">前払い増加中</div>
+<div class="alert">未退勤 2人</div>
+<div class="alert">前払い増加</div>
 
-  </div>
+</div>
+
+<div class="card">
+<div class="section-title">前払い</div>
+
+<div class="driver">石塚 ¥120K</div>
+<div class="driver">田中 ¥40K</div>
 
 </div>
 
@@ -170,5 +205,6 @@ body{
 
 </div>
 
+</div>
 </body>
 </html>
