@@ -1,256 +1,1186 @@
-export default function DriverAdminDashboard() {
-  const sites = [
-    {
-      name: "川口領家 Amazon",
-      activeCount: 5,
-      drivers: ["石塚 歩汰", "田中 一樹", "佐藤 優", "山本 直", "中村 海斗"],
-    },
-    {
-      name: "新宿上落合 Amazon",
-      activeCount: 3,
-      drivers: ["小林 陸", "高橋 蓮", "渡辺 蒼"],
-    },
-  ];
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>管理画面</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --bg-soft: #fafcff;
+      --card: rgba(255,255,255,.82);
+      --card-strong: rgba(255,255,255,.94);
+      --line: #e7edf5;
+      --line-strong: #d8e1ec;
+      --text: #0f172a;
+      --muted: #64748b;
+      --muted-2: #94a3b8;
+      --accent: #111827;
+      --brand: #2563eb;
+      --brand-soft: #dbeafe;
+      --success: #16a34a;
+      --success-soft: #dcfce7;
+      --warn: #d97706;
+      --warn-soft: #fef3c7;
+      --danger: #dc2626;
+      --danger-soft: #fee2e2;
+      --shadow-xl: 0 30px 80px rgba(15, 23, 42, .10);
+      --shadow-lg: 0 18px 44px rgba(15, 23, 42, .08);
+      --shadow-md: 0 10px 28px rgba(15, 23, 42, .06);
+      --radius-2xl: 32px;
+      --radius-xl: 24px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
 
-  const activeDrivers = [
-    { name: "石塚 歩汰", site: "川口領家 Amazon", start: "08:12", status: "稼働中" },
-    { name: "田中 一樹", site: "川口領家 Amazon", start: "08:30", status: "稼働中" },
-    { name: "小林 陸", site: "新宿上落合 Amazon", start: "09:01", status: "稼働中" },
-  ];
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(900px 340px at 50% -8%, rgba(37,99,235,.10), transparent 48%),
+        linear-gradient(180deg, #f8fbff 0%, #f3f6fb 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    }
+    body {
+      padding:
+        max(12px, env(safe-area-inset-top))
+        14px
+        max(28px, env(safe-area-inset-bottom))
+        14px;
+    }
 
-  const advances = [
-    { name: "石塚 歩汰", count: 3, total: "¥120,000" },
-    { name: "田中 一樹", count: 1, total: "¥40,000" },
-    { name: "佐藤 優", count: 2, total: "¥80,000" },
-  ];
+    .app {
+      width: min(100%, 1440px);
+      margin: 0 auto;
+    }
 
-  const holidays = [
-    { name: "石塚 歩汰", dates: ["5/14(木)", "5/21(木)"] },
-    { name: "高橋 蓮", dates: ["5/18(月)"] },
-  ];
+    .shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
 
-  const fixedShifts = [
-    { name: "石塚 歩汰", offDays: ["5/14(木)", "5/21(木)"] },
-    { name: "田中 一樹", offDays: ["5/16(土)"] },
-  ];
+    .sidebar {
+      position: sticky;
+      top: 14px;
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.82);
+      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-2xl);
+      padding: 16px;
+    }
 
-  const drivers = [
-    { name: "石塚 歩汰", site: "川口領家 Amazon", type: "日当", status: "active" },
-    { name: "田中 一樹", site: "川口領家 Amazon", type: "日当", status: "active" },
-    { name: "小林 陸", site: "新宿上落合 Amazon", type: "歩合", status: "active" },
-    { name: "旧ドライバーA", site: "新宿上落合 Amazon", type: "日当", status: "inactive" },
-  ];
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff, #f8fbff);
+      border: 1px solid var(--line);
+    }
 
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-md px-4 pb-28 pt-4">
-        <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-            <span className="h-2 w-2 rounded-full bg-blue-600" />
-            管理画面
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #111827, #334155);
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+    }
+
+    .brand-title { font-size: 16px; font-weight: 900; letter-spacing: -.02em; }
+    .brand-sub { margin-top: 3px; font-size: 12px; color: var(--muted); }
+
+    .nav {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 18px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--muted);
+      transition: .18s var(--ease);
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      color: var(--text);
+      background: #fff;
+      border-color: var(--line);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 10px; }
+    .nav-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .sidebar-foot {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fff, #f8fbff);
+      border: 1px solid var(--line);
+    }
+
+    .sidebar-foot .small { font-size: 12px; color: var(--muted); }
+    .sidebar-foot .big { margin-top: 6px; font-size: 22px; font-weight: 900; letter-spacing: -.03em; }
+
+    .content { min-width: 0; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.82));
+      border: 1px solid rgba(255,255,255,.8);
+      box-shadow: var(--shadow-xl);
+      border-radius: 34px;
+      padding: 20px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(37,99,235,.14), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .hero-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--brand); }
+    .hero-title { margin-top: 14px; font-size: 36px; line-height: 1.04; letter-spacing: -.05em; font-weight: 950; }
+    .hero-text { margin-top: 10px; max-width: 760px; color: var(--muted); font-size: 14px; line-height: 1.75; }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .top-btn {
+      min-height: 46px;
+      padding: 0 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--text);
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+    }
+
+    .top-btn.primary {
+      color: #fff;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      border-color: transparent;
+    }
+
+    .stats {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: linear-gradient(180deg, #fff, #fbfdff);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-label { font-size: 12px; font-weight: 800; color: var(--muted); }
+    .stat-value { margin-top: 8px; font-size: 32px; line-height: 1; font-weight: 950; letter-spacing: -.05em; }
+    .stat-sub { margin-top: 8px; font-size: 12px; color: var(--muted); }
+
+    .main-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(340px, .75fr);
+      gap: 16px;
+    }
+
+    .stack { display: grid; gap: 16px; }
+
+    .panel {
+      background: var(--card-strong);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.88);
+      box-shadow: var(--shadow-lg);
+      border-radius: 30px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .panel-title { font-size: 22px; font-weight: 950; letter-spacing: -.04em; }
+    .panel-sub { margin-top: 5px; font-size: 13px; color: var(--muted); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .pill.blue { background: var(--brand-soft); color: var(--brand); border-color: #bfdbfe; }
+    .pill.green { background: var(--success-soft); color: var(--success); border-color: #bbf7d0; }
+    .pill.amber { background: var(--warn-soft); color: var(--warn); border-color: #fde68a; }
+    .pill.red { background: var(--danger-soft); color: var(--danger); border-color: #fecaca; }
+    .pill.gray { background: #f8fafc; color: var(--muted); border-color: var(--line); }
+
+    .site-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .site-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fff, #fbfdff);
+      padding: 16px;
+      cursor: pointer;
+      transition: .18s var(--ease);
+      box-shadow: var(--shadow-md);
+    }
+
+    .site-card.active {
+      border-color: #bfdbfe;
+      box-shadow: 0 16px 34px rgba(37,99,235,.12);
+      transform: translateY(-1px);
+    }
+
+    .site-title { font-size: 18px; font-weight: 900; letter-spacing: -.03em; }
+    .site-meta { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .site-kpi { margin-top: 16px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+    .site-count { font-size: 34px; line-height: 1; font-weight: 950; letter-spacing: -.05em; }
+    .site-label { font-size: 12px; color: var(--muted); font-weight: 800; }
+
+    .driver-list { display: grid; gap: 10px; }
+
+    .driver-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fff, #fbfdff);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-md);
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      color: var(--brand);
+      font-size: 18px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .driver-name { font-size: 15px; font-weight: 900; letter-spacing: -.02em; }
+    .driver-meta { margin-top: 4px; font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+    .status-badge {
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .status-working { background: var(--success-soft); color: var(--success); border-color: #bbf7d0; }
+    .status-warning { background: var(--warn-soft); color: var(--warn); border-color: #fde68a; }
+    .status-off { background: #eef2ff; color: #4338ca; border-color: #c7d2fe; }
+    .status-inactive { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+
+    .insight-list { display: grid; gap: 10px; }
+
+    .insight-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .insight-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .insight-icon.red { background: var(--danger-soft); color: var(--danger); }
+    .insight-icon.amber { background: var(--warn-soft); color: var(--warn); }
+    .insight-icon.blue { background: var(--brand-soft); color: var(--brand); }
+
+    .insight-title { font-size: 14px; font-weight: 900; }
+    .insight-text { margin-top: 4px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    .mini-list { display: grid; gap: 10px; }
+
+    .mini-card {
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .mini-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mini-name { font-size: 15px; font-weight: 900; letter-spacing: -.02em; }
+    .mini-sub { margin-top: 4px; font-size: 12px; color: var(--muted); }
+    .mini-value { text-align: right; font-size: 22px; font-weight: 950; letter-spacing: -.04em; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .chip {
+      min-height: 32px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .table-like { display: grid; gap: 10px; }
+
+    .row-box {
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: grid;
+      gap: 10px;
+    }
+
+    .row-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .row-title { font-size: 15px; font-weight: 900; letter-spacing: -.02em; }
+    .row-text { margin-top: 4px; font-size: 12px; color: var(--muted); }
+
+    .row-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .action-btn {
+      min-height: 42px;
+      padding: 0 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .select, .search {
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+    }
+
+    .search { flex: 1 1 240px; }
+
+    .loading {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 100;
+    }
+
+    .loading.show { opacity: 1; pointer-events: auto; }
+    .loading-box {
+      width: 180px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow-xl);
+      padding: 18px 16px 16px;
+    }
+
+    .spinner {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 12px;
+      border-radius: 999px;
+      border: 3px solid #dbeafe;
+      border-top-color: var(--brand);
+      animation: spin .8s linear infinite;
+    }
+
+    .loading-title { font-size: 14px; font-weight: 900; }
+    .loading-sub { margin-top: 4px; font-size: 12px; color: var(--muted); }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      transform: translateX(-50%) translateY(14px);
+      min-width: 180px;
+      max-width: calc(100vw - 28px);
+      padding: 13px 16px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+      box-shadow: 0 18px 34px rgba(15, 23, 42, .20);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .22s var(--ease);
+      z-index: 120;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1180px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      body { padding-left: 10px; padding-right: 10px; }
+      .sidebar { display: none; }
+      .hero-title { font-size: 30px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .site-grid { grid-template-columns: 1fr; }
+      .row-actions { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .stats { grid-template-columns: 1fr; }
+      .hero { padding: 18px; border-radius: 28px; }
+      .panel, .card, .site-card { border-radius: 24px; }
+      .driver-row { grid-template-columns: auto minmax(0, 1fr); }
+      .driver-row > :last-child { grid-column: 1 / -1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <div>
+            <div class="brand-title">POMS 管理画面</div>
+            <div class="brand-sub">Driver Operations Cockpit</div>
           </div>
-          <h1 className="mt-3 text-[30px] font-black leading-tight tracking-tight">
-            全体の人とお金を
-            <br />
-            一画面で把握
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            本日の稼働状況、現場別人数、前払い、休み希望、確定シフト、ドライバー管理をまとめて確認できます。
-          </p>
-        </header>
+        </div>
 
-        <section className="mt-4 grid grid-cols-2 gap-3">
-          <KpiCard label="本日稼働中" value="8人" sub="退勤前のみ" />
-          <KpiCard label="前払い合計" value="¥240,000" sub="今月累計" />
-          <KpiCard label="休み希望" value="3人" sub="提出済み" />
-          <KpiCard label="未退勤" value="2人" sub="要確認" />
-        </section>
+        <div class="nav">
+          <button class="nav-btn active"><span class="nav-left"><span class="nav-icon">⌂</span>ダッシュボード</span><span>›</span></button>
+          <button class="nav-btn"><span class="nav-left"><span class="nav-icon">◯</span>ドライバー</span><span>›</span></button>
+          <button class="nav-btn"><span class="nav-left"><span class="nav-icon">¥</span>前払い</span><span>›</span></button>
+          <button class="nav-btn"><span class="nav-left"><span class="nav-icon">☷</span>休み希望</span><span>›</span></button>
+          <button class="nav-btn"><span class="nav-left"><span class="nav-icon">✓</span>確定シフト</span><span>›</span></button>
+          <button class="nav-btn"><span class="nav-left"><span class="nav-icon">⟳</span>勤務修正</span><span>›</span></button>
+          <button class="nav-btn"><span class="nav-left"><span class="nav-icon">↓</span>CSV / 会議用</span><span>›</span></button>
+        </div>
 
-        <Section title="本日稼働中のドライバー" subtitle="いま動いている人を確認できます">
-          <div className="space-y-3">
-            {activeDrivers.map((driver) => (
-              <div
-                key={driver.name}
-                className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4"
-              >
-                <div>
-                  <div className="text-[15px] font-extrabold tracking-tight">{driver.name}</div>
-                  <div className="mt-1 text-xs text-slate-500">{driver.site} ・ 出勤 {driver.start}</div>
-                </div>
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
-                  {driver.status}
-                </span>
+        <div class="sidebar-foot">
+          <div class="small">今月の稼働率</div>
+          <div class="big" id="sideRate">87%</div>
+          <div class="small" id="sideRateSub">前月比 +6%</div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <div class="hero-top">
+            <div>
+              <div class="hero-badge"><span class="hero-dot"></span>管理画面</div>
+              <div class="hero-title">全体を一瞬で把握し、<br>現場ごと・人ごとに深く管理</div>
+              <div class="hero-text">
+                本日稼働中の人数、各現場の状態、未退勤、前払い、休み希望、確定シフト、ドライバー状況を一つの流れで管理できます。
+                iPhoneでも見やすく、会議共有もしやすい構造です。
               </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section title="現場ごとの人数" subtitle="タップで所属ドライバーを確認できます">
-          <div className="space-y-3">
-            {sites.map((site) => (
-              <details key={site.name} className="group rounded-2xl border border-slate-200 bg-white p-4 open:shadow-sm">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-                  <div>
-                    <div className="text-[15px] font-extrabold tracking-tight">{site.name}</div>
-                    <div className="mt-1 text-xs text-slate-500">現在の稼働人数</div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-bold text-slate-700">
-                      {site.activeCount}人
-                    </span>
-                    <span className="text-slate-400 transition group-open:rotate-180">⌄</span>
-                  </div>
-                </summary>
-                <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
-                  {site.drivers.map((name) => (
-                    <div key={name} className="rounded-xl bg-slate-50 px-3 py-3 text-sm font-semibold text-slate-700">
-                      {name}
-                    </div>
-                  ))}
-                </div>
-              </details>
-            ))}
-          </div>
-        </Section>
-
-        <Section title="前払い一覧" subtitle="回数と合計金額を確認できます">
-          <div className="space-y-3">
-            {advances.map((item) => (
-              <div key={item.name} className="rounded-2xl border border-slate-200 bg-white p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-[15px] font-extrabold tracking-tight">{item.name}</div>
-                    <div className="mt-1 text-xs text-slate-500">前払い申請履歴</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-black text-slate-900">{item.total}</div>
-                    <div className="mt-1 text-xs font-semibold text-slate-500">{item.count}回</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section title="休み希望" subtitle="記録用の希望日を一覧で確認できます">
-          <div className="space-y-3">
-            {holidays.map((item) => (
-              <div key={item.name} className="rounded-2xl border border-slate-200 bg-white p-4">
-                <div className="text-[15px] font-extrabold tracking-tight">{item.name}</div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {item.dates.map((date) => (
-                    <span key={date} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700">
-                      {date}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section title="確定シフト" subtitle="通知対象外になる休みを管理します">
-          <div className="space-y-3">
-            {fixedShifts.map((item) => (
-              <div key={item.name} className="rounded-2xl border border-slate-200 bg-white p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-[15px] font-extrabold tracking-tight">{item.name}</div>
-                  <button className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-bold text-white">
-                    変更
-                  </button>
-                </div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {item.offDays.map((date) => (
-                    <span key={date} className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700">
-                      {date}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section title="ドライバー管理" subtitle="追加・変更・無効化を1か所で行います">
-          <div className="rounded-[24px] border border-slate-200 bg-white p-4">
-            <button className="mb-4 w-full rounded-2xl bg-slate-900 px-4 py-4 text-sm font-extrabold text-white shadow-sm">
-              ＋ ドライバーを追加
-            </button>
-            <div className="space-y-3">
-              {drivers.map((driver) => (
-                <div key={driver.name} className="rounded-2xl bg-slate-50 p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="text-[15px] font-extrabold tracking-tight">{driver.name}</div>
-                      <div className="mt-1 text-xs text-slate-500">
-                        {driver.site} ・ {driver.type}
-                      </div>
-                    </div>
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-bold ${
-                        driver.status === "active"
-                          ? "bg-emerald-50 text-emerald-700"
-                          : "bg-slate-200 text-slate-600"
-                      }`}
-                    >
-                      {driver.status}
-                    </span>
-                  </div>
-                  <div className="mt-3 grid grid-cols-2 gap-2">
-                    <button className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700">
-                      編集
-                    </button>
-                    <button className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700">
-                      無効化
-                    </button>
-                  </div>
-                </div>
-              ))}
+            </div>
+            <div class="hero-actions">
+              <button class="top-btn" id="refreshBtn">最新化</button>
+              <button class="top-btn" id="sheetBtn">スプレッドシート同期</button>
+              <button class="top-btn primary" id="exportBtn">CSVを書き出す</button>
             </div>
           </div>
-        </Section>
-      </div>
 
-      <nav className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto grid max-w-md grid-cols-5 px-3 py-3 text-center text-[11px] font-semibold text-slate-500">
-          <TabItem active label="ホーム" icon="⌂" />
-          <TabItem label="人" icon="◯" />
-          <TabItem label="前払い" icon="¥" />
-          <TabItem label="休み" icon="☷" />
-          <TabItem label="設定" icon="⚙" />
+          <div class="stats">
+            <div class="stat-card">
+              <div class="stat-label">本日稼働中</div>
+              <div class="stat-value" id="statActive">8</div>
+              <div class="stat-sub" id="statActiveSub">現場全体の出勤中人数</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">未退勤</div>
+              <div class="stat-value" id="statUnclosed">2</div>
+              <div class="stat-sub" id="statUnclosedSub">管理者確認が必要</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">前払い合計</div>
+              <div class="stat-value" id="statAdvance">¥240,000</div>
+              <div class="stat-sub" id="statAdvanceSub">今月累計</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">稼働率</div>
+              <div class="stat-value" id="statRate">87%</div>
+              <div class="stat-sub" id="statRateSub">前月比 +6%</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="main-grid">
+          <div class="stack">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">現場ダッシュボード</div>
+                  <div class="panel-sub">各現場の人数・状態・所属ドライバーを深く確認できます。</div>
+                </div>
+                <div class="pill blue" id="siteSummaryPill">全2現場 / 稼働中 8人</div>
+              </div>
+
+              <div class="site-grid" id="siteGrid"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">選択中の現場</div>
+                  <div class="panel-sub">各ドライバーの状況、出勤時刻、状態を管理できます。</div>
+                </div>
+                <div class="toolbar">
+                  <input class="search" id="driverSearch" placeholder="ドライバー名で絞り込み" />
+                  <select class="select" id="driverFilter">
+                    <option value="all">全状態</option>
+                    <option value="working">稼働中</option>
+                    <option value="warning">未退勤</option>
+                    <option value="off">休み</option>
+                    <option value="inactive">inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="driver-list" id="siteDriverList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">ドライバー管理</div>
+                  <div class="panel-sub">追加・編集・無効化を1か所で管理します。削除ではなく inactive 運用前提です。</div>
+                </div>
+                <div class="pill gray" id="driverCountPill">登録 0人</div>
+              </div>
+              <div class="table-like" id="driverAdminList"></div>
+            </section>
+          </div>
+
+          <div class="stack">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">優先確認</div>
+                  <div class="panel-sub">まず見るべき異常や偏りを上から表示します。</div>
+                </div>
+                <div class="pill amber" id="insightCountPill">3件</div>
+              </div>
+              <div class="insight-list" id="insightList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">前払い一覧</div>
+                  <div class="panel-sub">回数と合計金額、確認が必要な人を一覧で把握します。</div>
+                </div>
+                <div class="pill blue" id="advancePill">今月 3人</div>
+              </div>
+              <div class="mini-list" id="advanceList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">休み希望</div>
+                  <div class="panel-sub">記録用の希望日をそのまま会議共有しやすい形で表示します。</div>
+                </div>
+                <div class="pill gray" id="holidayPill">提出 0人</div>
+              </div>
+              <div class="mini-list" id="holidayList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">確定シフト</div>
+                  <div class="panel-sub">通知対象外になる休みを管理し、確定運用を明確にします。</div>
+                </div>
+                <div class="pill green" id="shiftPill">確定済み 0人</div>
+              </div>
+              <div class="mini-list" id="shiftList"></div>
+            </section>
+          </div>
         </div>
-      </nav>
+      </main>
     </div>
-  );
-}
+  </div>
 
-function Section({ title, subtitle, children }) {
-  return (
-    <section className="mt-4 rounded-[28px] border border-slate-200 bg-slate-50/80 p-3">
-      <div className="rounded-[22px] bg-white/70 p-4">
-        <div className="text-[18px] font-black tracking-tight text-slate-900">{title}</div>
-        <div className="mt-1 text-xs leading-5 text-slate-500">{subtitle}</div>
-      </div>
-      <div className="mt-3">{children}</div>
-    </section>
-  );
-}
-
-function KpiCard({ label, value, sub }) {
-  return (
-    <div className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="text-xs font-semibold text-slate-500">{label}</div>
-      <div className="mt-2 text-[26px] font-black tracking-tight text-slate-900">{value}</div>
-      <div className="mt-1 text-xs text-slate-400">{sub}</div>
+  <div class="loading" id="loading">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="loading-title" id="loadingTitle">読込中...</div>
+      <div class="loading-sub" id="loadingSub">最新の状況を取得しています</div>
     </div>
-  );
-}
+  </div>
 
-function TabItem({ label, icon, active = false }) {
-  return (
-    <div className={active ? "text-slate-900" : "text-slate-500"}>
-      <div className="text-lg leading-none">{icon}</div>
-      <div className="mt-1">{label}</div>
-    </div>
-  );
-}
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API_URL = "";
+
+    const mockData = {
+      summary: {
+        activeCount: 8,
+        unclosedCount: 2,
+        advanceTotal: 240000,
+        operationRate: 87,
+        operationRateDelta: "+6%",
+      },
+      sites: [
+        {
+          id: "site_kawaguchi",
+          name: "川口領家 Amazon",
+          activeCount: 5,
+          totalCount: 7,
+          unclosedCount: 1,
+          status: "stable",
+          drivers: [
+            { id: "D001", name: "石塚 歩汰", start: "08:12", status: "working", statusLabel: "稼働中", type: "日当", memo: "通常稼働" },
+            { id: "D002", name: "田中 一樹", start: "08:30", status: "warning", statusLabel: "未退勤", type: "日当", memo: "前日分の修正要" },
+            { id: "D003", name: "佐藤 優", start: "-", status: "off", statusLabel: "休み", type: "歩合", memo: "確定シフト休み" },
+            { id: "D004", name: "山本 直", start: "09:02", status: "working", statusLabel: "稼働中", type: "日当", memo: "通常稼働" },
+            { id: "D005", name: "中村 海斗", start: "08:48", status: "working", statusLabel: "稼働中", type: "日当", memo: "通常稼働" },
+            { id: "D006", name: "旧ドライバーA", start: "-", status: "inactive", statusLabel: "inactive", type: "日当", memo: "無効化済み" },
+          ]
+        },
+        {
+          id: "site_shinjuku",
+          name: "新宿上落合 Amazon",
+          activeCount: 3,
+          totalCount: 4,
+          unclosedCount: 1,
+          status: "watch",
+          drivers: [
+            { id: "D101", name: "小林 陸", start: "09:01", status: "working", statusLabel: "稼働中", type: "歩合", memo: "通常稼働" },
+            { id: "D102", name: "高橋 蓮", start: "-", status: "off", statusLabel: "休み", type: "日当", memo: "休み希望提出済み" },
+            { id: "D103", name: "渡辺 蒼", start: "08:41", status: "working", statusLabel: "稼働中", type: "日当", memo: "通常稼働" },
+            { id: "D104", name: "鈴木 颯", start: "08:25", status: "warning", statusLabel: "未退勤", type: "日当", memo: "管理者確認待ち" },
+          ]
+        }
+      ],
+      insights: [
+        { type: "red", title: "未退勤が2人います", text: "川口領家1人、新宿上落合1人。退勤漏れの確認を優先してください。", action: "確認" },
+        { type: "amber", title: "川口領家の前払い比率が高めです", text: "今月の前払い申請人数が3人中2人で、通常月より多い状態です。", action: "見る" },
+        { type: "blue", title: "新宿上落合の明日休み人数が多いです", text: "確定シフト上、通常より人数が薄くなる見込みです。", action: "調整" },
+      ],
+      advances: [
+        { name: "石塚 歩汰", count: 3, total: 120000, site: "川口領家 Amazon", flag: "normal" },
+        { name: "田中 一樹", count: 1, total: 40000, site: "川口領家 Amazon", flag: "warning" },
+        { name: "佐藤 優", count: 2, total: 80000, site: "川口領家 Amazon", flag: "normal" },
+      ],
+      holidays: [
+        { name: "石塚 歩汰", days: ["5/14(木)", "5/21(木)"], updatedAt: "2026/04/12 19:22" },
+        { name: "高橋 蓮", days: ["5/18(月)"], updatedAt: "2026/04/13 10:05" },
+      ],
+      shifts: [
+        { name: "石塚 歩汰", offDays: ["5/14(木)", "5/21(木)"], site: "川口領家 Amazon" },
+        { name: "田中 一樹", offDays: ["5/16(土)"], site: "川口領家 Amazon" },
+      ],
+      allDrivers: [
+        { name: "石塚 歩汰", site: "川口領家 Amazon", type: "日当", status: "active" },
+        { name: "田中 一樹", site: "川口領家 Amazon", type: "日当", status: "active" },
+        { name: "佐藤 優", site: "川口領家 Amazon", type: "歩合", status: "active" },
+        { name: "山本 直", site: "川口領家 Amazon", type: "日当", status: "active" },
+        { name: "中村 海斗", site: "川口領家 Amazon", type: "日当", status: "active" },
+        { name: "小林 陸", site: "新宿上落合 Amazon", type: "歩合", status: "active" },
+        { name: "高橋 蓮", site: "新宿上落合 Amazon", type: "日当", status: "active" },
+        { name: "渡辺 蒼", site: "新宿上落合 Amazon", type: "日当", status: "active" },
+        { name: "鈴木 颯", site: "新宿上落合 Amazon", type: "日当", status: "active" },
+        { name: "旧ドライバーA", site: "新宿上落合 Amazon", type: "日当", status: "inactive" },
+      ]
+    };
+
+    const state = {
+      data: null,
+      selectedSiteId: null,
+      driverSearch: "",
+      driverFilter: "all",
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function showLoading(title = "読込中...", sub = "最新の状況を取得しています") {
+      $("loadingTitle").textContent = title;
+      $("loadingSub").textContent = sub;
+      $("loading").classList.add("show");
+    }
+
+    function hideLoading() {
+      $("loading").classList.remove("show");
+    }
+
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function formatYen(value) {
+      return `¥${Number(value || 0).toLocaleString("ja-JP")}`;
+    }
+
+    function initialsFromName(name) {
+      return name ? name.trim().charAt(0) : "人";
+    }
+
+    function getStatusClass(status) {
+      switch (status) {
+        case "working": return "status-working";
+        case "warning": return "status-warning";
+        case "off": return "status-off";
+        default: return "status-inactive";
+      }
+    }
+
+    async function loadDashboard() {
+      showLoading();
+      try {
+        if (!API_URL) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+          state.data = mockData;
+        } else {
+          const response = await fetch(`${API_URL}?type=admin_dashboard`, { method: "GET" });
+          if (!response.ok) throw new Error("管理画面データの取得に失敗しました");
+          state.data = await response.json();
+        }
+
+        if (!state.selectedSiteId && state.data.sites?.length) {
+          state.selectedSiteId = state.data.sites[0].id;
+        }
+
+        renderAll();
+      } catch (error) {
+        showToast(error.message || "読込に失敗しました");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderAll() {
+      renderSummary();
+      renderSites();
+      renderSiteDrivers();
+      renderInsights();
+      renderAdvances();
+      renderHolidays();
+      renderShifts();
+      renderDriverAdmin();
+    }
+
+    function renderSummary() {
+      const s = state.data.summary;
+      $("statActive").textContent = s.activeCount;
+      $("statUnclosed").textContent = s.unclosedCount;
+      $("statAdvance").textContent = formatYen(s.advanceTotal);
+      $("statRate").textContent = `${s.operationRate}%`;
+      $("statRateSub").textContent = `前月比 ${s.operationRateDelta}`;
+      $("sideRate").textContent = `${s.operationRate}%`;
+      $("sideRateSub").textContent = `前月比 ${s.operationRateDelta}`;
+    }
+
+    function renderSites() {
+      const wrap = $("siteGrid");
+      wrap.innerHTML = "";
+      const sites = state.data.sites || [];
+      $("siteSummaryPill").textContent = `全${sites.length}現場 / 稼働中 ${state.data.summary.activeCount}人`;
+
+      sites.forEach(site => {
+        const el = document.createElement("button");
+        el.className = `site-card ${state.selectedSiteId === site.id ? "active" : ""}`;
+        el.innerHTML = `
+          <div class="site-title">${site.name}</div>
+          <div class="site-meta">
+            <span class="pill ${site.status === "stable" ? "green" : "amber"}">${site.status === "stable" ? "安定" : "要確認"}</span>
+            <span class="pill gray">未退勤 ${site.unclosedCount}人</span>
+          </div>
+          <div class="site-kpi">
+            <div>
+              <div class="site-count">${site.activeCount}</div>
+              <div class="site-label">現在稼働中</div>
+            </div>
+            <div class="site-label">所属 ${site.totalCount}人</div>
+          </div>
+        `;
+        el.addEventListener("click", () => {
+          state.selectedSiteId = site.id;
+          renderSites();
+          renderSiteDrivers();
+        });
+        wrap.appendChild(el);
+      });
+    }
+
+    function renderSiteDrivers() {
+      const site = state.data.sites.find(s => s.id === state.selectedSiteId);
+      const wrap = $("siteDriverList");
+      wrap.innerHTML = "";
+      if (!site) return;
+
+      const q = state.driverSearch.trim().toLowerCase();
+      const filter = state.driverFilter;
+
+      const drivers = site.drivers.filter(driver => {
+        const matchSearch = !q || driver.name.toLowerCase().includes(q);
+        const matchFilter = filter === "all" || driver.status === filter;
+        return matchSearch && matchFilter;
+      });
+
+      if (drivers.length === 0) {
+        wrap.innerHTML = `<div class="row-box"><div class="row-title">該当するドライバーがいません</div><div class="row-text">検索条件を変更してください。</div></div>`;
+        return;
+      }
+
+      drivers.forEach(driver => {
+        const el = document.createElement("div");
+        el.className = "driver-row";
+        el.innerHTML = `
+          <div class="avatar">${initialsFromName(driver.name)}</div>
+          <div>
+            <div class="driver-name">${driver.name}</div>
+            <div class="driver-meta">${site.name} ・ ${driver.type} ・ 出勤 ${driver.start} ・ ${driver.memo}</div>
+          </div>
+          <div class="status-badge ${getStatusClass(driver.status)}">${driver.statusLabel}</div>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+
+    function renderInsights() {
+      const wrap = $("insightList");
+      wrap.innerHTML = "";
+      const insights = state.data.insights || [];
+      $("insightCountPill").textContent = `${insights.length}件`;
+
+      insights.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "insight-item";
+        el.innerHTML = `
+          <div class="insight-icon ${item.type}">${item.type === "red" ? "!" : item.type === "amber" ? "△" : "i"}</div>
+          <div>
+            <div class="insight-title">${item.title}</div>
+            <div class="insight-text">${item.text}</div>
+          </div>
+          <button class="action-btn">${item.action}</button>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+
+    function renderAdvances() {
+      const wrap = $("advanceList");
+      wrap.innerHTML = "";
+      const advances = state.data.advances || [];
+      $("advancePill").textContent = `今月 ${advances.length}人`;
+
+      advances.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "mini-card";
+        el.innerHTML = `
+          <div class="mini-top">
+            <div>
+              <div class="mini-name">${item.name}</div>
+              <div class="mini-sub">${item.site} ・ ${item.count}回</div>
+            </div>
+            <div class="mini-value">${formatYen(item.total)}</div>
+          </div>
+          <div class="chips">
+            <span class="chip">申請回数 ${item.count}回</span>
+            <span class="chip">${item.flag === "warning" ? "要確認" : "通常"}</span>
+          </div>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+
+    function renderHolidays() {
+      const wrap = $("holidayList");
+      wrap.innerHTML = "";
+      const holidays = state.data.holidays || [];
+      $("holidayPill").textContent = `提出 ${holidays.length}人`;
+
+      holidays.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "mini-card";
+        el.innerHTML = `
+          <div class="mini-top">
+            <div>
+              <div class="mini-name">${item.name}</div>
+              <div class="mini-sub">更新 ${item.updatedAt}</div>
+            </div>
+          </div>
+          <div class="chips">${item.days.map(day => `<span class="chip">${day}</span>`).join("")}</div>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+
+    function renderShifts() {
+      const wrap = $("shiftList");
+      wrap.innerHTML = "";
+      const shifts = state.data.shifts || [];
+      $("shiftPill").textContent = `確定済み ${shifts.length}人`;
+
+      shifts.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "mini-card";
+        el.innerHTML = `
+          <div class="mini-top">
+            <div>
+              <div class="mini-name">${item.name}</div>
+              <div class="mini-sub">${item.site}</div>
+            </div>
+            <button class="action-btn">変更</button>
+          </div>
+          <div class="chips">${item.offDays.map(day => `<span class="chip">${day}</span>`).join("")}</div>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+
+    function renderDriverAdmin() {
+      const wrap = $("driverAdminList");
+      wrap.innerHTML = "";
+      const drivers = state.data.allDrivers || [];
+      $("driverCountPill").textContent = `登録 ${drivers.length}人`;
+
+      const addBox = document.createElement("div");
+      addBox.className = "row-box";
+      addBox.innerHTML = `
+        <div class="row-head">
+          <div>
+            <div class="row-title">ドライバーを追加</div>
+            <div class="row-text">追加は drivers マスタだけで完結する設計です。</div>
+          </div>
+          <button class="top-btn primary">＋ 新規追加</button>
+        </div>
+      `;
+      wrap.appendChild(addBox);
+
+      drivers.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "row-box";
+        el.innerHTML = `
+          <div class="row-head">
+            <div>
+              <div class="row-title">${item.name}</div>
+              <div class="row-text">${item.site} ・ ${item.type} ・ ${item.status}</div>
+            </div>
+            <span class="status-badge ${item.status === "active" ? "status-working" : "status-inactive"}">${item.status}</span>
+          </div>
+          <div class="row-actions">
+            <button class="action-btn">編集</button>
+            <button class="action-btn">${item.status === "active" ? "無効化" : "再有効化"}</button>
+          </div>
+        `;
+        wrap.appendChild(el);
+      });
+    }
+
+    function bindEvents() {
+      $("driverSearch").addEventListener("input", (e) => {
+        state.driverSearch = e.target.value;
+        renderSiteDrivers();
+      });
+
+      $("driverFilter").addEventListener("change", (e) => {
+        state.driverFilter = e.target.value;
+        renderSiteDrivers();
+      });
+
+      $("refreshBtn").addEventListener("click", async () => {
+        await loadDashboard();
+        showToast("最新の状態に更新しました");
+      });
+
+      $("sheetBtn").addEventListener("click", () => {
+        showToast("スプレッドシート同期の導線をここに接続します");
+      });
+
+      $("exportBtn").addEventListener("click", () => {
+        downloadCsv();
+      });
+    }
+
+    function downloadCsv() {
+      const rows = [["name", "site", "type", "status"]];
+      (state.data.allDrivers || []).forEach(item => {
+        rows.push([item.name, item.site, item.type, item.status]);
+      });
+      const csv = rows.map(r => r.map(v => `"${String(v).replaceAll('"', '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "admin_dashboard_export.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("CSVを書き出しました");
+    }
+
+    bindEvents();
+    loadDashboard();
+  </script>
+</body>
+</html>
