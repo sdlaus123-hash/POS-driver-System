@@ -4,630 +4,294 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>勤務報告</title>
+
 <style>
 :root{
-  --bg:#f6f4ee;
-  --text:#222;
-  --muted:#666;
-  --panel:#fff;
-  --line:#ddd;
-  --line-soft:#eee;
-  --brand:#111;
-  --accent:#ffd95c;
-  --accent-deep:#e0b93d;
-  --accent-soft:#fff4c7;
-  --success-bg:#eef8ef;
-  --success-line:#b9dcbd;
-  --success-text:#1f5f2a;
-  --info-bg:#fff6dc;
-  --info-line:#f0dfaa;
-  --danger:#b3261e;
-  --shadow-lg:0 10px 25px rgba(0,0,0,.12);
-  --shadow-md:0 10px 25px rgba(0,0,0,.08);
+  --bg:#0e0f12;
+  --card:#17181c;
+  --card-soft:#1f2126;
+  --text:#ffffff;
+  --muted:#8b8f98;
+  --accent:#ffd95c;
+  --accent2:#ffb800;
+  --success:#22c55e;
 }
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{box-sizing:border-box;}
 
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  background:radial-gradient(circle at top,#1a1c22,#0e0f12);
+  color:var(--text);
 }
 
+/* レイアウト */
 .wrap{
-  max-width:420px;
-  margin:auto;
-  padding:16px;
+  max-width:420px;
+  margin:auto;
+  padding:20px;
 }
 
+/* ヘッダー */
 .header{
-  background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);
-  color:#fff;
-  padding:20px;
-  border-radius:20px;
-  margin-bottom:16px;
-  box-shadow:var(--shadow-lg);
+  background:linear-gradient(135deg,#111,#1c1c1f);
+  padding:24px;
+  border-radius:24px;
+  margin-bottom:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  animation:fadeUp .6s ease;
 }
 
 .header small{
-  color:var(--accent);
-  display:block;
-  margin-bottom:6px;
-  font-weight:700;
-  letter-spacing:.02em;
+  color:var(--accent);
+  font-weight:700;
 }
 
+.header h2{
+  margin:6px 0;
+  font-size:22px;
+  font-weight:800;
+}
+
+/* カード */
 .card{
-  background:var(--panel);
-  border-radius:20px;
-  padding:16px;
-  box-shadow:var(--shadow-md);
+  background:var(--card);
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+  animation:fadeUp .5s ease;
 }
 
-.hidden{display:none !important;}
-
-.fade-in{
-  animation:fadeIn .22s ease both;
-}
-
-.pop-in{
-  animation:popIn .26s ease both;
-}
-
-.shake{
-  animation:shake .22s ease both;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(8px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-@keyframes popIn{
-  from{opacity:0; transform:scale(.985) translateY(6px);}
-  to{opacity:1; transform:scale(1) translateY(0);}
-}
-
-@keyframes shake{
-  0%,100%{transform:translateX(0);}
-  25%{transform:translateX(-4px);}
-  75%{transform:translateX(4px);}
-}
-
-.label{
-  font-size:14px;
-  font-weight:700;
-  margin:10px 0 8px;
-}
-
-textarea{
-  width:100%;
-  box-sizing:border-box;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-  font-size:16px;
-  margin-bottom:10px;
-  background:#fff;
-  transition:border-color .15s ease, box-shadow .15s ease;
-  min-height:100px;
-  resize:vertical;
-}
-
-textarea:focus{
-  outline:none;
-  border-color:#c8c8c8;
-  box-shadow:0 0 0 4px rgba(0,0,0,.04);
-}
-
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  margin-top:12px;
-  font-size:16px;
-  font-weight:700;
-  transition:transform .08s ease, opacity .12s ease, filter .12s ease;
-}
-
-.btn:active{
-  transform:scale(.99);
-}
-
-.btn[disabled]{
-  opacity:.7;
-  cursor:not-allowed;
-}
-
-.main{
-  background:var(--brand);
-  color:#fff;
-}
-
-.sub{
-  background:var(--accent);
-  color:#111;
-}
-
-.info{
-  background:var(--info-bg);
-  border:1px solid var(--info-line);
-  padding:12px;
-  border-radius:14px;
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:12px;
-}
-
-.success{
-  background:var(--success-bg);
-  border:1px solid var(--success-line);
-  color:var(--success-text);
-  padding:12px;
-  border-radius:14px;
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:12px;
-  font-weight:700;
-}
-
+/* ドライバー */
 .driver-box{
-  background:linear-gradient(180deg,#fff9ea,#fff3cd);
-  border:1px solid #f0dfaa;
-  padding:14px;
-  border-radius:14px;
-  margin-bottom:12px;
-  text-align:center;
+  background:linear-gradient(135deg,#1b1c20,#111);
+  border-radius:16px;
+  padding:16px;
+  text-align:center;
+  margin-bottom:14px;
+  border:1px solid #2a2c30;
 }
 
 .driver-name{
-  font-size:18px;
-  font-weight:800;
-  color:#2a241b;
-  line-height:1.3;
+  font-size:20px;
+  font-weight:800;
 }
 
 .driver-site{
-  font-size:13px;
-  color:#6a624f;
-  margin-top:4px;
-  line-height:1.5;
+  font-size:13px;
+  color:var(--muted);
 }
 
+/* チップ */
 .chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:10px;
-  margin-bottom:8px;
+  display:flex;
+  gap:8px;
+  margin:12px 0;
 }
 
 .chip{
-  display:inline-block;
-  padding:7px 10px;
-  border-radius:999px;
-  background:var(--accent-soft);
-  font-size:13px;
-  border:1px solid #f0df9d;
-  font-weight:700;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#25272d;
+  font-size:12px;
 }
 
-.error{
-  color:var(--danger);
-  font-size:14px;
-  margin-top:10px;
-  white-space:pre-wrap;
+/* テキストエリア */
+textarea{
+  width:100%;
+  border:none;
+  border-radius:14px;
+  padding:14px;
+  background:#111;
+  color:#fff;
+  margin-top:8px;
+  border:1px solid #2a2c30;
 }
 
-.muted{
-  color:var(--muted);
-  font-size:14px;
+/* ボタン */
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  margin-top:14px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.box{
-  border:1px solid var(--line-soft);
-  border-radius:14px;
-  padding:12px;
-  margin-top:10px;
-  background:#fafafa;
+.main{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
 }
 
-.loading-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(246,244,238,.55);
-  backdrop-filter:blur(2px);
-  z-index:999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .18s ease;
+.sub{
+  background:#2a2c30;
+  color:#fff;
 }
 
-.loading-overlay.show{
-  opacity:1;
-  pointer-events:auto;
+.btn:hover{
+  transform:translateY(-2px);
 }
 
-.loading-box{
-  background:#fff;
-  border-radius:18px;
-  padding:16px 18px;
-  box-shadow:0 14px 28px rgba(0,0,0,.12);
-  min-width:180px;
-  text-align:center;
+.btn:active{
+  transform:scale(.98);
 }
 
-.spinner{
-  width:28px;
-  height:28px;
-  margin:0 auto 10px;
-  border:3px solid #ece7dc;
-  border-top-color:#111;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
+/* 成功画面 */
+.success{
+  text-align:center;
+  padding:30px 10px;
 }
 
-@keyframes spin{
-  to{ transform:rotate(360deg); }
+.check{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:var(--success);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  margin:0 auto 14px;
+  animation:pop .5s ease;
 }
 
-.loading-title{
-  font-size:14px;
-  font-weight:700;
-  color:#222;
-}
-
-.loading-sub{
-  margin-top:4px;
-  font-size:12px;
-  color:#777;
-}
-
+/* トースト */
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:24px;
-  transform:translateX(-50%) translateY(14px);
-  background:#111;
-  color:#fff;
-  padding:11px 14px;
-  border-radius:999px;
-  font-size:13px;
-  box-shadow:0 10px 20px rgba(0,0,0,.18);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .18s ease, transform .18s ease;
-  z-index:1000;
-  max-width:calc(100vw - 32px);
-  text-align:center;
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000;
+  padding:12px 18px;
+  border-radius:999px;
+  opacity:0;
+  transition:.3s;
 }
 
 .toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+  opacity:1;
 }
 
-@media (max-width:380px){
-  .wrap{
-    padding:12px;
-  }
+/* ローディング */
+.loader{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+  opacity:0;
+  pointer-events:none;
+}
+
+.loader.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  border:3px solid #333;
+  border-top:3px solid #fff;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+/* アニメーション */
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;}
+}
+@keyframes pop{
+  from{transform:scale(.7);}
+  to{transform:scale(1);}
 }
 </style>
 </head>
+
 <body>
 
 <div class="wrap">
-  <div class="header">
-    <small>勤務報告</small>
-    <h2 id="title" style="margin:0 0 6px;">本日の勤務報告</h2>
-    <div id="subtitle" style="font-size:14px;color:rgba(255,255,255,.7);">出勤・退勤の状態を記録します</div>
-  </div>
 
-  <div id="input" class="card hidden">
-    <div id="topInfo" class="info">
-      本日の勤務状態に応じて、出勤または退勤を記録してください。
-    </div>
+  <div class="header">
+    <small>勤務報告</small>
+    <h2>本日の勤務</h2>
+    <div style="color:var(--muted)">ワンタップで完了</div>
+  </div>
 
-    <div class="driver-box">
-      <div id="driverName" class="driver-name">石塚 歩汰</div>
-      <div id="driverSite" class="driver-site">川口領家 Amazon</div>
-    </div>
+  <div class="card" id="input">
 
-    <div class="chips">
-      <span id="todayChip" class="chip">本日</span>
-      <span id="statusChip" class="chip">未出勤</span>
-    </div>
+    <div class="driver-box">
+      <div class="driver-name">石塚 歩汰</div>
+      <div class="driver-site">川口領家 Amazon</div>
+    </div>
 
-    <div class="label">備考（任意）</div>
-    <textarea id="note" placeholder="備考"></textarea>
+    <div class="chips">
+      <div class="chip" id="date"></div>
+      <div class="chip" id="status">未出勤</div>
+    </div>
 
-    <button id="startBtn" class="btn main" onclick="submitAttendance('start')">出勤する</button>
-    <button id="endBtn" class="btn sub hidden" onclick="submitAttendance('end')">退勤する</button>
+    <textarea id="note" placeholder="備考（任意）"></textarea>
 
-    <div id="submitError" class="error"></div>
-  </div>
+    <button class="btn main" onclick="start()">出勤する</button>
+    <button class="btn sub" onclick="end()">退勤する</button>
 
-  <div id="done" class="card hidden">
-    <div class="success pop-in">本日の勤務報告は完了しました。</div>
+  </div>
 
-    <div class="driver-box">
-      <div id="doneDriverName" class="driver-name">石塚 歩汰</div>
-      <div id="doneDriverSite" class="driver-site">川口領家 Amazon</div>
-    </div>
+  <div class="card success" id="done" style="display:none;">
+    <div class="check">✓</div>
+    <h3>送信完了</h3>
+    <p style="color:var(--muted)">今日もお疲れ様でした</p>
+  </div>
 
-    <div class="box">
-      <div class="muted">状態</div>
-      <div id="doneStatus">退勤済み</div>
-    </div>
-
-    <div class="box">
-      <div class="muted">出勤時刻</div>
-      <div id="doneStart">-</div>
-    </div>
-
-    <div class="box">
-      <div class="muted">退勤時刻</div>
-      <div id="doneEnd">-</div>
-    </div>
-
-    <div class="box">
-      <div class="muted">備考</div>
-      <div id="doneNote">なし</div>
-    </div>
-  </div>
 </div>
 
-<div id="loadingOverlay" class="loading-overlay">
-  <div class="loading-box">
-    <div class="spinner"></div>
-    <div id="loadingTitle" class="loading-title">処理中...</div>
-    <div id="loadingSub" class="loading-sub">しばらくお待ちください</div>
-  </div>
+<div class="loader" id="loader">
+  <div class="spinner"></div>
 </div>
 
-<div id="toast" class="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbznOIVs0_J9tVQ5FDW9LkO6L5oEAvQq48_hqtgRYMPOVFH3WzGN4zxDsGAWihGdjGp4/exec';
-const USER = 'demo-user-001';
+const dateEl = document.getElementById("date");
+dateEl.innerText = new Date().toLocaleDateString("ja-JP");
 
-let currentState = {
-  status: 'not_started',
-  driverName: '石塚 歩汰',
-  siteName: '川口領家 Amazon',
-  note: '',
-  startTime: '',
-  endTime: ''
-};
-
-let isSubmitting = false;
-
-function getWorkDate(){
-  const now = new Date();
-  if(now.getHours() < 4){
-    now.setDate(now.getDate() - 1);
-  }
-  return now;
+function showLoader(v){
+  document.getElementById("loader").classList.toggle("show",v);
 }
 
-function formatToday(){
-  const workDate = getWorkDate();
-  const y = workDate.getFullYear();
-  const m = workDate.getMonth() + 1;
-  const d = workDate.getDate();
-  return `${y}年${m}月${d}日`;
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2000);
 }
 
-function getWorkDateKey(){
-  const workDate = getWorkDate();
-  const y = workDate.getFullYear();
-  const m = String(workDate.getMonth() + 1).padStart(2,'0');
-  const d = String(workDate.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
+function start(){
+  showLoader(true);
+  setTimeout(()=>{
+    showLoader(false);
+    document.getElementById("status").innerText="出勤済み";
+    toast("出勤しました");
+  },800);
 }
 
-function nowTime(){
-  return new Date().toLocaleTimeString('ja-JP', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+function end(){
+  showLoader(true);
+  setTimeout(()=>{
+    showLoader(false);
+    document.getElementById("input").style.display="none";
+    document.getElementById("done").style.display="block";
+  },800);
 }
-
-function show(id){
-  ['input','done'].forEach(v=>{
-    const el = document.getElementById(v);
-    el.classList.add('hidden');
-    el.classList.remove('fade-in');
-  });
-  const target = document.getElementById(id);
-  target.classList.remove('hidden');
-  target.classList.add('fade-in');
-}
-
-function showLoading(title = '処理中...', sub = 'しばらくお待ちください'){
-  document.getElementById('loadingTitle').textContent = title;
-  document.getElementById('loadingSub').textContent = sub;
-  document.getElementById('loadingOverlay').classList.add('show');
-}
-
-function hideLoading(){
-  document.getElementById('loadingOverlay').classList.remove('show');
-}
-
-function showToast(message){
-  const toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.classList.add('show');
-  clearTimeout(showToast._timer);
-  showToast._timer = setTimeout(()=>{
-    toast.classList.remove('show');
-  }, 1800);
-}
-
-function setButtonLoading(btn, loading, loadingText, normalText){
-  if(!btn) return;
-  if(loading){
-    btn.dataset.normalText = normalText || btn.textContent;
-    btn.textContent = loadingText;
-    btn.disabled = true;
-  }else{
-    btn.textContent = btn.dataset.normalText || normalText || btn.textContent;
-    btn.disabled = false;
-  }
-}
-
-function applyDriverInfo(){
-  document.getElementById('driverName').innerText = currentState.driverName || 'ーーー';
-  document.getElementById('driverSite').innerText = currentState.siteName || 'ーーー';
-  document.getElementById('doneDriverName').innerText = currentState.driverName || 'ーーー';
-  document.getElementById('doneDriverSite').innerText = currentState.siteName || 'ーーー';
-}
-
-function renderScreen(){
-  applyDriverInfo();
-  document.getElementById('todayChip').innerText = formatToday();
-  document.getElementById('note').value = currentState.note || '';
-
-  const info = document.getElementById('topInfo');
-  const statusChip = document.getElementById('statusChip');
-  const startBtn = document.getElementById('startBtn');
-  const endBtn = document.getElementById('endBtn');
-
-  if(currentState.status === 'not_started'){
-    statusChip.innerText = '未出勤';
-    info.innerHTML = '本日はまだ出勤していません。<br>勤務を開始する場合は出勤ボタンを押してください。';
-    startBtn.classList.remove('hidden');
-    endBtn.classList.add('hidden');
-    show('input');
-    return;
-  }
-
-  if(currentState.status === 'started'){
-    statusChip.innerText = '出勤済み';
-    info.innerHTML = `出勤時刻は <strong>${currentState.startTime || '-'}</strong> です。<br>勤務終了時に退勤ボタンを押してください。`;
-    startBtn.classList.add('hidden');
-    endBtn.classList.remove('hidden');
-    show('input');
-    return;
-  }
-
-  if(currentState.status === 'finished'){
-    document.getElementById('doneStatus').innerText = '退勤済み';
-    document.getElementById('doneStart').innerText = currentState.startTime || '-';
-    document.getElementById('doneEnd').innerText = currentState.endTime || '-';
-    document.getElementById('doneNote').innerText = currentState.note || 'なし';
-    show('done');
-  }
-}
-
-async function init(){
-  currentState = {
-    status: 'not_started',
-    driverName: '石塚 歩汰',
-    siteName: '川口領家 Amazon',
-    note: '',
-    startTime: '',
-    endTime: ''
-  };
-  renderScreen();
-}
-
-async function submitAttendance(type){
-  if(isSubmitting) return;
-
-  document.getElementById('submitError').innerText = '';
-  const note = document.getElementById('note').value.trim();
-
-  const btn = type === 'start'
-    ? document.getElementById('startBtn')
-    : document.getElementById('endBtn');
-
-  try{
-    isSubmitting = true;
-    setButtonLoading(
-      btn,
-      true,
-      type === 'start' ? '出勤中...' : '退勤中...',
-      type === 'start' ? '出勤する' : '退勤する'
-    );
-
-    showLoading(
-      type === 'start' ? '出勤を記録中...' : '退勤を記録中...',
-      'しばらくお待ちください'
-    );
-
-    const timeValue = nowTime();
-    const workDate = getWorkDateKey();
-
-    const response = await fetch(API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-      },
-      body: JSON.stringify({
-        userId: USER,
-        type: type,
-        workDate: workDate,
-        time: timeValue,
-        note: note
-      })
-    });
-
-    const resultText = await response.text();
-
-    if(!response.ok){
-      throw new Error('送信に失敗しました');
-    }
-
-    if(type === 'start'){
-      currentState = {
-        ...currentState,
-        note,
-        status: 'started',
-        startTime: timeValue
-      };
-      renderScreen();
-      showToast('出勤を記録しました');
-    } else {
-      currentState = {
-        ...currentState,
-        note,
-        status: 'finished',
-        endTime: timeValue
-      };
-      renderScreen();
-      showToast('退勤を記録しました');
-    }
-
-    console.log(resultText);
-
-  } catch(err){
-    document.getElementById('submitError').innerText = String(err);
-    const inputEl = document.getElementById('input');
-    inputEl.classList.remove('shake');
-    void inputEl.offsetWidth;
-    inputEl.classList.add('shake');
-  } finally{
-    isSubmitting = false;
-    setButtonLoading(
-      btn,
-      false,
-      type === 'start' ? '出勤中...' : '退勤中...',
-      type === 'start' ? '出勤する' : '退勤する'
-    );
-    hideLoading();
-  }
-}
-
-init();
 </script>
+
 </body>
 </html>
