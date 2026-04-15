@@ -4,195 +4,332 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>POMS 管理画面</title>
-
 <style>
 :root{
-  --bg:#f3f7fb;
-  --panel:#ffffff;
-  --text:#111111;
-  --muted:#666666;
-  --shadow:0 10px 25px rgba(0,0,0,.10);
-  --radius:20px;
+  --bg-page:#0b0d12;
+  --bg-card:rgba(255,255,255,.04);
+  --bg-card-hover:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.08);
+  --border-strong:rgba(255,255,255,.14);
+  --text:#f0f2f7;
+  --muted:#8a93a8;
+  --hint:#4e5668;
+  --accent:#6c8fff;
+  --green:#22c55e;
+  --green-bg:rgba(34,197,94,.12);
+  --amber:#f59e0b;
+  --amber-bg:rgba(245,158,11,.10);
+  --indigo:#818cf8;
+  --indigo-bg:rgba(129,140,248,.12);
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
-html{
-  min-height:100%;
-}
+html,body{min-height:100%;background:var(--bg-page);}
 body{
-  min-height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
-  background-color:#e0ecff;
-  background-image:linear-gradient(180deg,#f3f7fb 0%,#e0ecff 100%);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
   color:var(--text);
-  padding:0 0 40px;
+  padding:0;
+  overflow-x:hidden;
 }
-
-/* ヘッダー */
+body::after{
+  content:"";
+  position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+  width:700px;height:500px;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(108,143,255,.10) 0%, transparent 65%);
+}
+.app{
+  position:relative;z-index:1;
+  width:min(100%,480px);
+  margin:0 auto;
+  padding:0 16px 100px;
+}
 .header{
-  padding:20px 16px;
-  font-size:22px;
-  font-weight:800;
-  color:#111;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:max(24px,env(safe-area-inset-top,24px)) 0 20px;
 }
-
-/* KPIカード */
-.kpi{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  padding:0 16px 16px;
-  -webkit-overflow-scrolling:touch;
+.header-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.header-title{font-size:26px;font-weight:800;letter-spacing:-.03em;}
+.header-date{font-size:13px;color:var(--muted);margin-top:3px;}
+.avatar-btn{
+  width:40px;height:40px;border-radius:999px;
+  background:linear-gradient(135deg,#6c8fff,#a78bfa);
+  display:grid;place-items:center;
+  font-size:14px;font-weight:800;color:#fff;
+  border:none;cursor:pointer;flex-shrink:0;
 }
+.divider{height:1px;background:var(--border);margin:0 0 22px;}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px;}
 .kpi-card{
-  flex-shrink:0;
-  min-width:140px;
-  background:#ffffff;
-  padding:16px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.10);
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:18px;padding:14px 12px 16px;
+  transition:background .2s var(--ease),border-color .2s;
 }
-.kpi-title{
-  font-size:12px;
-  color:#666;
-  margin-bottom:6px;
-}
-.kpi-value{
-  font-size:28px;
-  font-weight:800;
-  color:#111;
-}
-
-/* セクション */
-.section{
-  padding:16px;
-}
-.section-title{
-  font-size:18px;
-  font-weight:700;
-  margin-bottom:12px;
-  color:#111;
-}
-
-/* 現場カード */
-.site{
-  background:#ffffff;
-  border-radius:20px;
-  padding:16px;
-  margin-bottom:12px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+.kpi-card:hover{background:var(--bg-card-hover);border-color:var(--border-strong);}
+.kpi-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;margin-bottom:10px;}
+.kpi-icon.green{background:var(--green-bg);}
+.kpi-icon.amber{background:var(--amber-bg);}
+.kpi-icon.indigo{background:var(--indigo-bg);}
+.kpi-label{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.kpi-value{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-top:2px;line-height:1;}
+.kpi-sub{font-size:10px;color:var(--hint);margin-top:4px;}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.section-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+.section-action{font-size:12px;color:var(--accent);font-weight:600;cursor:pointer;border:none;background:none;padding:0;}
+.sites{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.site-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:22px;padding:18px 20px;
+  display:flex;align-items:center;justify-content:space-between;
   cursor:pointer;
-  transition:transform .18s var(--ease);
+  transition:background .18s var(--ease),border-color .18s,transform .15s var(--ease);
+  position:relative;overflow:hidden;
 }
-.site:active{transform:scale(.98);}
-.site-name{
-  font-weight:700;
-  font-size:15px;
-  color:#111;
-  margin-bottom:4px;
+.site-card:hover{background:var(--bg-card-hover);border-color:var(--border-strong);}
+.site-card:active{transform:scale(.99);}
+.site-card.selected{border-color:rgba(108,143,255,.38);background:rgba(108,143,255,.055);}
+.site-card.selected::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:0 2px 2px 0;}
+.site-name{font-size:16px;font-weight:700;letter-spacing:-.01em;}
+.site-meta{font-size:12px;color:var(--muted);margin-top:3px;}
+.site-count{font-size:32px;font-weight:800;letter-spacing:-.04em;line-height:1;}
+.site-count-label{font-size:10px;color:var(--hint);text-align:right;margin-top:2px;}
+.drivers-section{margin-bottom:24px;}
+.driver-list{display:flex;flex-direction:column;gap:8px;}
+.driver-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:16px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  transition:background .18s var(--ease);
+  animation:slideUp .3s var(--ease) both;
 }
-.site-count{
-  font-size:26px;
-  font-weight:800;
-  color:#111;
+.driver-card:hover{background:var(--bg-card-hover);}
+.driver-avatar{
+  width:40px;height:40px;border-radius:14px;
+  display:grid;place-items:center;
+  font-size:15px;font-weight:800;flex-shrink:0;
 }
-
-/* ドライバー */
-.driver{
-  background:#ffffff;
-  padding:14px;
-  border-radius:16px;
-  margin-bottom:10px;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.driver-name{font-size:15px;font-weight:700;letter-spacing:-.01em;}
+.driver-role{font-size:12px;color:var(--muted);margin-top:2px;}
+.pill{font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;white-space:nowrap;}
+.pill.ok{background:var(--green-bg);color:#4ade80;}
+.pill.warn{background:var(--amber-bg);color:#fbbf24;}
+.pill.off{background:var(--indigo-bg);color:#a5b4fc;}
+.empty{
+  text-align:center;padding:36px 16px;color:var(--hint);font-size:14px;
+  border:1px dashed var(--border);border-radius:20px;line-height:1.7;
 }
-.driver-name{
-  font-size:15px;
-  font-weight:600;
-  color:#111;
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:10;
+  background:rgba(11,13,18,.88);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid var(--border);
+  padding:10px 0 max(16px,env(safe-area-inset-bottom,16px));
+  display:flex;justify-content:space-around;
 }
-.status{
-  font-size:12px;
-  font-weight:700;
-  padding:6px 12px;
-  border-radius:999px;
+.nav-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10px;font-weight:600;color:var(--hint);
+  cursor:pointer;border:none;background:none;padding:2px 22px;
+  transition:color .18s;
 }
-.ok{background:#dcfce7;color:#166534;}
-.warn{background:#fef3c7;color:#92400e;}
-.off{background:#e0e7ff;color:#3730a3;}
+.nav-item.active{color:var(--accent);}
+.nav-dot{
+  width:22px;height:22px;border-radius:8px;
+  display:grid;place-items:center;margin-bottom:1px;
+}
+.nav-item.active .nav-dot{background:rgba(108,143,255,.14);}
+.fade-in{animation:fadeIn .4s var(--ease) both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
 </style>
 </head>
-
 <body>
 
-<div class="header">管理ダッシュボード</div>
+<div class="app">
 
-<div class="kpi">
-  <div class="kpi-card">
-    <div class="kpi-title">稼働中</div>
-    <div class="kpi-value">8</div>
+  <div class="header fade-in">
+    <div>
+      <div class="header-eyebrow">POMS</div>
+      <div class="header-title">管理ダッシュボード</div>
+      <div class="header-date" id="headerDate"></div>
+    </div>
+    <div class="avatar-btn">管</div>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-title">未退勤</div>
-    <div class="kpi-value">2</div>
+
+  <div class="divider"></div>
+
+  <div class="kpi fade-in">
+    <div class="kpi-card">
+      <div class="kpi-icon green">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="7" cy="7" r="3.5" fill="#22c55e"/>
+          <circle cx="7" cy="7" r="6" stroke="#22c55e" stroke-width="1.4" opacity=".35"/>
+        </svg>
+      </div>
+      <div class="kpi-label">稼働中</div>
+      <div class="kpi-value">8</div>
+      <div class="kpi-sub">今日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon amber">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="7" cy="7" r="5.5" stroke="#f59e0b" stroke-width="1.3" opacity=".4"/>
+          <path d="M7 3.5V7l2.5 1.5" stroke="#f59e0b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="kpi-label">未退勤</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-sub">要確認</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon indigo">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect x="2" y="3.5" width="10" height="8" rx="1.8" stroke="#818cf8" stroke-width="1.3" opacity=".45"/>
+          <path d="M4.5 3.5V3a.7.7 0 0 1 .7-.7h3.6a.7.7 0 0 1 .7.7v.5" stroke="#818cf8" stroke-width="1.3" stroke-linecap="round"/>
+          <path d="M4.5 7.5h5M4.5 9.5h3" stroke="#818cf8" stroke-width="1.1" stroke-linecap="round" opacity=".6"/>
+        </svg>
+      </div>
+      <div class="kpi-label">前払い</div>
+      <div class="kpi-value" style="font-size:16px;margin-top:4px;">¥240K</div>
+      <div class="kpi-sub">今月</div>
+    </div>
   </div>
-  <div class="kpi-card">
-    <div class="kpi-title">前払い</div>
-    <div class="kpi-value">¥240K</div>
+
+  <div class="section-head fade-in">
+    <span class="section-label">現場</span>
+    <button class="section-action">全て見る →</button>
   </div>
+  <div class="sites fade-in">
+    <div class="site-card" id="site-川口" onclick="selectSite('川口')">
+      <div>
+        <div class="site-name">川口 Amazon</div>
+        <div class="site-meta">埼玉県川口市 · 領家倉庫</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="site-count">5</div>
+        <div class="site-count-label">名稼働</div>
+      </div>
+    </div>
+    <div class="site-card" id="site-新宿" onclick="selectSite('新宿')">
+      <div>
+        <div class="site-name">新宿 Amazon</div>
+        <div class="site-meta">東京都新宿区 · 西新宿拠点</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="site-count">3</div>
+        <div class="site-count-label">名稼働</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drivers-section">
+    <div class="section-head">
+      <span class="section-label" id="siteTitle">ドライバー</span>
+      <span id="driverCount" style="font-size:12px;color:var(--hint);"></span>
+    </div>
+    <div class="driver-list" id="driverList">
+      <div class="empty">現場カードをタップして<br>ドライバーを表示</div>
+    </div>
+  </div>
+
 </div>
 
-<div class="section">
-  <div class="section-title">現場</div>
-
-  <div class="site" onclick="selectSite('川口')">
-    <div class="site-name">川口Amazon</div>
-    <div class="site-count">5人</div>
-  </div>
-
-  <div class="site" onclick="selectSite('新宿')">
-    <div class="site-name">新宿Amazon</div>
-    <div class="site-count">3人</div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-title" id="siteTitle">ドライバー</div>
-  <div id="driverList"></div>
-</div>
+<nav class="bottom-nav">
+  <button class="nav-item active">
+    <div class="nav-dot">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="2" width="5" height="5" rx="1.5" fill="currentColor"/>
+        <rect x="9" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity=".5"/>
+        <rect x="2" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity=".5"/>
+        <rect x="9" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity=".5"/>
+      </svg>
+    </div>
+    ホーム
+  </button>
+  <button class="nav-item">
+    <div class="nav-dot">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2L2 6v8h4v-4h4v4h4V6L8 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    現場
+  </button>
+  <button class="nav-item">
+    <div class="nav-dot">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M5 3V2M11 3V2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M2 7h12" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
+      </svg>
+    </div>
+    前払い
+  </button>
+  <button class="nav-item">
+    <div class="nav-dot">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M2.5 13c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    設定
+  </button>
+</nav>
 
 <script>
 const data = {
   川口:[
-    {name:"石塚",status:"ok"},
-    {name:"田中",status:"warn"},
-    {name:"佐藤",status:"off"}
+    {name:"石塚 歩汰",role:"ドライバー",status:"ok"},
+    {name:"田中 雄介",role:"ドライバー",status:"warn"},
+    {name:"佐藤 蓮",role:"サブドライバー",status:"off"}
   ],
   新宿:[
-    {name:"小林",status:"ok"},
-    {name:"鈴木",status:"warn"}
+    {name:"小林 奈々",role:"ドライバー",status:"ok"},
+    {name:"鈴木 大輝",role:"ドライバー",status:"warn"}
   ]
 };
 
+const avatarStyles = [
+  {bg:"rgba(108,143,255,.18)",color:"#93b4ff"},
+  {bg:"rgba(34,197,94,.14)",color:"#4ade80"},
+  {bg:"rgba(245,158,11,.14)",color:"#fbbf24"},
+  {bg:"rgba(244,114,182,.14)",color:"#f9a8d4"},
+  {bg:"rgba(129,140,248,.16)",color:"#c4b5fd"},
+];
+
+const statusLabel = {ok:"稼働中",warn:"未退勤",off:"休み"};
+let selected = null;
+
 function selectSite(site){
-  document.getElementById("siteTitle").innerText = site + " のドライバー";
+  if(selected) document.getElementById("site-"+selected)?.classList.remove("selected");
+  selected = site;
+  document.getElementById("site-"+site)?.classList.add("selected");
+
+  const drivers = data[site];
+  document.getElementById("siteTitle").textContent = site + " のドライバー";
+  document.getElementById("driverCount").textContent = drivers.length + "名";
+
   const list = document.getElementById("driverList");
   list.innerHTML = "";
-  data[site].forEach(d => {
+  drivers.forEach((d,i)=>{
+    const s = avatarStyles[i % avatarStyles.length];
     const el = document.createElement("div");
-    el.className = "driver";
+    el.className = "driver-card";
+    el.style.animationDelay = (i*60)+"ms";
     el.innerHTML = `
-      <div class="driver-name">${d.name}</div>
-      <div class="status ${d.status}">
-        ${d.status==="ok"?"稼働中":d.status==="warn"?"未退勤":"休み"}
+      <div class="driver-avatar" style="background:${s.bg};color:${s.color};">${d.name.charAt(0)}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="driver-name">${d.name}</div>
+        <div class="driver-role">${d.role}</div>
       </div>
+      <div class="pill ${d.status}">${statusLabel[d.status]}</div>
     `;
     list.appendChild(el);
   });
 }
-</script>
 
+const now = new Date();
+document.getElementById("headerDate").textContent =
+  now.toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
+</script>
 </body>
 </html>
