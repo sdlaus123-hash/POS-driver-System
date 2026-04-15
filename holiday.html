@@ -1,176 +1,1111 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>休み希望</title>
 
 <style>
-body{
+:root{
+  --bg:#f5f6f8;
+  --bg-soft:#fbfbfc;
+  --card:#ffffff;
+  --text:#121826;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --line-strong:#d6dae1;
+  --accent:#111827;
+  --accent-soft:#eef2ff;
+  --brand:#2563eb;
+  --brand-soft:#dbeafe;
+  --selected:#111827;
+  --selected-text:#ffffff;
+  --today:#eff6ff;
+  --danger:#dc2626;
+  --success:#16a34a;
+  --shadow:0 12px 30px rgba(15,23,42,.08);
+  --radius-xl:28px;
+  --radius-lg:20px;
+  --radius-md:16px;
+  --radius-sm:12px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
   margin:0;
-  font-family:-apple-system;
-  background:#0e0f12;
-  color:#fff;
+  min-height:100%;
+  background:
+    radial-gradient(900px 360px at 50% -10%, rgba(37,99,235,.07), transparent 50%),
+    linear-gradient(180deg, #f8fafc 0%, #f3f5f8 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
 }
 
-.wrap{
-  max-width:420px;
-  margin:auto;
+body{
+  padding:
+    max(14px, env(safe-area-inset-top))
+    16px
+    max(20px, env(safe-area-inset-bottom))
+    16px;
+}
+
+.app{
+  width:min(100%, 440px);
+  margin:0 auto;
+}
+
+.hero{
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:var(--shadow);
+  border-radius:32px;
+  padding:22px 20px 18px;
+  animation:enterUp .7s var(--ease) both;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  background:var(--brand-soft);
+  color:var(--brand);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+
+.badge-dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:var(--brand);
+}
+
+.hero h1{
+  margin:14px 0 8px;
+  font-size:30px;
+  line-height:1.08;
+  letter-spacing:-.03em;
+}
+
+.hero p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.card{
+  margin-top:16px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:var(--shadow);
+  border-radius:var(--radius-xl);
   padding:16px;
+  animation:enterUp .85s var(--ease) both;
 }
 
-/* ヘッダー */
-.header{
+.driver{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  border-radius:22px;
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+}
+
+.avatar{
+  width:54px;
+  height:54px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:linear-gradient(135deg, #eff6ff, #dbeafe);
+  color:var(--brand);
+  font-size:20px;
+  font-weight:800;
+  flex:0 0 auto;
+}
+
+.driver-name{
+  font-size:18px;
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:-.02em;
+}
+
+.driver-site{
+  margin-top:4px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.info-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+  font-size:12px;
+  font-weight:700;
+}
+
+.notice{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.notice strong{
+  color:var(--text);
+}
+
+.calendar-card{
+  margin-top:16px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:#fff;
+  overflow:hidden;
+}
+
+.calendar-head{
+  padding:16px 16px 12px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#ffffff 0%, #fafbfc 100%);
+}
+
+.calendar-title{
   font-size:22px;
-  font-weight:bold;
-  margin-bottom:10px;
+  font-weight:900;
+  letter-spacing:-.03em;
 }
 
-/* カレンダー */
-.calendar{
+.calendar-sub{
+  margin-top:6px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.weekdays,
+.calendar-grid{
   display:grid;
   grid-template-columns:repeat(7,1fr);
+}
+
+.weekdays{
+  padding:12px 12px 8px;
+  gap:6px;
+  background:#fff;
+}
+
+.weekday{
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+  padding:6px 0;
+}
+
+.calendar-grid{
+  padding:0 12px 14px;
   gap:6px;
 }
 
 .day{
-  padding:14px 0;
-  text-align:center;
-  border-radius:12px;
-  background:#1a1c22;
-  cursor:pointer;
-  transition:.2s;
+  position:relative;
+  min-height:48px;
+  border:none;
+  border-radius:16px;
+  background:#fff;
+  color:var(--text);
+  font-size:15px;
+  font-weight:700;
+  border:1px solid var(--line);
+  transition:
+    transform .18s var(--ease),
+    background .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
 }
 
-.day:hover{
-  background:#222;
+.day:active{
+  transform:scale(.97);
 }
 
-.day.selected{
-  background:#ffd95c;
-  color:#000;
-  font-weight:bold;
+.day.empty{
+  visibility:hidden;
 }
 
 .day.today{
-  border:1px solid #ffd95c;
+  background:var(--today);
+  border-color:#bfdbfe;
 }
 
-/* ボタン */
-.btn{
+.day.selected{
+  background:var(--selected);
+  color:var(--selected-text);
+  border-color:var(--selected);
+  box-shadow:0 10px 20px rgba(17,24,39,.18);
+}
+
+.day .day-no{
+  position:relative;
+  z-index:1;
+}
+
+.day .today-mark{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  width:6px;
+  height:6px;
+  border-radius:999px;
+  background:var(--brand);
+}
+
+.day.selected .today-mark{
+  background:#fff;
+}
+
+.section{
   margin-top:16px;
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  font-weight:bold;
-  background:#ffd95c;
-  color:#000;
 }
 
-/* 選択リスト */
-.selected-list{
-  margin-top:10px;
+.label{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+.textarea{
+  width:100%;
+  min-height:96px;
+  resize:none;
+  border:none;
+  outline:none;
+  border-radius:18px;
+  padding:16px;
+  font-size:16px;
+  line-height:1.6;
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.selected-wrap{
+  margin-top:16px;
+  padding:14px;
+  border-radius:20px;
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.selected-title{
   font-size:14px;
-  color:#aaa;
+  font-weight:800;
+}
+
+.selected-sub{
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.selected-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+.selected-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:36px;
+  padding:0 12px;
+  border-radius:999px;
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+  font-size:13px;
+  font-weight:700;
+}
+
+.selected-chip button{
+  border:none;
+  background:none;
+  color:var(--danger);
+  font-size:14px;
+  font-weight:900;
+  padding:0;
+  line-height:1;
+}
+
+.empty-text{
+  margin-top:12px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:16px;
+}
+
+.btn{
+  position:relative;
+  overflow:hidden;
+  min-height:56px;
+  border:none;
+  border-radius:18px;
+  padding:0 18px;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  transition:
+    transform .18s var(--ease),
+    opacity .18s ease,
+    box-shadow .18s ease;
+}
+
+.btn:active{
+  transform:scale(.985);
+}
+
+.btn[disabled]{
+  opacity:.55;
+}
+
+.btn-primary{
+  color:#fff;
+  background:linear-gradient(135deg,#1f2937 0%, #111827 100%);
+  box-shadow:0 12px 24px rgba(17,24,39,.16);
+}
+
+.btn-secondary{
+  color:var(--text);
+  background:#fff;
+  border:1px solid var(--line-strong);
+}
+
+.btn-ghost{
+  width:100%;
+  margin-top:12px;
+  min-height:50px;
+  color:var(--muted);
+  background:transparent;
+  border:1px dashed var(--line-strong);
+}
+
+.review{
+  display:none;
+}
+
+.review-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.review-title{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+
+.review-status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  background:#ecfdf3;
+  color:#15803d;
+  font-size:12px;
+  font-weight:800;
+  border:1px solid #bbf7d0;
+}
+
+.review-box{
+  margin-top:14px;
+  padding:14px;
+  border-radius:20px;
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.review-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.review-row:last-child{
+  border-bottom:none;
+}
+
+.review-key{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.review-val{
+  text-align:right;
+  font-size:14px;
+  font-weight:800;
+}
+
+.review-days{
+  margin-top:14px;
+}
+
+.review-days-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+
+.review-note{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid var(--line);
+  font-size:14px;
+  line-height:1.7;
+  color:var(--text);
+}
+
+.loading{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.58);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+  z-index:50;
+}
+
+.loading.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.loading-box{
+  width:180px;
+  text-align:center;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:18px 16px 16px;
+}
+
+.spinner{
+  width:36px;
+  height:36px;
+  margin:0 auto 12px;
+  border-radius:999px;
+  border:3px solid #dbeafe;
+  border-top-color:var(--brand);
+  animation:spin .8s linear infinite;
+}
+
+.loading-title{
+  font-size:14px;
+  font-weight:800;
+}
+
+.loading-sub{
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:calc(20px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(14px);
+  min-width:170px;
+  max-width:calc(100vw - 32px);
+  padding:13px 16px;
+  border-radius:999px;
+  background:#111827;
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  text-align:center;
+  box-shadow:0 14px 30px rgba(17,24,39,.24);
+  opacity:0;
+  pointer-events:none;
+  transition:
+    opacity .18s ease,
+    transform .22s var(--ease);
+  z-index:60;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+.hidden{
+  display:none !important;
+}
+
+@keyframes enterUp{
+  from{
+    opacity:0;
+    transform:translateY(18px) scale(.985);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none !important;
+    transition:none !important;
+  }
 }
 </style>
 </head>
-
 <body>
+<div class="app">
+  <section class="hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      休み希望
+    </div>
+    <h1 id="pageTitle">--年--月 シフト希望</h1>
+    <p id="pageSubtitle">対象月の休み希望をカレンダーから選択してください。</p>
+  </section>
 
-<div class="wrap">
+  <section class="card" id="formCard">
+    <div class="driver">
+      <div class="avatar" id="avatarText">石</div>
+      <div>
+        <div class="driver-name" id="driverName">石塚 歩汰</div>
+        <div class="driver-site" id="driverSite">川口領家 Amazon</div>
+      </div>
+    </div>
 
-  <div class="header">休み希望</div>
+    <div class="info-row">
+      <div class="chip" id="targetMonthChip">対象月: --</div>
+      <div class="chip" id="deadlineChip">締切: 毎月13日</div>
+    </div>
 
-  <div id="calendar" class="calendar"></div>
+    <div class="notice" id="ruleNotice">
+      <strong>提出ルール</strong><br>
+      毎月1日〜13日は翌月分、14日以降は翌々月分の休み希望を提出します。
+    </div>
 
-  <div class="selected-list" id="selectedList">
-    未選択
-  </div>
+    <div class="calendar-card">
+      <div class="calendar-head">
+        <div class="calendar-title" id="calendarTitle">--年 --月</div>
+        <div class="calendar-sub" id="calendarSub">タップで選択・解除できます</div>
+      </div>
 
-  <button class="btn" onclick="submit()">送信する</button>
+      <div class="weekdays">
+        <div class="weekday">日</div>
+        <div class="weekday">月</div>
+        <div class="weekday">火</div>
+        <div class="weekday">水</div>
+        <div class="weekday">木</div>
+        <div class="weekday">金</div>
+        <div class="weekday">土</div>
+      </div>
 
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="label">備考（任意）</div>
+      <textarea class="textarea" id="note" placeholder="例：通院のため / 私用のため"></textarea>
+    </div>
+
+    <div class="selected-wrap">
+      <div class="selected-title">選択中の休み希望</div>
+      <div class="selected-sub">ここに選択済みの日付が表示されます</div>
+      <div class="selected-list" id="selectedList"></div>
+      <div class="empty-text" id="emptyText">まだ選択されていません</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="resetSelection()">選択をリセット</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitHoliday()">送信する</button>
+    </div>
+  </section>
+
+  <section class="card review" id="reviewCard">
+    <div class="review-head">
+      <div class="review-title">提出内容の確認</div>
+      <div class="review-status">保存済み</div>
+    </div>
+
+    <div class="review-box">
+      <div class="review-row">
+        <div class="review-key">対象月</div>
+        <div class="review-val" id="reviewMonth">-</div>
+      </div>
+      <div class="review-row">
+        <div class="review-key">更新日時</div>
+        <div class="review-val" id="reviewUpdatedAt">-</div>
+      </div>
+      <div class="review-row">
+        <div class="review-key">希望日数</div>
+        <div class="review-val" id="reviewCount">-</div>
+      </div>
+    </div>
+
+    <div class="review-days">
+      <div class="label">提出済みの休み希望</div>
+      <div class="review-days-list" id="reviewDaysList"></div>
+    </div>
+
+    <div class="review-note" id="reviewNoteBox">備考なし</div>
+
+    <button class="btn btn-primary" style="margin-top:16px;" onclick="openEditMode()">内容を変更する</button>
+    <button class="btn btn-ghost" onclick="backToReview()">確認画面を更新する</button>
+  </section>
 </div>
 
+<div class="loading" id="loading">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <div class="loading-title" id="loadingTitle">処理中...</div>
+    <div class="loading-sub" id="loadingSub">しばらくお待ちください</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-const selected = [];
-const today = new Date();
+/*
+  holiday.html
+  - 白ベース統一UI
+  - 3:00切替
+  - 13日締切ルール
+  - 送信後確認画面
+  - 再訪時は既存データ読込
+  - 保存は userId + targetYearMonth の最新1件を更新
+*/
 
-/* カレンダー生成 */
-function generateCalendar(){
-  const cal = document.getElementById("calendar");
-  cal.innerHTML = "";
+const API_URL = ""; // Apps Script Web App URL
+const USER_ID = "LINE_USER_ID_SAMPLE";
 
-  const year = today.getFullYear();
-  const month = today.getMonth();
+const state = {
+  driverName: "石塚 歩汰",
+  siteName: "川口領家 Amazon",
+  targetYear: 0,
+  targetMonth: 0,
+  targetYearMonth: "",
+  selectedDates: [],
+  savedDates: [],
+  savedNote: "",
+  updatedAt: "",
+  mode: "form" // form | review
+};
 
-  const lastDay = new Date(year, month+1, 0).getDate();
+const $ = (id) => document.getElementById(id);
 
-  for(let i=1;i<=lastDay;i++){
-    const div = document.createElement("div");
-    div.className="day";
-    div.innerText=i;
+function getBusinessNow(){
+  const now = new Date();
+  if(now.getHours() < 3){
+    now.setDate(now.getDate() - 1);
+  }
+  return now;
+}
 
-    if(i === today.getDate()){
-      div.classList.add("today");
+function getTargetMonthInfo(baseDate){
+  const date = new Date(baseDate);
+  const cutoffDay = 13;
+  const addMonths = date.getDate() <= cutoffDay ? 1 : 2;
+
+  const target = new Date(date.getFullYear(), date.getMonth() + addMonths, 1);
+  const year = target.getFullYear();
+  const month = target.getMonth() + 1;
+  const ym = `${year}-${String(month).padStart(2, "0")}`;
+
+  return { year, month, yearMonth: ym };
+}
+
+function formatDateJP(dateString){
+  const [y, m, d] = dateString.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return new Intl.DateTimeFormat("ja-JP", {
+    month: "numeric",
+    day: "numeric",
+    weekday: "short"
+  }).format(date);
+}
+
+function formatDateTimeJP(date){
+  if(!date) return "-";
+  const d = new Date(date);
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(d);
+}
+
+function initialsFromName(name){
+  return name ? name.trim().charAt(0) : "人";
+}
+
+function showLoading(title, sub){
+  $("loadingTitle").textContent = title || "処理中...";
+  $("loadingSub").textContent = sub || "しばらくお待ちください";
+  $("loading").classList.add("show");
+}
+
+function hideLoading(){
+  $("loading").classList.remove("show");
+}
+
+function showToast(message){
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
+}
+
+function setPageText(){
+  const monthText = `${state.targetYear}年${state.targetMonth}月`;
+  $("pageTitle").textContent = `${monthText} シフト希望`;
+  $("pageSubtitle").textContent = `${monthText}の休み希望をカレンダーから選択してください。`;
+  $("calendarTitle").textContent = `${state.targetYear}年 ${state.targetMonth}月`;
+  $("targetMonthChip").textContent = `対象月: ${monthText}`;
+  $("reviewMonth").textContent = monthText;
+}
+
+function renderDriver(){
+  $("avatarText").textContent = initialsFromName(state.driverName);
+  $("driverName").textContent = state.driverName;
+  $("driverSite").textContent = state.siteName;
+}
+
+function renderCalendar(){
+  const grid = $("calendarGrid");
+  grid.innerHTML = "";
+
+  const firstDay = new Date(state.targetYear, state.targetMonth - 1, 1);
+  const lastDate = new Date(state.targetYear, state.targetMonth, 0).getDate();
+  const startWeekday = firstDay.getDay();
+
+  for(let i = 0; i < startWeekday; i++){
+    const empty = document.createElement("div");
+    empty.className = "day empty";
+    grid.appendChild(empty);
+  }
+
+  const businessNow = getBusinessNow();
+  const todayY = businessNow.getFullYear();
+  const todayM = businessNow.getMonth() + 1;
+  const todayD = businessNow.getDate();
+
+  for(let day = 1; day <= lastDate; day++){
+    const dateKey = `${state.targetYear}-${String(state.targetMonth).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "day";
+
+    if(
+      state.targetYear === todayY &&
+      state.targetMonth === todayM &&
+      day === todayD
+    ){
+      btn.classList.add("today");
     }
 
-    div.onclick = ()=>{
-      toggleDate(i, div);
+    if(state.selectedDates.includes(dateKey)){
+      btn.classList.add("selected");
+    }
+
+    btn.innerHTML = `
+      <span class="day-no">${day}</span>
+      ${(state.targetYear === todayY && state.targetMonth === todayM && day === todayD) ? '<span class="today-mark"></span>' : ''}
+    `;
+
+    btn.addEventListener("click", () => toggleDate(dateKey));
+
+    grid.appendChild(btn);
+  }
+}
+
+function toggleDate(dateKey){
+  const index = state.selectedDates.indexOf(dateKey);
+  if(index >= 0){
+    state.selectedDates.splice(index, 1);
+  } else {
+    state.selectedDates.push(dateKey);
+    state.selectedDates.sort();
+  }
+  renderCalendar();
+  renderSelectedList();
+}
+
+function renderSelectedList(){
+  const list = $("selectedList");
+  const empty = $("emptyText");
+  list.innerHTML = "";
+
+  if(state.selectedDates.length === 0){
+    empty.style.display = "block";
+    return;
+  }
+
+  empty.style.display = "none";
+
+  state.selectedDates.forEach((date, index) => {
+    const chip = document.createElement("div");
+    chip.className = "selected-chip";
+    chip.innerHTML = `
+      <span>${formatDateJP(date)}</span>
+      <button type="button" aria-label="削除" data-index="${index}">×</button>
+    `;
+    chip.querySelector("button").addEventListener("click", () => {
+      state.selectedDates.splice(index, 1);
+      renderCalendar();
+      renderSelectedList();
+    });
+    list.appendChild(chip);
+  });
+}
+
+function resetSelection(){
+  state.selectedDates = [];
+  renderCalendar();
+  renderSelectedList();
+  showToast("選択をリセットしました");
+}
+
+function openReviewMode(){
+  state.mode = "review";
+  $("formCard").style.display = "none";
+  $("reviewCard").style.display = "block";
+  renderReview();
+}
+
+function openEditMode(){
+  state.mode = "form";
+  $("reviewCard").style.display = "none";
+  $("formCard").style.display = "block";
+  $("note").value = state.savedNote || $("note").value || "";
+  state.selectedDates = [...state.savedDates];
+  renderCalendar();
+  renderSelectedList();
+}
+
+function backToReview(){
+  renderReview();
+  showToast("確認内容を更新しました");
+}
+
+function renderReview(){
+  $("reviewUpdatedAt").textContent = formatDateTimeJP(state.updatedAt);
+  $("reviewCount").textContent = `${state.savedDates.length}日`;
+  $("reviewNoteBox").textContent = state.savedNote ? state.savedNote : "備考なし";
+
+  const list = $("reviewDaysList");
+  list.innerHTML = "";
+
+  if(state.savedDates.length === 0){
+    const empty = document.createElement("div");
+    empty.className = "empty-text";
+    empty.textContent = "提出済みの日付はありません";
+    list.appendChild(empty);
+    return;
+  }
+
+  state.savedDates.forEach((date) => {
+    const chip = document.createElement("div");
+    chip.className = "selected-chip";
+    chip.innerHTML = `<span>${formatDateJP(date)}</span>`;
+    list.appendChild(chip);
+  });
+}
+
+async function fetchExistingHoliday(){
+  if(!API_URL){
+    return null;
+  }
+
+  const url = `${API_URL}?type=holiday_load&userId=${encodeURIComponent(USER_ID)}&targetYearMonth=${encodeURIComponent(state.targetYearMonth)}`;
+  const response = await fetch(url, { method: "GET" });
+
+  if(!response.ok){
+    throw new Error("保存済みデータの取得に失敗しました");
+  }
+
+  return await response.json();
+}
+
+async function saveHoliday(payload){
+  if(!API_URL){
+    await new Promise(resolve => setTimeout(resolve, 900));
+    return {
+      ok: true,
+      updatedAt: new Date().toISOString()
     };
-
-    cal.appendChild(div);
-  }
-}
-
-/* 選択 */
-function toggleDate(day, el){
-  const key = day;
-
-  if(selected.includes(key)){
-    selected.splice(selected.indexOf(key),1);
-    el.classList.remove("selected");
-  }else{
-    selected.push(key);
-    el.classList.add("selected");
   }
 
-  renderList();
-}
-
-/* 表示 */
-function renderList(){
-  const list = document.getElementById("selectedList");
-
-  if(selected.length === 0){
-    list.innerText="未選択";
-    return;
-  }
-
-  list.innerText = "選択: " + selected.join(", ");
-}
-
-/* 送信 */
-function submit(){
-  if(selected.length === 0){
-    alert("選択してください");
-    return;
-  }
-
-  fetch("YOUR_GAS_URL",{
-    method:"POST",
-    body:JSON.stringify({
-      type:"holiday",
-      dates:selected
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+      type: "holiday_save",
+      userId: USER_ID,
+      ...payload
     })
   });
 
-  alert("送信しました");
+  if(!response.ok){
+    throw new Error("送信に失敗しました");
+  }
+
+  return await response.json();
 }
 
-generateCalendar();
-</script>
+async function loadPage(){
+  try{
+    showLoading("読込中...", "前回の内容を確認しています");
 
+    const existing = await fetchExistingHoliday();
+
+    if(existing && existing.found){
+      state.savedDates = Array.isArray(existing.dates) ? existing.dates : [];
+      state.savedNote = existing.note || "";
+      state.updatedAt = existing.updatedAt || "";
+      state.selectedDates = [...state.savedDates];
+      $("note").value = state.savedNote;
+      renderCalendar();
+      renderSelectedList();
+      openReviewMode();
+    } else {
+      state.selectedDates = [];
+      renderCalendar();
+      renderSelectedList();
+    }
+  } catch(error){
+    renderCalendar();
+    renderSelectedList();
+    showToast("初期読込に失敗しました");
+  } finally{
+    hideLoading();
+  }
+}
+
+async function submitHoliday(){
+  if(state.selectedDates.length === 0){
+    showToast("休み希望日を選択してください");
+    return;
+  }
+
+  const note = $("note").value.trim();
+  const btn = $("submitBtn");
+
+  try{
+    btn.disabled = true;
+    showLoading("送信中...", "休み希望を保存しています");
+
+    const result = await saveHoliday({
+      targetYearMonth: state.targetYearMonth,
+      targetYear: state.targetYear,
+      targetMonth: state.targetMonth,
+      dates: state.selectedDates,
+      note
+    });
+
+    state.savedDates = [...state.selectedDates];
+    state.savedNote = note;
+    state.updatedAt = result.updatedAt || new Date().toISOString();
+
+    openReviewMode();
+    showToast("休み希望を保存しました");
+  } catch(error){
+    showToast(error.message || "エラーが発生しました");
+  } finally{
+    btn.disabled = false;
+    hideLoading();
+  }
+}
+
+function init(){
+  const businessNow = getBusinessNow();
+  const target = getTargetMonthInfo(businessNow);
+
+  state.targetYear = target.year;
+  state.targetMonth = target.month;
+  state.targetYearMonth = target.yearMonth;
+
+  renderDriver();
+  setPageText();
+  loadPage();
+}
+
+init();
+</script>
 </body>
 </html>
