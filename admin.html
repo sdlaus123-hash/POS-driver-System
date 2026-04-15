@@ -3,333 +3,577 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>POMS 管理画面</title>
+<title>POMS Admin</title>
 <style>
 :root{
-  --bg-page:#0b0d12;
-  --bg-card:rgba(255,255,255,.04);
-  --bg-card-hover:rgba(255,255,255,.07);
-  --border:rgba(255,255,255,.08);
-  --border-strong:rgba(255,255,255,.14);
-  --text:#f0f2f7;
-  --muted:#8a93a8;
-  --hint:#4e5668;
-  --accent:#6c8fff;
-  --green:#22c55e;
-  --green-bg:rgba(34,197,94,.12);
-  --amber:#f59e0b;
-  --amber-bg:rgba(245,158,11,.10);
-  --indigo:#818cf8;
-  --indigo-bg:rgba(129,140,248,.12);
-  --ease:cubic-bezier(.22,1,.36,1);
+  --bg:#f4f8ff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5edf6;
+  --blue:#2563eb;
+  --violet:#7c3aed;
+  --pink:#db2777;
+  --amber:#f59e0b;
+  --green:#16a34a;
+  --red:#dc2626;
+  --card:#ffffffcc;
+  --shadow:0 20px 50px rgba(15,23,42,.12);
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0;}
-html,body{min-height:100%;background:var(--bg-page);}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
-  color:var(--text);
-  padding:0;
-  overflow-x:hidden;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  margin:0;min-height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 420px at 0% 0%, #bfdbfe 0%, transparent 45%),
+    radial-gradient(900px 420px at 100% 0%, #ddd6fe 0%, transparent 45%),
+    radial-gradient(800px 420px at 50% 100%, #fed7aa 0%, transparent 42%),
+    linear-gradient(180deg,#f8fbff 0%, #f4f8ff 100%);
 }
-body::after{
-  content:"";
-  position:fixed;top:-200px;left:50%;transform:translateX(-50%);
-  width:700px;height:500px;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse at 50% 0%, rgba(108,143,255,.10) 0%, transparent 65%);
+body{padding:14px 14px 98px}
+.app{max-width:1400px;margin:0 auto}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:18px}
+.sidebar{
+  position:sticky;top:16px;height:calc(100vh - 32px);overflow:auto;
+  padding:18px;border-radius:30px;background:rgba(255,255,255,.76);
+  backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow)
 }
-.app{
-  position:relative;z-index:1;
-  width:min(100%,480px);
-  margin:0 auto;
-  padding:0 16px 100px;
+.brand{
+  display:flex;align-items:center;gap:12px;padding:12px;border-radius:22px;
+  background:linear-gradient(135deg,#111827,#1d4ed8 55%,#7c3aed);color:#fff
 }
-.header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:max(24px,env(safe-area-inset-top,24px)) 0 20px;
+.brand-mark{width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-weight:900;font-size:20px}
+.brand h1{margin:0;font-size:17px;line-height:1.1}
+.brand p{margin:4px 0 0;font-size:12px;opacity:.82}
+.nav{display:grid;gap:10px;margin-top:18px}
+.nav a{
+  text-decoration:none;color:var(--text);display:flex;align-items:center;gap:12px;
+  padding:14px;border-radius:18px;background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 8px 20px rgba(15,23,42,.05);font-weight:800
 }
-.header-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
-.header-title{font-size:26px;font-weight:800;letter-spacing:-.03em;}
-.header-date{font-size:13px;color:var(--muted);margin-top:3px;}
-.avatar-btn{
-  width:40px;height:40px;border-radius:999px;
-  background:linear-gradient(135deg,#6c8fff,#a78bfa);
-  display:grid;place-items:center;
-  font-size:14px;font-weight:800;color:#fff;
-  border:none;cursor:pointer;flex-shrink:0;
+.nav a.active{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}
+.nav .icon{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.8);font-size:14px;color:#111827}
+.nav a.active .icon{background:rgba(255,255,255,.18);color:#fff}
+.side-card{margin-top:18px;padding:16px;border-radius:24px;background:linear-gradient(135deg,#eff6ff,#ede9fe);border:1px solid #dbeafe}
+.side-card .label{font-size:12px;color:var(--muted);font-weight:800}
+.side-card .value{margin-top:8px;font-size:28px;font-weight:900;letter-spacing:-.04em}
+.side-card .sub{margin-top:6px;font-size:12px;color:var(--muted)}
+
+.hero{
+  position:relative;overflow:hidden;padding:22px;border-radius:34px;
+  background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.74));
+  border:1px solid rgba(255,255,255,.95);backdrop-filter:blur(18px);box-shadow:var(--shadow)
 }
-.divider{height:1px;background:var(--border);margin:0 0 22px;}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px;}
-.kpi-card{
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:18px;padding:14px 12px 16px;
-  transition:background .2s var(--ease),border-color .2s;
+.hero:before{
+  content:"";position:absolute;right:-50px;top:-50px;width:240px;height:240px;border-radius:999px;
+  background:radial-gradient(circle, rgba(124,58,237,.24), transparent 65%)
 }
-.kpi-card:hover{background:var(--bg-card-hover);border-color:var(--border-strong);}
-.kpi-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;margin-bottom:10px;}
-.kpi-icon.green{background:var(--green-bg);}
-.kpi-icon.amber{background:var(--amber-bg);}
-.kpi-icon.indigo{background:var(--indigo-bg);}
-.kpi-label{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
-.kpi-value{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-top:2px;line-height:1;}
-.kpi-sub{font-size:10px;color:var(--hint);margin-top:4px;}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.section-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
-.section-action{font-size:12px;color:var(--accent);font-weight:600;cursor:pointer;border:none;background:none;padding:0;}
-.sites{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
-.site-card{
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:22px;padding:18px 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  cursor:pointer;
-  transition:background .18s var(--ease),border-color .18s,transform .15s var(--ease);
-  position:relative;overflow:hidden;
+.hero:after{
+  content:"";position:absolute;left:-60px;bottom:-80px;width:220px;height:220px;border-radius:999px;
+  background:radial-gradient(circle, rgba(37,99,235,.18), transparent 65%)
 }
-.site-card:hover{background:var(--bg-card-hover);border-color:var(--border-strong);}
-.site-card:active{transform:scale(.99);}
-.site-card.selected{border-color:rgba(108,143,255,.38);background:rgba(108,143,255,.055);}
-.site-card.selected::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:0 2px 2px 0;}
-.site-name{font-size:16px;font-weight:700;letter-spacing:-.01em;}
-.site-meta{font-size:12px;color:var(--muted);margin-top:3px;}
-.site-count{font-size:32px;font-weight:800;letter-spacing:-.04em;line-height:1;}
-.site-count-label{font-size:10px;color:var(--hint);text-align:right;margin-top:2px;}
-.drivers-section{margin-bottom:24px;}
-.driver-list{display:flex;flex-direction:column;gap:8px;}
-.driver-card{
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:16px;padding:14px 16px;
-  display:flex;align-items:center;gap:12px;
-  transition:background .18s var(--ease);
-  animation:slideUp .3s var(--ease) both;
+.badge{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+  background:linear-gradient(135deg,#dbeafe,#ede9fe);font-size:12px;font-weight:900;color:#312e81
 }
-.driver-card:hover{background:var(--bg-card-hover);}
-.driver-avatar{
-  width:40px;height:40px;border-radius:14px;
-  display:grid;place-items:center;
-  font-size:15px;font-weight:800;flex-shrink:0;
+.badge .dot{width:8px;height:8px;border-radius:999px;background:#7c3aed}
+.hero-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hero h2{margin:14px 0 10px;font-size:40px;line-height:1.04;letter-spacing:-.06em;max-width:780px}
+.hero p{margin:0;max-width:760px;font-size:14px;line-height:1.82;color:var(--muted)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  min-height:48px;padding:0 16px;border:none;border-radius:16px;cursor:pointer;
+  font-size:13px;font-weight:900;box-shadow:0 10px 24px rgba(15,23,42,.08)
 }
-.driver-name{font-size:15px;font-weight:700;letter-spacing:-.01em;}
-.driver-role{font-size:12px;color:var(--muted);margin-top:2px;}
-.pill{font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;white-space:nowrap;}
-.pill.ok{background:var(--green-bg);color:#4ade80;}
-.pill.warn{background:var(--amber-bg);color:#fbbf24;}
-.pill.off{background:var(--indigo-bg);color:#a5b4fc;}
-.empty{
-  text-align:center;padding:36px 16px;color:var(--hint);font-size:14px;
-  border:1px dashed var(--border);border-radius:20px;line-height:1.7;
+.btn.dark{background:#111827;color:#fff}
+.btn.light{background:#fff;color:#111827}
+
+.month{
+  margin-top:18px;padding:14px;border-radius:24px;
+  display:grid;grid-template-columns:56px 1fr 56px;gap:12px;align-items:center;
+  background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.95)
 }
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:10;
-  background:rgba(11,13,18,.88);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-top:1px solid var(--border);
-  padding:10px 0 max(16px,env(safe-area-inset-bottom,16px));
-  display:flex;justify-content:space-around;
+.month-btn{
+  width:56px;height:56px;border:none;border-radius:18px;cursor:pointer;color:#fff;font-size:24px;font-weight:900;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 12px 24px rgba(79,70,229,.22)
 }
-.nav-item{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  font-size:10px;font-weight:600;color:var(--hint);
-  cursor:pointer;border:none;background:none;padding:2px 22px;
-  transition:color .18s;
+.month-center{text-align:center}
+.month-center .small{font-size:12px;color:var(--muted);font-weight:800}
+.month-center .big{margin-top:4px;font-size:24px;font-weight:900;letter-spacing:-.05em}
+.month-chips{margin-top:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.month-chip{padding:7px 12px;border-radius:999px;background:#fff;border:1px solid #dbeafe;font-size:11px;font-weight:800;color:#475569}
+.month-chip.active{background:#111827;color:#fff;border-color:#111827}
+
+.mobile-kpis{display:none;margin-top:16px;gap:10px;overflow-x:auto;padding-bottom:2px}
+.mobile-kpis::-webkit-scrollbar{display:none}
+.mobile-kpi{min-width:220px;padding:16px;border-radius:22px;color:#fff;box-shadow:0 16px 34px rgba(15,23,42,.12)}
+.mobile-kpi.blue{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+.mobile-kpi.violet{background:linear-gradient(135deg,#7c3aed,#4f46e5)}
+.mobile-kpi.amber{background:linear-gradient(135deg,#f59e0b,#ea580c)}
+.mobile-kpi.green{background:linear-gradient(135deg,#16a34a,#059669)}
+.mobile-kpi .label{font-size:12px;font-weight:800}
+.mobile-kpi .value{margin-top:8px;font-size:30px;font-weight:900;letter-spacing:-.05em}
+.mobile-kpi .sub{margin-top:8px;font-size:12px;opacity:.9}
+
+.kpis{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{
+  position:relative;overflow:hidden;padding:18px;border-radius:26px;color:#fff;
+  box-shadow:0 16px 34px rgba(15,23,42,.12)
 }
-.nav-item.active{color:var(--accent);}
-.nav-dot{
-  width:22px;height:22px;border-radius:8px;
-  display:grid;place-items:center;margin-bottom:1px;
+.kpi:after{content:"";position:absolute;right:-18px;top:-18px;width:88px;height:88px;border-radius:999px;background:rgba(255,255,255,.16)}
+.kpi.blue{background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+.kpi.violet{background:linear-gradient(135deg,#7c3aed,#4f46e5)}
+.kpi.amber{background:linear-gradient(135deg,#f59e0b,#ea580c)}
+.kpi.green{background:linear-gradient(135deg,#16a34a,#059669)}
+.kpi .label{font-size:12px;font-weight:800;opacity:.92}
+.kpi .value{margin-top:10px;font-size:36px;line-height:1;font-weight:900;letter-spacing:-.05em}
+.kpi .sub{margin-top:10px;font-size:12px;opacity:.9}
+
+.main{margin-top:18px;display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+.stack{display:grid;gap:18px}
+.panel{
+  padding:16px;border-radius:30px;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.78));
+  border:1px solid rgba(255,255,255,.95);backdrop-filter:blur(18px);box-shadow:var(--shadow)
 }
-.nav-item.active .nav-dot{background:rgba(108,143,255,.14);}
-.fade-in{animation:fadeIn .4s var(--ease) both;}
-@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
+.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
+.panel-title{font-size:22px;font-weight:900;letter-spacing:-.05em}
+.panel-sub{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.7}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:900}
+.pill.blue{background:#dbeafe;color:#1d4ed8}
+.pill.green{background:#dcfce7;color:#166534}
+.pill.amber{background:#fef3c7;color:#92400e}
+.pill.gray{background:#f8fafc;color:#64748b;border:1px solid #e5edf6}
+
+.focus-list,.driver-list,.card-list{display:grid;gap:12px}
+.focus{
+  display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  padding:14px;border-radius:22px;background:#fff;border:1px solid #e5edf6;box-shadow:0 4px 14px rgba(15,23,42,.05)
+}
+.focus-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:900}
+.focus-icon.red{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.focus-icon.amber{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.focus-icon.blue{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+.focus .title{font-size:14px;font-weight:900}
+.focus .text{margin-top:4px;font-size:12px;color:var(--muted);line-height:1.6}
+.action{min-height:42px;padding:0 12px;border:none;border-radius:12px;background:#111827;color:#fff;font-size:12px;font-weight:900;cursor:pointer}
+
+.site-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.site{
+  position:relative;overflow:hidden;padding:16px;border-radius:26px;cursor:pointer;
+  background:linear-gradient(135deg,#ffffff,#f8fbff);border:1px solid #e5edf6;box-shadow:0 10px 24px rgba(15,23,42,.06)
+}
+.site:before{content:"";position:absolute;left:-28px;bottom:-28px;width:120px;height:120px;border-radius:999px;background:radial-gradient(circle, rgba(37,99,235,.10), transparent 70%)}
+.site.active{border-color:#bfdbfe;box-shadow:0 18px 36px rgba(37,99,235,.12)}
+.site .name{font-size:18px;font-weight:900}
+.site .meta{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.site .bottom{margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end}
+.site .count{font-size:34px;font-weight:900;letter-spacing:-.06em}
+.site .small{font-size:12px;color:var(--muted);font-weight:800}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.search,.select{
+  min-height:44px;padding:0 14px;border-radius:14px;border:1px solid #e5edf6;background:#fff;
+  color:var(--text);font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(15,23,42,.04)
+}
+.search{flex:1 1 240px}
+
+.driver{
+  display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  padding:16px;border-radius:22px;background:#fff;border:1px solid #e5edf6;box-shadow:0 4px 14px rgba(15,23,42,.05)
+}
+.avatar{
+  width:50px;height:50px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#dbeafe,#ede9fe);color:#1d4ed8;font-weight:900;font-size:18px
+}
+.driver .name{font-size:15px;font-weight:900}
+.driver .meta{margin-top:6px;font-size:13px;color:var(--muted);line-height:1.6}
+.driver-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px}
+.mini-btn{min-height:40px;padding:0 12px;border-radius:12px;border:1px solid #e5edf6;background:#fff;color:#111827;font-size:12px;font-weight:900;cursor:pointer}
+.status{
+  min-height:34px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900
+}
+.status.working{background:#dcfce7;color:#166534}
+.status.warning{background:#fef3c7;color:#92400e}
+.status.off{background:#e0e7ff;color:#3730a3}
+.status.inactive{background:#f1f5f9;color:#64748b}
+
+.card{
+  padding:16px;border-radius:22px;background:#fff;border:1px solid #e5edf6;box-shadow:0 4px 14px rgba(15,23,42,.05)
+}
+.card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card .name{font-size:15px;font-weight:900}
+.card .sub{margin-top:4px;font-size:12px;color:var(--muted)}
+.card .value{font-size:24px;font-weight:900;letter-spacing:-.04em;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{
+  min-height:30px;padding:0 10px;border-radius:999px;background:#f8fafc;border:1px solid #e5edf6;
+  display:inline-flex;align-items:center;font-size:11px;font-weight:800;color:#64748b
+}
+
+.mobile-nav{
+  display:none;position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:90;
+  padding:8px;grid-template-columns:repeat(5,1fr);gap:6px;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.96);border-radius:24px;box-shadow:var(--shadow)
+}
+.mobile-nav button{min-height:60px;border:none;background:transparent;border-radius:16px;color:var(--muted);font-size:11px;font-weight:850}
+.mobile-nav button.active{background:#fff;color:#111827;box-shadow:0 8px 18px rgba(15,23,42,.06)}
+.mobile-nav .icon{display:block;font-size:16px;line-height:1;margin-bottom:6px}
+
+@media (max-width:1180px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto}
+  .main{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:860px){
+  .sidebar{display:none}
+  .mobile-nav{display:grid}
+  .hero{padding:16px;border-radius:28px}
+  .hero-top{display:block}
+  .hero h2{font-size:28px;line-height:1.06}
+  .hero p{font-size:13px;line-height:1.75}
+  .cta{margin-top:14px;width:100%}
+  .cta .btn{flex:1 1 calc(50% - 6px)}
+  .month{margin-top:14px}
+  .kpis{display:none}
+  .mobile-kpis{display:flex}
+  .site-grid{grid-template-columns:1fr}
+  .panel{padding:14px;border-radius:24px}
+  .panel-title{font-size:20px}
+  .panel-sub{font-size:12px;line-height:1.65}
+  .driver{grid-template-columns:1fr}
+  .driver>.status{justify-self:start;margin-top:2px}
+  .driver .name{font-size:16px}
+  .driver .meta{font-size:13px}
+  .driver-actions{justify-content:flex-start}
+  .focus{grid-template-columns:auto 1fr}
+  .focus>.action{grid-column:1 / -1}
+  .card-top{display:block}
+  .card .value{text-align:left;margin-top:10px}
+}
+@media (max-width:520px){
+  body{padding-left:8px;padding-right:8px}
+  .hero{padding:14px}
+  .hero h2{font-size:25px}
+  .cta .btn{flex:1 1 100%}
+  .month{grid-template-columns:44px 1fr 44px;padding:10px}
+  .month-btn{width:44px;height:44px;border-radius:14px}
+  .month-center .big{font-size:22px}
+  .mobile-kpi{min-width:210px}
+  .site .name{font-size:17px}
+  .driver{padding:14px}
+  .driver .meta{font-size:12px}
+  .mini-btn,.action{width:100%}
+  .driver-actions{display:grid;grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
-
 <div class="app">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <div>
+          <h1>POMS 管理画面</h1>
+          <p>Driver Operations Cockpit</p>
+        </div>
+      </div>
 
-  <div class="header fade-in">
-    <div>
-      <div class="header-eyebrow">POMS</div>
-      <div class="header-title">管理ダッシュボード</div>
-      <div class="header-date" id="headerDate"></div>
-    </div>
-    <div class="avatar-btn">管</div>
-  </div>
+      <div class="nav">
+        <a href="#" class="active"><span class="icon">⌂</span>ダッシュボード</a>
+        <a href="#"><span class="icon">◯</span>ドライバー</a>
+        <a href="#"><span class="icon">¥</span>前払い</a>
+        <a href="#"><span class="icon">☷</span>休み希望</a>
+        <a href="#"><span class="icon">✓</span>確定シフト</a>
+        <a href="#"><span class="icon">⟳</span>勤務修正</a>
+      </div>
 
-  <div class="divider"></div>
+      <div class="side-card">
+        <div class="label">選択中の月</div>
+        <div class="value">2026年5月</div>
+        <div class="sub">稼働率 87% / 前月比 +6%</div>
+      </div>
+    </aside>
 
-  <div class="kpi fade-in">
-    <div class="kpi-card">
-      <div class="kpi-icon green">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="3.5" fill="#22c55e"/>
-          <circle cx="7" cy="7" r="6" stroke="#22c55e" stroke-width="1.4" opacity=".35"/>
-        </svg>
-      </div>
-      <div class="kpi-label">稼働中</div>
-      <div class="kpi-value">8</div>
-      <div class="kpi-sub">今日</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon amber">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="5.5" stroke="#f59e0b" stroke-width="1.3" opacity=".4"/>
-          <path d="M7 3.5V7l2.5 1.5" stroke="#f59e0b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="kpi-label">未退勤</div>
-      <div class="kpi-value">2</div>
-      <div class="kpi-sub">要確認</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon indigo">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="2" y="3.5" width="10" height="8" rx="1.8" stroke="#818cf8" stroke-width="1.3" opacity=".45"/>
-          <path d="M4.5 3.5V3a.7.7 0 0 1 .7-.7h3.6a.7.7 0 0 1 .7.7v.5" stroke="#818cf8" stroke-width="1.3" stroke-linecap="round"/>
-          <path d="M4.5 7.5h5M4.5 9.5h3" stroke="#818cf8" stroke-width="1.1" stroke-linecap="round" opacity=".6"/>
-        </svg>
-      </div>
-      <div class="kpi-label">前払い</div>
-      <div class="kpi-value" style="font-size:16px;margin-top:4px;">¥240K</div>
-      <div class="kpi-sub">今月</div>
-    </div>
-  </div>
+    <main>
+      <section class="hero">
+        <div class="hero-top">
+          <div>
+            <div class="badge"><span class="dot"></span>管理画面</div>
+            <h2>迷わず見える。<br>一瞬で状況が分かる。</h2>
+            <p>新規ユーザーでも、まず何を見るべきか、次に何を押すべきかが自然に分かるように設計した管理ダッシュボードです。</p>
+          </div>
+          <div class="cta">
+            <button class="btn light">最新化</button>
+            <button class="btn light">スプレッドシート同期</button>
+            <button class="btn dark">CSV書き出し</button>
+          </div>
+        </div>
 
-  <div class="section-head fade-in">
-    <span class="section-label">現場</span>
-    <button class="section-action">全て見る →</button>
-  </div>
-  <div class="sites fade-in">
-    <div class="site-card" id="site-川口" onclick="selectSite('川口')">
-      <div>
-        <div class="site-name">川口 Amazon</div>
-        <div class="site-meta">埼玉県川口市 · 領家倉庫</div>
-      </div>
-      <div style="text-align:right;">
-        <div class="site-count">5</div>
-        <div class="site-count-label">名稼働</div>
-      </div>
-    </div>
-    <div class="site-card" id="site-新宿" onclick="selectSite('新宿')">
-      <div>
-        <div class="site-name">新宿 Amazon</div>
-        <div class="site-meta">東京都新宿区 · 西新宿拠点</div>
-      </div>
-      <div style="text-align:right;">
-        <div class="site-count">3</div>
-        <div class="site-count-label">名稼働</div>
-      </div>
-    </div>
-  </div>
+        <div class="month">
+          <button class="month-btn">‹</button>
+          <div class="month-center">
+            <div class="small">表示中の履歴</div>
+            <div class="big">2026年5月</div>
+            <div class="month-chips">
+              <span class="month-chip active">5月</span>
+              <span class="month-chip">4月</span>
+              <span class="month-chip">3月</span>
+            </div>
+          </div>
+          <button class="month-btn">›</button>
+        </div>
 
-  <div class="drivers-section">
-    <div class="section-head">
-      <span class="section-label" id="siteTitle">ドライバー</span>
-      <span id="driverCount" style="font-size:12px;color:var(--hint);"></span>
-    </div>
-    <div class="driver-list" id="driverList">
-      <div class="empty">現場カードをタップして<br>ドライバーを表示</div>
-    </div>
-  </div>
+        <div class="mobile-kpis">
+          <div class="mobile-kpi blue"><div class="label">本日稼働中</div><div class="value">8</div><div class="sub">現場全体の出勤中人数</div></div>
+          <div class="mobile-kpi violet"><div class="label">未退勤</div><div class="value">2</div><div class="sub">管理者確認が必要</div></div>
+          <div class="mobile-kpi amber"><div class="label">前払い合計</div><div class="value">¥240K</div><div class="sub">今月累計</div></div>
+          <div class="mobile-kpi green"><div class="label">稼働率</div><div class="value">87%</div><div class="sub">前月比 +6%</div></div>
+        </div>
 
+        <div class="kpis">
+          <div class="kpi blue"><div class="label">本日稼働中</div><div class="value">8</div><div class="sub">現場全体の出勤中人数</div></div>
+          <div class="kpi violet"><div class="label">未退勤</div><div class="value">2</div><div class="sub">管理者確認が必要</div></div>
+          <div class="kpi amber"><div class="label">前払い合計</div><div class="value">¥240K</div><div class="sub">今月累計</div></div>
+          <div class="kpi green"><div class="label">稼働率</div><div class="value">87%</div><div class="sub">前月比 +6%</div></div>
+        </div>
+      </section>
+
+      <div class="main">
+        <div class="stack">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">現場ダッシュボード</div>
+                <div class="panel-sub">現場ごとの人数と状態を確認し、タップで所属ドライバーへ移動できます。</div>
+              </div>
+              <div class="pill blue">全2現場 / 稼働中 8人</div>
+            </div>
+
+            <div class="site-grid">
+              <div class="site active">
+                <div class="name">川口領家 Amazon</div>
+                <div class="meta">
+                  <span class="pill green">安定</span>
+                  <span class="pill gray">未退勤 1人</span>
+                </div>
+                <div class="bottom">
+                  <div>
+                    <div class="count">5</div>
+                    <div class="small">現在稼働中</div>
+                  </div>
+                  <div class="small">所属 7人</div>
+                </div>
+              </div>
+
+              <div class="site">
+                <div class="name">新宿上落合 Amazon</div>
+                <div class="meta">
+                  <span class="pill amber">要確認</span>
+                  <span class="pill gray">未退勤 1人</span>
+                </div>
+                <div class="bottom">
+                  <div>
+                    <div class="count">3</div>
+                    <div class="small">現在稼働中</div>
+                  </div>
+                  <div class="small">所属 4人</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">選択中の現場</div>
+                <div class="panel-sub">ドライバーの状態、出勤時刻、修正導線を確認できます。</div>
+              </div>
+              <div class="toolbar">
+                <input class="search" placeholder="ドライバー名で絞り込み" />
+                <select class="select">
+                  <option>全状態</option>
+                  <option>稼働中</option>
+                  <option>未退勤</option>
+                  <option>休み</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="driver-list">
+              <div class="driver">
+                <div class="avatar">石</div>
+                <div>
+                  <div class="name">石塚 歩汰</div>
+                  <div class="meta">川口領家 Amazon ・ 日当 ・ 出勤 08:12 ・ 通常稼働</div>
+                  <div class="driver-actions">
+                    <button class="mini-btn">詳細</button>
+                    <button class="mini-btn">勤務修正</button>
+                  </div>
+                </div>
+                <div class="status working">稼働中</div>
+              </div>
+
+              <div class="driver">
+                <div class="avatar">田</div>
+                <div>
+                  <div class="name">田中 一樹</div>
+                  <div class="meta">川口領家 Amazon ・ 日当 ・ 出勤 08:30 ・ 前日分の修正要</div>
+                  <div class="driver-actions">
+                    <button class="mini-btn">詳細</button>
+                    <button class="mini-btn">勤務修正</button>
+                  </div>
+                </div>
+                <div class="status warning">未退勤</div>
+              </div>
+
+              <div class="driver">
+                <div class="avatar">佐</div>
+                <div>
+                  <div class="name">佐藤 優</div>
+                  <div class="meta">川口領家 Amazon ・ 歩合 ・ 出勤 - ・ 確定シフト休み</div>
+                  <div class="driver-actions">
+                    <button class="mini-btn">詳細</button>
+                    <button class="mini-btn">勤務修正</button>
+                  </div>
+                </div>
+                <div class="status off">休み</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="stack">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">まず確認すること</div>
+                <div class="panel-sub">優先度が高い項目を上から確認</div>
+              </div>
+              <div class="pill amber">3件</div>
+            </div>
+
+            <div class="focus-list">
+              <div class="focus">
+                <div class="focus-icon red">!</div>
+                <div>
+                  <div class="title">未退勤が2人います</div>
+                  <div class="text">川口領家1人、新宿上落合1人。退勤漏れの確認を優先してください。</div>
+                </div>
+                <button class="action">確認</button>
+              </div>
+
+              <div class="focus">
+                <div class="focus-icon amber">△</div>
+                <div>
+                  <div class="title">川口領家の前払い比率が高めです</div>
+                  <div class="text">今月の前払い申請人数が通常月より多い状態です。</div>
+                </div>
+                <button class="action">見る</button>
+              </div>
+
+              <div class="focus">
+                <div class="focus-icon blue">i</div>
+                <div>
+                  <div class="title">新宿上落合の明日休み人数が多いです</div>
+                  <div class="text">確定シフト上、通常より人数が薄くなる見込みです。</div>
+                </div>
+                <button class="action">調整</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">前払い一覧</div>
+                <div class="panel-sub">回数と合計金額を月ごとに確認できます。</div>
+              </div>
+              <div class="pill blue">今月 3人</div>
+            </div>
+
+            <div class="card-list">
+              <div class="card">
+                <div class="card-top">
+                  <div>
+                    <div class="name">石塚 歩汰</div>
+                    <div class="sub">川口領家 Amazon ・ 3回</div>
+                  </div>
+                  <div class="value">¥120K</div>
+                </div>
+                <div class="chips">
+                  <span class="chip">申請回数 3回</span>
+                  <span class="chip">通常</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-top">
+                  <div>
+                    <div class="name">田中 一樹</div>
+                    <div class="sub">川口領家 Amazon ・ 1回</div>
+                  </div>
+                  <div class="value">¥40K</div>
+                </div>
+                <div class="chips">
+                  <span class="chip">申請回数 1回</span>
+                  <span class="chip">要確認</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">休み希望 / 確定シフト</div>
+                <div class="panel-sub">記録用の休み希望と、通知制御用の確定シフトを表示します。</div>
+              </div>
+              <div class="pill green">確認可能</div>
+            </div>
+
+            <div class="card-list">
+              <div class="card">
+                <div class="card-top">
+                  <div>
+                    <div class="name">石塚 歩汰</div>
+                    <div class="sub">更新 2026/04/12 19:22</div>
+                  </div>
+                </div>
+                <div class="chips">
+                  <span class="chip">5/14(木)</span>
+                  <span class="chip">5/21(木)</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-top">
+                  <div>
+                    <div class="name">確定シフト</div>
+                    <div class="sub">通知対象外日</div>
+                  </div>
+                </div>
+                <div class="chips">
+                  <span class="chip">石塚 5/14(木)</span>
+                  <span class="chip">田中 5/16(土)</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-item active">
-    <div class="nav-dot">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <rect x="2" y="2" width="5" height="5" rx="1.5" fill="currentColor"/>
-        <rect x="9" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity=".5"/>
-        <rect x="2" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity=".5"/>
-        <rect x="9" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity=".5"/>
-      </svg>
-    </div>
-    ホーム
-  </button>
-  <button class="nav-item">
-    <div class="nav-dot">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M8 2L2 6v8h4v-4h4v4h4V6L8 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    現場
-  </button>
-  <button class="nav-item">
-    <div class="nav-dot">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/>
-        <path d="M5 3V2M11 3V2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M2 7h12" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-      </svg>
-    </div>
-    前払い
-  </button>
-  <button class="nav-item">
-    <div class="nav-dot">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <circle cx="8" cy="5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
-        <path d="M2.5 13c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      </svg>
-    </div>
-    設定
-  </button>
+<nav class="mobile-nav">
+  <button class="active"><span class="icon">⌂</span>ホーム</button>
+  <button><span class="icon">◯</span>人</button>
+  <button><span class="icon">¥</span>前払い</button>
+  <button><span class="icon">☷</span>休み</button>
+  <button><span class="icon">⚙</span>設定</button>
 </nav>
-
-<script>
-const data = {
-  川口:[
-    {name:"石塚 歩汰",role:"ドライバー",status:"ok"},
-    {name:"田中 雄介",role:"ドライバー",status:"warn"},
-    {name:"佐藤 蓮",role:"サブドライバー",status:"off"}
-  ],
-  新宿:[
-    {name:"小林 奈々",role:"ドライバー",status:"ok"},
-    {name:"鈴木 大輝",role:"ドライバー",status:"warn"}
-  ]
-};
-
-const avatarStyles = [
-  {bg:"rgba(108,143,255,.18)",color:"#93b4ff"},
-  {bg:"rgba(34,197,94,.14)",color:"#4ade80"},
-  {bg:"rgba(245,158,11,.14)",color:"#fbbf24"},
-  {bg:"rgba(244,114,182,.14)",color:"#f9a8d4"},
-  {bg:"rgba(129,140,248,.16)",color:"#c4b5fd"},
-];
-
-const statusLabel = {ok:"稼働中",warn:"未退勤",off:"休み"};
-let selected = null;
-
-function selectSite(site){
-  if(selected) document.getElementById("site-"+selected)?.classList.remove("selected");
-  selected = site;
-  document.getElementById("site-"+site)?.classList.add("selected");
-
-  const drivers = data[site];
-  document.getElementById("siteTitle").textContent = site + " のドライバー";
-  document.getElementById("driverCount").textContent = drivers.length + "名";
-
-  const list = document.getElementById("driverList");
-  list.innerHTML = "";
-  drivers.forEach((d,i)=>{
-    const s = avatarStyles[i % avatarStyles.length];
-    const el = document.createElement("div");
-    el.className = "driver-card";
-    el.style.animationDelay = (i*60)+"ms";
-    el.innerHTML = `
-      <div class="driver-avatar" style="background:${s.bg};color:${s.color};">${d.name.charAt(0)}</div>
-      <div style="flex:1;min-width:0;">
-        <div class="driver-name">${d.name}</div>
-        <div class="driver-role">${d.role}</div>
-      </div>
-      <div class="pill ${d.status}">${statusLabel[d.status]}</div>
-    `;
-    list.appendChild(el);
-  });
-}
-
-const now = new Date();
-document.getElementById("headerDate").textContent =
-  now.toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
-</script>
 </body>
 </html>
