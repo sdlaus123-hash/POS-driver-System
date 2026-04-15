@@ -1,150 +1,140 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visual Test</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-      background: linear-gradient(180deg, #f3f7fb 0%, #dbeafe 100%);
-      color: #111827;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>POMS Minimal UI</title>
 
-    .wrap {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+<style>
+:root{
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --sub:#64748b;
+  --accent:#22c55e;
+  --accent2:#3b82f6;
+}
 
-    .hero {
-      background: white;
-      border-radius: 28px;
-      padding: 32px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.12);
-      border: 1px solid #dbe3ee;
-    }
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont;
+  background:var(--bg);
+  color:var(--text);
+}
 
-    .badge {
-      display: inline-block;
-      background: #dbeafe;
-      color: #1d4ed8;
-      font-weight: 700;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      margin-bottom: 16px;
-    }
+.container{
+  max-width:480px;
+  margin:auto;
+  padding:20px;
+}
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 42px;
-      line-height: 1.1;
-    }
+h1{
+  font-size:26px;
+  font-weight:900;
+  margin-bottom:20px;
+}
 
-    p {
-      margin: 0;
-      font-size: 16px;
-      color: #475569;
-    }
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
+  transition:.2s;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 20px;
-    }
+.card:hover{
+  transform:translateY(-2px);
+}
 
-    .card {
-      background: white;
-      border-radius: 22px;
-      padding: 24px;
-      box-shadow: 0 12px 32px rgba(0,0,0,.08);
-      border: 1px solid #dbe3ee;
-    }
+.big{
+  font-size:36px;
+  font-weight:900;
+}
 
-    .label {
-      font-size: 12px;
-      color: #64748b;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
+.label{
+  color:var(--sub);
+  font-size:14px;
+}
 
-    .value {
-      font-size: 36px;
-      font-weight: 800;
-    }
+.button{
+  margin-top:14px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-weight:800;
+  font-size:14px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+}
 
-    .btns {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
+.site{
+  display:flex;
+  justify-content:space-between;
+  font-size:18px;
+  font-weight:700;
+}
 
-    .btn {
-      border: none;
-      border-radius: 16px;
-      padding: 14px 20px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+.driver{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+}
 
-    .btn.primary {
-      background: #111827;
-      color: white;
-    }
+.badge{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+}
 
-    .btn.secondary {
-      background: white;
-      color: #111827;
-      border: 1px solid #cbd5e1;
-    }
+.ok{background:#dcfce7}
+.warn{background:#fef3c7}
+.off{background:#e0e7ff}
 
-    @media (max-width: 700px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+.fade-in{
+  animation:fade .4s ease;
+}
 
-      h1 {
-        font-size: 32px;
-      }
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
 
-      .btns {
-        flex-direction: column;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="hero">
-      <div class="badge">UI TEST</div>
-      <h1>これがデザイン表示テストです</h1>
-      <p>白いカード、青い背景、角丸、影が見えればHTML/CSSは正常です。</p>
+<div class="container">
 
-      <div class="btns">
-        <button class="btn primary">黒ボタン</button>
-        <button class="btn secondary">白ボタン</button>
-      </div>
-    </div>
+<h1>今日の状況</h1>
 
-    <div class="grid">
-      <div class="card">
-        <div class="label">本日稼働中</div>
-        <div class="value">8</div>
-      </div>
-      <div class="card">
-        <div class="label">未退勤</div>
-        <div class="value">2</div>
-      </div>
-      <div class="card">
-        <div class="label">前払い合計</div>
-        <div class="value">¥240K</div>
-      </div>
-    </div>
-  </div>
+<div class="card fade-in">
+  <div class="label">稼働中</div>
+  <div class="big">8人</div>
+</div>
+
+<div class="card fade-in">
+  <div class="label">未退勤</div>
+  <div class="big">2人</div>
+  <button class="button">確認する</button>
+</div>
+
+<div class="card fade-in">
+  <div class="label">現場</div>
+  <div class="site">川口 <span>5人</span></div>
+  <div class="site">新宿 <span>3人</span></div>
+</div>
+
+<div class="card fade-in">
+  <div class="label">ドライバー</div>
+
+  <div class="driver">石塚 <span class="badge ok">稼働中</span></div>
+  <div class="driver">田中 <span class="badge warn">未退勤</span></div>
+  <div class="driver">佐藤 <span class="badge off">休み</span></div>
+
+</div>
+
+</div>
 </body>
 </html>
