@@ -560,6 +560,10 @@
     setDriverToken("");
   }
 
+  function clearDriverAttendanceCache(driverId, date) {
+    writeStore("attendance", readStore("attendance", []).filter((row) => !(row.driverId === driverId && row.date === date)));
+  }
+
   async function requireDriverLogin(requestedDriverId) {
     const main = document.querySelector("main.narrow");
     const session = readDriverSession();
@@ -778,6 +782,7 @@
         setLoading(false);
       }
     }
+    clearDriverAttendanceCache(driver.id, workDate);
     const state = {
       status: existing ? existing.status : "off",
       startTime: existing ? existing.startTime : "",
