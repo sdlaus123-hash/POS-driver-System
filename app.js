@@ -621,6 +621,21 @@
     return response.json();
   }
 
+  async function apiGetDriver(params) {
+    if (!config.API_BASE_URL) return null;
+    const requestParams = { ...params, driverToken: getDriverToken() };
+    const url = `${config.API_BASE_URL}?${new URLSearchParams(requestParams).toString()}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("GASからの取得に失敗しました");
+    const result = await response.json();
+    if (result && result.ok === false) {
+      const message = result.error || "GAS処理に失敗しました";
+      if (/ドライバーログイン/.test(message)) clearDriverSession();
+      throw new Error(message);
+    }
+    return result;
+  }
+
   function upsertLocal(listName, row, matcher) {
     const rows = readStore(listName, []);
     const index = rows.findIndex(matcher);
@@ -650,7 +665,24 @@
     const workDate = todayISO();
     $("workDateText").textContent = formatDateJP(workDate);
     const rows = readStore("attendance", []);
-    const existing = rows.find((row) => row.driverId === driver.id && row.date === workDate);
+    let existing = rows.find((row) => row.driverId === driver.id && row.date === workDate);
+    if (config.API_BASE_URL) {
+      setLoading(true, "本日の勤務状況を確認中...");
+      try {
+        const remote = await apiGetDriver({ type: "driver_attendance", driverId: driver.id, date: workDate });
+        if (remote && remote.found && remote.row) {
+          existing = remote.row;
+          upsertLocal("attendance", remote.row, (row) => row.driverId === driver.id && row.date === workDate);
+        } else {
+          existing = null;
+          writeStore("attendance", rows.filter((row) => !(row.driverId === driver.id && row.date === workDate)));
+        }
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
     const state = {
       status: existing ? existing.status : "off",
       startTime: existing ? existing.startTime : "",
