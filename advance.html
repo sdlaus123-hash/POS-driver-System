@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>前払い申請 | POMS</title>
+  <link rel="stylesheet" href="styles.css?v=20260603-120">
+</head>
+<body class="page-shell driver-page advance-preview-page" data-page="advance">
+  <main class="advance-preview-app narrow driver-app">
+    <header class="mobile-topbar">
+      <div class="brand-mark">P</div>
+      <div>
+        <strong>POMS</strong>
+        <span>前払い申請</span>
+      </div>
+    </header>
+
+    <section class="hero compact money">
+      <span class="eyebrow">Advance</span>
+      <h1>前払い申請</h1>
+      <p>退勤済みの稼働日から申請日を選びます。</p>
+    </section>
+
+    <section class="advance-preview-profile">
+      <div class="advance-preview-driver person-card">
+        <div class="avatar" id="driverInitial">P</div>
+        <div class="advance-preview-driver-main">
+          <div class="advance-preview-name" id="driverName">読込中</div>
+          <div class="advance-preview-site" id="driverSite">現場を確認しています</div>
+        </div>
+        <div class="advance-preview-unit">
+          <span>日当</span>
+          <strong id="advanceUnitPriceLabel">-</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="advance-preview-section demo-guide demo-only">
+      <strong>ローカル確認モード</strong>
+      <span>本番ではLINEログイン後、退勤済みの日だけが表示されます。</span>
+    </section>
+
+    <section class="advance-preview-section">
+      <div class="advance-preview-month-row">
+        <button type="button" id="advancePrevMonth" aria-label="前の月">‹</button>
+        <div class="advance-preview-month-label" id="advanceCalendarTitle">-</div>
+        <button type="button" id="advanceNextMonth" aria-label="次の月">›</button>
+      </div>
+
+      <div class="advance-preview-section-head">
+        <div>
+          <h2>申請できる稼働日</h2>
+          <div class="advance-preview-small">退勤済みの日だけ選択できます</div>
+        </div>
+        <div class="advance-preview-small" id="availableCount">0日</div>
+      </div>
+      <div class="advance-preview-days" id="availableDays"></div>
+    </section>
+
+    <section class="advance-preview-section">
+      <div class="advance-preview-section-head">
+        <div>
+          <h2>申請済み</h2>
+          <div class="advance-preview-small">再申請できない日です</div>
+        </div>
+      </div>
+      <div class="advance-preview-days" id="appliedDays"></div>
+      <div class="advance-preview-hidden" id="advanceAppliedList">まだ申請済み期間はありません</div>
+    </section>
+
+    <section class="advance-preview-section">
+      <div class="advance-preview-section-head">
+        <div>
+          <h2>選択中の日付</h2>
+          <div class="advance-preview-small" id="selectedDates">まだ選択されていません</div>
+        </div>
+      </div>
+      <div class="advance-preview-empty" id="hint">申請したい稼働日をタップしてください</div>
+      <div class="advance-date-chips advance-preview-hidden" id="advanceSelectedDateList">申請できる稼働日を選択してください</div>
+      <strong class="advance-preview-hidden" id="advanceSelectedCount">0日分</strong>
+      <div class="advance-preview-hidden" id="advanceOverlapText">申請済み期間を確認します</div>
+    </section>
+
+    <span class="advance-preview-hidden" id="advanceRangeLabel">稼働日を選択</span>
+    <input type="hidden" id="advanceDateFrom">
+    <input type="hidden" id="advanceDateTo">
+    <input type="hidden" id="advanceWorkedDays" value="0">
+    <input type="hidden" id="advanceAmount" value="0">
+    <span class="advance-preview-hidden" id="advanceFlowCalc"></span>
+    <span class="advance-preview-hidden" id="advanceFlowSubmit"></span>
+    <span class="advance-preview-hidden" id="advanceWorkdayBadge">0日</span>
+    <span class="advance-preview-hidden" id="advanceMeterFill"></span>
+    <span class="advance-preview-hidden" id="advanceFeeText">手数料合計 ¥0</span>
+    <span class="advance-preview-hidden" id="advanceSummary">期間を選択してください</span>
+
+    <div class="advance-preview-summary">
+      <div class="advance-preview-summary-card">
+        <div class="advance-preview-selected-line">
+          <div>
+            <div class="advance-preview-small">今回の申請</div>
+            <strong id="selectedText">0日分</strong>
+          </div>
+          <div class="advance-preview-selected-count" id="selectedCount">0日</div>
+        </div>
+        <div class="advance-preview-money-row">
+          <span>売上金額</span>
+          <strong id="advanceSalesText">¥0</strong>
+        </div>
+        <div class="advance-preview-money-row">
+          <span>前払い希望額</span>
+          <strong id="advanceRequestText">¥0</strong>
+        </div>
+        <div class="advance-preview-fee-detail">
+          <div><span>前払い手数料 8%</span><strong id="advancePercentFeeText">¥0</strong></div>
+          <div><span>振込手数料</span><strong id="advanceBankFeeText">¥0</strong></div>
+        </div>
+        <div class="advance-preview-money-row">
+          <span>手数料合計</span>
+          <strong id="advanceTotalFeeText">¥0</strong>
+        </div>
+        <div class="advance-preview-money-row advance-preview-transfer-row">
+          <span>振込予定額</span>
+          <strong id="advanceTransferAmount">¥0</strong>
+        </div>
+        <small id="advanceTransferMeta">稼働日を選ぶと自動計算します</small>
+        <div class="coin-burst" id="coinBurst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="swipe-confirm primary disabled" id="submitAdvanceSwipe" role="button" tabindex="0" aria-disabled="true">
+          <span class="swipe-fill"></span>
+          <span class="swipe-copy"><strong>前払いを申請</strong><small data-swipe-detail>稼働日を選択してください</small></span>
+          <span class="swipe-thumb">→</span>
+        </div>
+        <button class="button primary hidden" id="submitAdvanceBtn">前払いを申請する</button>
+      </div>
+    </div>
+  </main>
+  <div class="toast" id="toast"></div>
+  <div class="loading" id="loading"><div>処理中...</div></div>
+  <script src="config.js?v=20260603-120"></script>
+  <script src="app.js?v=20260603-120"></script>
+</body>
+</html>
