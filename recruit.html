@@ -114,25 +114,27 @@
         position: relative;
         overflow: hidden;
         padding: 112px 0 54px;
-        background:
-          linear-gradient(90deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.76)),
-          radial-gradient(circle at 78% 24%, rgba(37, 99, 235, 0.18), transparent 32%),
-          #fff;
+        background: #fff;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 64px 0 0;
+        background: url("./images/poms-delivery-hero.png") center / cover no-repeat;
+        opacity: 0.54;
       }
 
       .hero::after {
         content: "";
         position: absolute;
-        inset: 96px -28px auto auto;
-        width: min(560px, 78vw);
-        height: min(360px, 52vw);
-        border: 1px solid rgba(148, 163, 184, 0.32);
-        border-radius: 18px;
-        background:
-          linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(37, 99, 235, 0.84)),
-          repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 255, 255, 0.1) 22px 24px);
-        opacity: 0.12;
-        transform: rotate(-5deg);
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.96) 0%,
+          rgba(255, 255, 255, 0.84) 46%,
+          rgba(255, 255, 255, 0.58) 100%
+        );
       }
 
       .hero-grid {
