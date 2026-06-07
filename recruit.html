@@ -1,0 +1,1647 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POMS Driver Portal</title>
+    <meta
+      name="description"
+      content="POMSの配送パートナー登録サービス。条件を確認してから稼働準備へ進めます。"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #ffffff;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --line: #e2e8f0;
+        --soft: #f8fafc;
+        --action: #2563eb;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+          "Yu Gothic", "Noto Sans JP", sans-serif;
+        letter-spacing: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .shell {
+        min-height: 100vh;
+        padding-bottom: 82px;
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 20;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(18px);
+      }
+
+      .header-inner {
+        display: flex;
+        height: 64px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 8px;
+        background: var(--ink);
+        color: white;
+        letter-spacing: 0;
+      }
+
+      .nav {
+        display: none;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 112px 0 54px;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.76)),
+          radial-gradient(circle at 78% 24%, rgba(37, 99, 235, 0.18), transparent 32%),
+          #fff;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 96px -28px auto auto;
+        width: min(560px, 78vw);
+        height: min(360px, 52vw);
+        border: 1px solid rgba(148, 163, 184, 0.32);
+        border-radius: 18px;
+        background:
+          linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(37, 99, 235, 0.84)),
+          repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 255, 255, 0.1) 22px 24px);
+        opacity: 0.12;
+        transform: rotate(-5deg);
+      }
+
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        min-height: 36px;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--action);
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: 22px;
+        max-width: 720px;
+        font-size: clamp(42px, 11vw, 78px);
+        line-height: 1.04;
+        font-weight: 760;
+        letter-spacing: 0;
+      }
+
+      .blue {
+        color: var(--action);
+      }
+
+      .hero-copy {
+        margin-top: 22px;
+        max-width: 650px;
+        color: #334155;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.8;
+      }
+
+      .pills,
+      .checks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .pills {
+        margin-top: 20px;
+      }
+
+      .checks {
+        margin-top: 24px;
+      }
+
+      .pill,
+      .check {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #334155;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .check {
+        min-height: 46px;
+        flex: 1 1 230px;
+      }
+
+      .check-icon {
+        color: var(--success);
+        font-weight: 900;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .button,
+      .ghost-button {
+        display: inline-flex;
+        min-height: 52px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 8px;
+        padding: 14px 18px;
+        border: 1px solid transparent;
+        font-weight: 800;
+      }
+
+      .button {
+        background: var(--action);
+        color: white;
+        box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+      }
+
+      .ghost-button {
+        border-color: #cbd5e1;
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .status-card,
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+      }
+
+      .status-card {
+        padding: 18px;
+      }
+
+      .status-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .big-number {
+        margin-top: 4px;
+        font-size: 34px;
+        font-weight: 760;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+        padding: 12px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 22px;
+      }
+
+      .featured {
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        padding: 14px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .section.alt {
+        border-block: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .section-head {
+        max-width: 680px;
+      }
+
+      .section-head .eyebrow-text {
+        color: var(--action);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .section-head h2 {
+        margin-top: 10px;
+        font-size: clamp(30px, 8vw, 42px);
+        line-height: 1.15;
+      }
+
+      .section-head p {
+        margin-top: 14px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .job-grid,
+      .strength-grid,
+      .trust-grid {
+        display: grid;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .job-card {
+        padding: 18px;
+      }
+
+      .job-card.feature {
+        border-color: #93c5fd;
+        box-shadow: 0 0 0 3px #dbeafe;
+      }
+
+      .job-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .job-name {
+        margin-top: 8px;
+        font-size: 26px;
+        font-weight: 760;
+      }
+
+      .badge {
+        border-radius: 7px;
+        background: #dcfce7;
+        color: #15803d;
+        padding: 7px 10px;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .badge.blue {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+
+      .badge.amber {
+        background: #fef3c7;
+        color: #b45309;
+      }
+
+      .line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .line strong {
+        color: var(--ink);
+        font-size: 18px;
+      }
+
+      .stars {
+        color: var(--warning);
+        letter-spacing: 0;
+      }
+
+      .notice {
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        padding: 14px;
+        color: #334155;
+        line-height: 1.7;
+      }
+
+      .notice strong {
+        color: var(--action);
+      }
+
+      .strength,
+      .trust {
+        display: flex;
+        gap: 14px;
+        padding: 16px;
+      }
+
+      .icon-box {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: var(--action);
+        font-weight: 900;
+      }
+
+      .strength h3,
+      .trust h3 {
+        font-size: 16px;
+      }
+
+      .strength p,
+      .trust p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .sim-grid,
+      .before-grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .conditions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .condition {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 12px;
+      }
+
+      .condition dt {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .condition dd {
+        margin: 4px 0 0;
+        font-weight: 800;
+      }
+
+      .result-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .result {
+        padding: 18px;
+      }
+
+      .result strong {
+        display: block;
+        margin-top: 16px;
+        font-size: 28px;
+      }
+
+      .advance {
+        margin-top: 12px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        padding: 18px;
+      }
+
+      .advance h3 {
+        color: var(--ink);
+      }
+
+      .advance p {
+        margin-top: 10px;
+        color: #334155;
+        line-height: 1.75;
+      }
+
+      .before-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 26px;
+      }
+
+      .before-list div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 13px;
+        font-weight: 800;
+      }
+
+      .form-wrap {
+        margin-top: 28px;
+        padding: 16px;
+      }
+
+      .form-head {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .progress-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+      }
+
+      .progress-percent {
+        margin-top: 4px;
+        color: var(--action);
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .progress-track {
+        overflow: hidden;
+        height: 8px;
+        border-radius: 999px;
+        background: #e2e8f0;
+      }
+
+      .progress-fill {
+        width: 20%;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--action);
+        transition: width 0.25s ease;
+      }
+
+      .progress-steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .progress-step {
+        min-width: 0;
+        border-radius: 7px;
+        background: var(--soft);
+        color: var(--muted);
+        padding: 8px 4px;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .progress-step.active {
+        background: #eff6ff;
+        color: var(--action);
+      }
+
+      .panel {
+        min-height: 390px;
+        margin-top: 22px;
+      }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        font-size: 25px;
+      }
+
+      .field-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      label span,
+      .select-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #334155;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .required,
+      .optional {
+        border-radius: 6px;
+        padding: 3px 7px;
+        font-size: 11px;
+      }
+
+      .required {
+        background: #eff6ff;
+        color: var(--action);
+      }
+
+      .optional {
+        background: #f1f5f9;
+        color: #475569;
+      }
+
+      input,
+      select {
+        width: 100%;
+        height: 48px;
+        margin-top: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: var(--ink);
+        outline: none;
+        padding: 0 13px;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--action);
+        box-shadow: 0 0 0 4px #dbeafe;
+      }
+
+      .choice-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .choice {
+        display: flex;
+        min-height: 78px;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+        text-align: left;
+        font-weight: 800;
+      }
+
+      .choice.active {
+        border-color: var(--action);
+        background: #eff6ff;
+        color: var(--action);
+        box-shadow: 0 0 0 3px #dbeafe;
+      }
+
+      .contract-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .support-box,
+      .condition-box {
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      .support-box {
+        border: 1px solid #bfdbfe;
+        background: #eff6ff;
+      }
+
+      .condition-box {
+        border: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .support-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .info-row strong {
+        color: var(--ink);
+        text-align: right;
+      }
+
+      .info-button {
+        display: inline-grid;
+        width: 32px;
+        height: 32px;
+        margin-left: 6px;
+        place-items: center;
+        border: 1px solid #bfdbfe;
+        border-radius: 7px;
+        background: white;
+        color: var(--action);
+        font-weight: 900;
+      }
+
+      .detail {
+        display: none;
+        margin-top: 14px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+        color: #334155;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .detail.open {
+        display: block;
+      }
+
+      .confirm-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+        font-weight: 800;
+      }
+
+      .confirm-label input {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        accent-color: var(--action);
+      }
+
+      .form-actions {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 10px;
+        border-top: 1px solid var(--line);
+        margin-top: 20px;
+        padding-top: 18px;
+      }
+
+      .secondary {
+        min-height: 48px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: white;
+        color: #334155;
+        font-weight: 800;
+      }
+
+      .error {
+        display: none;
+        margin-top: 14px;
+        border: 1px solid #fcd34d;
+        border-radius: 8px;
+        background: #fffbeb;
+        color: #92400e;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.7;
+      }
+
+      .error.show {
+        display: block;
+      }
+
+      .complete-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .complete-box {
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        background: #f0fdf4;
+        padding: 18px;
+      }
+
+      .complete-box .done {
+        margin-top: 14px;
+        color: var(--success);
+        font-size: 52px;
+        font-weight: 800;
+      }
+
+      .next-box {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+        padding: 18px;
+      }
+
+      .next-step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        font-weight: 800;
+      }
+
+      .next-step span {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: white;
+        color: var(--action);
+      }
+
+      .footer {
+        border-top: 1px solid var(--line);
+        padding: 26px 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .footer strong {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+
+      .sticky-cta {
+        position: fixed;
+        inset: auto 0 0;
+        z-index: 30;
+        border-top: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.96);
+        padding: 10px 12px;
+        box-shadow: 0 -14px 30px rgba(15, 23, 42, 0.1);
+        backdrop-filter: blur(14px);
+      }
+
+      .sticky-inner {
+        display: flex;
+        max-width: 520px;
+        margin: 0 auto;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .sticky-inner div {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .sticky-inner p:first-child {
+        color: var(--action);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .sticky-inner p:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .sticky-inner .button {
+        min-height: 44px;
+        padding: 10px 14px;
+        white-space: nowrap;
+      }
+
+      @media (min-width: 720px) {
+        .shell {
+          padding-bottom: 0;
+        }
+
+        .nav {
+          display: flex;
+        }
+
+        .hero {
+          min-height: 86vh;
+          display: flex;
+          align-items: center;
+          padding-top: 92px;
+        }
+
+        .hero-grid {
+          grid-template-columns: minmax(0, 1fr) 380px;
+          align-items: center;
+        }
+
+        .hero-actions {
+          flex-direction: row;
+        }
+
+        .job-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .strength-grid,
+        .trust-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .sim-grid,
+        .before-grid {
+          grid-template-columns: 0.9fr 1.1fr;
+          align-items: start;
+        }
+
+        .result-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .form-head,
+        .complete-grid,
+        .contract-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .field-grid,
+        .choice-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form-actions {
+          flex-direction: row;
+          justify-content: space-between;
+        }
+
+        .sticky-cta {
+          display: none;
+        }
+      }
+
+      @media (min-width: 980px) {
+        .strength-grid,
+        .trust-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="header">
+        <div class="container header-inner">
+          <a class="brand" href="#top" aria-label="POMS">
+            <span class="brand-mark">P</span>
+            <span>POMS</span>
+          </a>
+          <nav class="nav" aria-label="ページ内メニュー">
+            <a href="#opportunities">案件</a>
+            <a href="#simulator">シミュレーター</a>
+            <a href="#register">登録</a>
+          </nav>
+          <a class="button" href="#register">登録を開始する</a>
+        </div>
+      </header>
+
+      <main>
+        <section id="top" class="hero">
+          <div class="container hero-grid">
+            <div>
+              <span class="eyebrow">配送パートナー登録</span>
+              <h1>最短3日で<span class="blue">稼働開始</span></h1>
+              <p class="hero-copy">
+                登録後すぐに契約ではありません。条件、車両、開始日を担当者と確認し、納得してから稼働準備へ進めます。
+              </p>
+              <div class="pills" aria-label="安心ポイント">
+                <span class="pill">入力目安3分</span>
+                <span class="pill">費用は事前確認</span>
+                <span class="pill">担当者が確認</span>
+              </div>
+              <div class="checks">
+                <div class="check"><span class="check-icon">✓</span>月間売上50万円以上の案件あり</div>
+                <div class="check"><span class="check-icon">✓</span>車がなくてもスタート可能</div>
+                <div class="check"><span class="check-icon">✓</span>前払い制度対応</div>
+                <div class="check"><span class="check-icon">✓</span>人によるサポート</div>
+                <div class="check"><span class="check-icon">✓</span>完全週休二日が原則</div>
+                <div class="check"><span class="check-icon">✓</span>寮もご紹介可能</div>
+              </div>
+              <div class="hero-actions">
+                <a class="button" href="#register">登録を開始する</a>
+                <a class="ghost-button" href="#opportunities">案件を見る</a>
+              </div>
+            </div>
+
+            <aside class="status-card" aria-label="登録状況">
+              <div class="status-top">
+                <div>
+                  <p class="label">現在登録者数</p>
+                  <p class="big-number">128名</p>
+                </div>
+                <span class="icon-box">✓</span>
+              </div>
+              <div class="metric-grid">
+                <div class="metric">
+                  <p class="label">今月稼働開始</p>
+                  <strong>11名</strong>
+                </div>
+                <div class="metric">
+                  <p class="label">最短開始</p>
+                  <strong>3日</strong>
+                </div>
+              </div>
+              <div class="featured">
+                <p class="label">一番おすすめ</p>
+                <div class="line">
+                  <strong>川口</strong>
+                  <strong class="blue">23,246円</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section alt">
+          <div class="container trust-grid">
+            <article class="card trust">
+              <span class="icon-box">1</span>
+              <div>
+                <h3>登録後すぐ契約ではありません</h3>
+                <p>条件、開始日、車両状況を確認してから稼働準備へ進みます。</p>
+              </div>
+            </article>
+            <article class="card trust">
+              <span class="icon-box">2</span>
+              <div>
+                <h3>費用と支払いを事前に表示</h3>
+                <p>管理費、業務紹介料(ロイヤリティー)、支払いサイクルを確認できます。</p>
+              </div>
+            </article>
+            <article class="card trust">
+              <span class="icon-box">3</span>
+              <div>
+                <h3>担当者が人で対応</h3>
+                <p>初回確認から稼働開始後まで、必要な場面で相談できます。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="opportunities" class="section">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Opportunities</p>
+              <h2>案件一覧</h2>
+              <p>高単価と開始しやすさを重視した配送パートナー向け案件です。</p>
+            </div>
+            <div class="job-grid" id="jobGrid"></div>
+            <div class="notice">
+              <strong>その他、福岡県内の案件もご紹介可能です。</strong><br />
+              希望エリアや開始時期に合わせて、担当者が紹介可能な案件を確認します。
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">POMS Strength</p>
+              <h2>POMSの強み</h2>
+              <p>車両、資金、稼働後の相談まで、ひとりで抱え込まない体制です。</p>
+            </div>
+            <div class="strength-grid" id="strengthGrid"></div>
+          </div>
+        </section>
+
+        <section id="simulator" class="section">
+          <div class="container sim-grid">
+            <div>
+              <div class="section-head">
+                <p class="eyebrow-text">Sales Estimate</p>
+                <h2>売上目安シミュレーター</h2>
+                <p>
+                  原則として完全週休二日で稼働する前提の参考値です。収入や手取りを保証するものではありません。
+                </p>
+              </div>
+              <dl class="conditions">
+                <div class="condition">
+                  <dt>基準案件</dt>
+                  <dd>川口</dd>
+                </div>
+                <div class="condition">
+                  <dt>日額</dt>
+                  <dd>23,246円</dd>
+                </div>
+                <div class="condition">
+                  <dt>稼働</dt>
+                  <dd>完全週休二日</dd>
+                </div>
+                <div class="condition">
+                  <dt>月間</dt>
+                  <dd>20日換算</dd>
+                </div>
+              </dl>
+            </div>
+            <div>
+              <div class="result-grid">
+                <article class="card result">
+                  <p class="label">月間売上目安</p>
+                  <strong id="monthlySales">464,920円</strong>
+                </article>
+                <article class="card result">
+                  <p class="label">週払い上限目安</p>
+                  <strong id="weeklyAdvance">58,115円</strong>
+                </article>
+                <article class="card result">
+                  <p class="label">条件差引後目安</p>
+                  <strong id="takeHome">370,182円</strong>
+                </article>
+              </div>
+              <article class="advance">
+                <h3>週払い利用の例</h3>
+                <p>
+                  1週間分の売上をもとに、売上の50%を上限として利用した場合の概算です。実際の利用可否、対象売上、振込日は担当者が確認します。
+                </p>
+                <p>
+                  例: 週払い上限77,500円の場合、利用時は8% + 260円を差し引き、受取目安は71,040円です。
+                </p>
+                <p>
+                  前払いの残りの50%は通常の振り込み日にご指定の口座に振り込まれます。
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt">
+          <div class="container before-grid">
+            <div>
+              <div class="section-head">
+                <p class="eyebrow-text">Before Registration</p>
+                <h2>登録前に確認できます</h2>
+                <p>メリットだけで進めず、支払い条件とサポート範囲を先に見える化します。</p>
+              </div>
+              <div class="before-list">
+                <div><span class="check-icon">✓</span>案件紹介、研修、元請け対応までサポート</div>
+                <div><span class="check-icon">✓</span>その他、福岡県内の案件も紹介可能</div>
+                <div><span class="check-icon">✓</span>前払いは売上50%まで利用可能</div>
+                <div><span class="check-icon">✓</span>軽バンなし、リース希望も相談可能</div>
+                <div><span class="check-icon">✓</span>寮の紹介も相談可能</div>
+                <div><span class="check-icon">✓</span>登録完了後に担当者が内容を確認</div>
+              </div>
+            </div>
+            <article class="card" style="padding: 18px">
+              <h3>条件の透明性</h3>
+              <p style="margin-top: 8px; color: var(--muted); line-height: 1.7">
+                後から不安になりやすい項目を先に確認できます。
+              </p>
+              <dl class="conditions">
+                <div class="condition"><dt>管理費</dt><dd>25,000円</dd></div>
+                <div class="condition"><dt>業務紹介料(ロイヤリティー)</dt><dd>売り上げの15%</dd></div>
+                <div class="condition"><dt>支払い</dt><dd>月末締め 翌々月末払い</dd></div>
+                <div class="condition"><dt>前払い</dt><dd>売上50%まで</dd></div>
+              </dl>
+              <div class="notice">
+                <strong>前払い例</strong><br />
+                週払い上限77,500円の場合、受取目安は71,040円です。前払いの残りの50%は通常の振り込み日にご指定の口座に振り込まれます。
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="register" class="section alt">
+          <div class="container">
+            <div class="form-head">
+              <div class="section-head">
+                <p class="eyebrow-text">Partner Registration</p>
+                <h2>登録フォーム</h2>
+                <p>入力は短く、確認は人が対応します。迷っている状態でも相談から進められます。</p>
+              </div>
+              <div class="progress-card">
+                <p class="label">現在の登録状況</p>
+                <p class="progress-percent" id="progressPercent">20%</p>
+              </div>
+            </div>
+
+            <form class="card form-wrap" id="registrationForm">
+              <div class="progress-track" aria-hidden="true">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="progress-steps" id="progressSteps"></div>
+              <div class="panel" id="panel"></div>
+
+              <div class="form-actions">
+                <button class="secondary" id="backButton" type="button">戻る</button>
+                <button class="button" id="nextButton" type="button">次へ</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container">
+          <strong>株式会社パシフィックワンマイルサポート</strong>
+          POMS Driver Portalは、条件確認後に納得してから進める配送パートナー登録サービスです。
+        </div>
+      </footer>
+
+      <div class="sticky-cta">
+        <div class="sticky-inner">
+          <div>
+            <p>入力目安3分</p>
+            <p>送信後に担当者が確認</p>
+          </div>
+          <a class="button" href="#register">登録へ</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const jobs = [
+        { name: "川口", daily: 23246, status: "一番おすすめ", rating: 5, feature: true },
+        { name: "町田", daily: 20800, status: "募集中", rating: 4 },
+        { name: "平和島", daily: 31000, status: "7月限定", rating: 5 },
+        { name: "新宿上落合", daily: 23753, status: "募集中", rating: 4 },
+        { name: "茨木", daily: 22766, status: "募集中", rating: 4 },
+        { name: "尼崎", daily: 22638, status: "募集中", rating: 4 },
+      ];
+
+      const strengths = [
+        ["前払い制度", "売上の一部を早めに受け取れる設計です。", "¥"],
+        ["リース相談", "軽バンがない状態からの開始も相談できます。", "車"],
+        ["配送研修", "初回稼働までに基本動作を確認します。", "研"],
+        ["管理者サポート", "困った時に人が対応する運用体制です。", "支"],
+        ["高単価案件", "収益性を重視した案件を中心に案内します。", "高"],
+        ["日払い週払い対応", "資金繰りに合わせた受け取り相談ができます。", "払"],
+        ["寮の紹介相談", "遠方からの開始や住まいの相談も担当者が確認します。", "住"],
+      ];
+
+      const steps = ["基本情報", "車両情報", "希望条件", "内容確認", "完了"];
+      const state = {
+        step: 0,
+        submitting: false,
+        confirmed: false,
+        form: {
+          name: "",
+          phone: "",
+          address: "",
+          age: "",
+          vehicle: "軽バンなし",
+          area: "川口",
+          income: "50万円以上",
+          start: "最短",
+          days: "完全週休二日",
+        },
+      };
+
+      const yen = (value) => `${Math.round(value).toLocaleString("ja-JP")}円`;
+      const monthlySales = jobs[0].daily * 20;
+      const weeklyAdvance = jobs[0].daily * 5 * 0.5;
+      const weeklyAdvanceNet = weeklyAdvance - (weeklyAdvance * 0.08 + 260);
+      const takeHome = monthlySales - monthlySales * 0.15 - 25000;
+
+      document.getElementById("monthlySales").textContent = yen(monthlySales);
+      document.getElementById("weeklyAdvance").textContent = yen(weeklyAdvance);
+      document.getElementById("takeHome").textContent = yen(takeHome);
+
+      document.getElementById("jobGrid").innerHTML = jobs
+        .map((job) => {
+          const badgeClass = job.status.includes("一番")
+            ? "blue"
+            : job.status.includes("限定")
+              ? "amber"
+              : "";
+
+          return `
+            <article class="card job-card ${job.feature ? "feature" : ""}">
+              <div class="job-head">
+                <div>
+                  <p class="label">案件名</p>
+                  <h3 class="job-name">${job.name}</h3>
+                </div>
+                <span class="badge ${badgeClass}">${job.status}</span>
+              </div>
+              <div class="line"><span>日額</span><strong>${yen(job.daily)}</strong></div>
+              <div class="line"><span>月間売上目安</span><strong>${yen(job.daily * 20)}</strong></div>
+              <div class="line"><span>おすすめ度</span><strong class="stars">${"★".repeat(job.rating)}${"☆".repeat(5 - job.rating)}</strong></div>
+            </article>
+          `;
+        })
+        .join("");
+
+      document.getElementById("strengthGrid").innerHTML = strengths
+        .map(
+          ([title, body, icon]) => `
+            <article class="card strength">
+              <span class="icon-box">${icon}</span>
+              <div>
+                <h3>${title}</h3>
+                <p>${body}</p>
+              </div>
+            </article>
+          `,
+        )
+        .join("");
+
+      function field(label, key, options = {}) {
+        const badge = options.required
+          ? '<span class="required">必須</span>'
+          : '<span class="optional">あとで確認可</span>';
+        return `
+          <label>
+            <span>${label}${badge}</span>
+            <input
+              value="${escapeHtml(state.form[key])}"
+              placeholder="${options.placeholder || ""}"
+              inputmode="${options.inputMode || "text"}"
+              autocomplete="${options.autoComplete || "off"}"
+              data-key="${key}"
+            />
+          </label>
+        `;
+      }
+
+      function selectField(label, key, options) {
+        return `
+          <label>
+            <span class="select-label">${label}</span>
+            <select data-key="${key}">
+              ${options
+                .map(
+                  (option) =>
+                    `<option ${state.form[key] === option ? "selected" : ""}>${option}</option>`,
+                )
+                .join("")}
+            </select>
+          </label>
+        `;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function renderProgress() {
+        const percent = (state.step + 1) * 20;
+        document.getElementById("progressPercent").textContent = `${percent}%`;
+        document.getElementById("progressFill").style.width = `${percent}%`;
+        document.getElementById("progressSteps").innerHTML = steps
+          .map(
+            (step, index) =>
+              `<div class="progress-step ${index <= state.step ? "active" : ""}">${(index + 1) * 20}%<br />${step}</div>`,
+          )
+          .join("");
+      }
+
+      function renderPanel(errorMessage = "") {
+        renderProgress();
+        const panel = document.getElementById("panel");
+        const backButton = document.getElementById("backButton");
+        const nextButton = document.getElementById("nextButton");
+        backButton.disabled = state.step === 0 || state.submitting;
+        nextButton.disabled = state.submitting || (state.step === 3 && !state.confirmed);
+        nextButton.textContent =
+          state.step === 3
+            ? state.submitting
+              ? "送信中"
+              : "内容を確認して完了"
+            : state.step === 4
+              ? "トップへ"
+              : "次へ";
+
+        if (state.step === 0) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">1</span>基本情報</h3>
+            <div class="notice">まずは連絡先を確認します。住所や年齢は担当者確認で修正できます。</div>
+            <div class="field-grid" style="margin-top: 18px">
+              ${field("氏名", "name", { required: true, placeholder: "山田 太郎", autoComplete: "name" })}
+              ${field("電話番号", "phone", { required: true, placeholder: "09012345678", inputMode: "tel", autoComplete: "tel" })}
+              ${field("住所", "address", { placeholder: "東京都大田区", autoComplete: "street-address" })}
+              ${field("年齢", "age", { placeholder: "32", inputMode: "numeric" })}
+            </div>
+            <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
+            <p style="margin-top: 14px; color: var(--muted); line-height: 1.7">入力内容は登録内容確認と案件案内のために使用します。</p>
+          `;
+        }
+
+        if (state.step === 1) {
+          const options = ["軽バンあり", "軽バンなし", "リース希望", "リース相談"];
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">2</span>車両情報</h3>
+            <div class="choice-grid">
+              ${options
+                .map(
+                  (option) => `
+                    <button class="choice ${state.form.vehicle === option ? "active" : ""}" type="button" data-choice="${option}">
+                      <span class="icon-box">車</span>${option}
+                    </button>
+                  `,
+                )
+                .join("")}
+            </div>
+          `;
+        }
+
+        if (state.step === 2) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">3</span>希望条件</h3>
+            <div class="field-grid">
+              ${selectField("希望エリア", "area", ["川口", "町田", "平和島", "新宿上落合", "茨木", "尼崎", "その他福岡県内", "相談する"])}
+              ${selectField("希望売上目安", "income", ["40万円以上", "50万円以上", "60万円以上"])}
+              ${selectField("稼働開始希望", "start", ["最短", "1週間以内", "今月中", "来月以降"])}
+              ${selectField("稼働ペース", "days", ["完全週休二日", "曜日相談", "開始日相談"])}
+            </div>
+          `;
+        }
+
+        if (state.step === 3) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">4</span>契約前の内容確認</h3>
+            <div class="contract-grid">
+              <div class="support-box">
+                <h3>サポート内容</h3>
+                <div class="support-list">
+                  <div><span class="check-icon">✓</span>案件紹介</div>
+                  <div><span class="check-icon">✓</span>福岡県内案件紹介</div>
+                  <div><span class="check-icon">✓</span>前払い制度</div>
+                  <div><span class="check-icon">✓</span>研修</div>
+                  <div><span class="check-icon">✓</span>リース相談</div>
+                  <div><span class="check-icon">✓</span>寮紹介相談</div>
+                  <div><span class="check-icon">✓</span>元請け対応</div>
+                  <div><span class="check-icon">✓</span>管理サポート</div>
+                </div>
+              </div>
+              <div class="condition-box">
+                <h3>条件</h3>
+                <div class="info-row"><span>管理費</span><strong>25,000円</strong></div>
+                <div class="info-row"><span>業務紹介料(ロイヤリティー)</span><strong>売り上げの15%</strong></div>
+                <div class="info-row"><span>支払い</span><strong>月末締め 翌々月末払い</strong></div>
+                <div class="info-row"><span>前払い</span><strong>売上50%まで利用可能</strong></div>
+                <div class="info-row"><span>利用時</span><strong>8% + 260円</strong></div>
+                <div class="info-row">
+                  <span>例</span>
+                  <strong>週払い上限77,500円の場合、受取目安71,040円
+                    <button class="info-button" id="detailButton" type="button" aria-expanded="false">i</button>
+                  </strong>
+                </div>
+                <div class="info-row"><span>残額</span><strong>通常の振り込み日に指定口座へ</strong></div>
+                <div class="detail" id="advanceDetail">
+                  <strong>週払い例の内訳</strong><br />
+                  週間売上目安: 155,000円<br />
+                  週払い上限目安: 77,500円<br />
+                  利用時: 8% + 260円 = 6,460円<br />
+                  受取目安: 71,040円<br />
+                  残り50%は通常の振り込み日に指定口座へ振り込まれます。<br />
+                  実際の利用可否、対象売上、振込日は担当者が確認します。
+                </div>
+              </div>
+            </div>
+            <label class="confirm-label">
+              <input type="checkbox" id="confirmed" ${state.confirmed ? "checked" : ""} />
+              内容を確認しました
+            </label>
+            <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
+          `;
+        }
+
+        if (state.step === 4) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">✓</span>登録ありがとうございます</h3>
+            <div class="complete-grid">
+              <div class="complete-box">
+                <p>担当者より登録内容確認のお電話をいたします</p>
+                <p style="margin-top: 10px; color: #334155; line-height: 1.7">この時点で費用は発生しません。条件を確認し、納得してから次へ進みます。</p>
+                <p class="label" style="margin-top: 16px">現在の登録状況</p>
+                <p class="done">100%</p>
+              </div>
+              <div class="next-box">
+                <h3>次のステップ</h3>
+                ${["担当者確認", "契約", "研修", "稼働開始"]
+                  .map((item, index) => `<div class="next-step"><span>${index + 1}</span>${item}</div>`)
+                  .join("")}
+              </div>
+            </div>
+          `;
+        }
+
+        bindPanelEvents();
+      }
+
+      function bindPanelEvents() {
+        document.querySelectorAll("[data-key]").forEach((input) => {
+          input.addEventListener("input", (event) => {
+            state.form[event.target.dataset.key] = event.target.value;
+          });
+          input.addEventListener("change", (event) => {
+            state.form[event.target.dataset.key] = event.target.value;
+          });
+        });
+
+        document.querySelectorAll("[data-choice]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.form.vehicle = button.dataset.choice;
+            renderPanel();
+          });
+        });
+
+        const confirmed = document.getElementById("confirmed");
+        if (confirmed) {
+          confirmed.addEventListener("change", (event) => {
+            state.confirmed = event.target.checked;
+            renderPanel();
+          });
+        }
+
+        const detailButton = document.getElementById("detailButton");
+        if (detailButton) {
+          detailButton.addEventListener("click", () => {
+            const detail = document.getElementById("advanceDetail");
+            const open = !detail.classList.contains("open");
+            detail.classList.toggle("open", open);
+            detailButton.setAttribute("aria-expanded", String(open));
+          });
+        }
+      }
+
+      async function submitRegistration() {
+        state.submitting = true;
+        renderPanel();
+
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...state.form,
+            confirmed: state.confirmed,
+            jobBasis: "川口",
+            weeklyAdvance: Math.round(weeklyAdvance),
+            weeklyAdvanceNet: Math.round(weeklyAdvanceNet),
+            pageUrl: window.location.href,
+          }),
+        });
+
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}));
+          throw new Error(body.message || "送信できませんでした。時間をおいて再度お試しください。");
+        }
+      }
+
+      document.getElementById("nextButton").addEventListener("click", async () => {
+        if (state.step === 4) {
+          window.location.hash = "#top";
+          return;
+        }
+
+        if (state.step === 0 && (!state.form.name.trim() || !state.form.phone.trim())) {
+          renderPanel("氏名と電話番号を入力すると次へ進めます。住所と年齢はあとで確認できます。");
+          return;
+        }
+
+        if (state.step === 3) {
+          if (!state.confirmed) return;
+
+          try {
+            await submitRegistration();
+            state.submitting = false;
+            state.step = 4;
+            renderPanel();
+          } catch (error) {
+            state.submitting = false;
+            renderPanel(error instanceof Error ? error.message : "送信できませんでした。");
+          }
+          return;
+        }
+
+        state.step = Math.min(state.step + 1, 4);
+        renderPanel();
+      });
+
+      document.getElementById("backButton").addEventListener("click", () => {
+        if (state.submitting) return;
+        state.step = Math.max(state.step - 1, 0);
+        renderPanel();
+      });
+
+      renderPanel();
+    </script>
+  </body>
+</html>
