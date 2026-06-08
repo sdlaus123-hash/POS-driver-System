@@ -113,7 +113,7 @@
       .hero {
         position: relative;
         overflow: hidden;
-        padding: 112px 0 54px;
+        padding: 104px 0 38px;
         background: #fff;
       }
 
@@ -168,7 +168,7 @@
       h1 {
         margin-top: 22px;
         max-width: 720px;
-        font-size: clamp(42px, 11vw, 78px);
+        font-size: clamp(40px, 11vw, 78px);
         line-height: 1.04;
         font-weight: 760;
         letter-spacing: 0;
@@ -178,13 +178,17 @@
         color: var(--action);
       }
 
+      .hero h1 .blue {
+        display: block;
+      }
+
       .hero-copy {
-        margin-top: 22px;
+        margin-top: 18px;
         max-width: 650px;
         color: #334155;
         font-size: 16px;
         font-weight: 600;
-        line-height: 1.8;
+        line-height: 1.75;
       }
 
       .pills,
@@ -199,7 +203,7 @@
       }
 
       .checks {
-        margin-top: 24px;
+        margin-top: 18px;
       }
 
       .pill,
@@ -211,14 +215,14 @@
         border-radius: 8px;
         background: rgba(255, 255, 255, 0.9);
         color: #334155;
-        padding: 10px 12px;
+        padding: 9px 12px;
         font-size: 14px;
         font-weight: 700;
       }
 
       .check {
-        min-height: 46px;
-        flex: 1 1 230px;
+        min-height: 42px;
+        flex: 1 1 100%;
       }
 
       .check-icon {
@@ -230,7 +234,11 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        margin-top: 30px;
+        margin-top: 24px;
+      }
+
+      .hero-actions .ghost-button {
+        display: none;
       }
 
       .button,
@@ -252,9 +260,20 @@
         box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
       }
 
+      .button:hover,
+      .button:focus-visible {
+        background: #1d4ed8;
+      }
+
       .ghost-button {
         border-color: #cbd5e1;
         background: rgba(255, 255, 255, 0.92);
+      }
+
+      .ghost-button:hover,
+      .ghost-button:focus-visible {
+        border-color: var(--action);
+        color: var(--action);
       }
 
       .status-card,
@@ -316,8 +335,144 @@
         padding: 14px;
       }
 
+      .hero-kpis {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .kpi-card {
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 12px;
+      }
+
+      .kpi-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .kpi-card strong {
+        display: block;
+        margin-top: 5px;
+        color: var(--ink);
+        font-size: 18px;
+        line-height: 1.15;
+      }
+
+      .reassurance {
+        margin-top: 14px;
+        border: 1px solid #bbf7d0;
+        border-radius: 10px;
+        background: rgba(240, 253, 244, 0.94);
+        color: #166534;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.6;
+      }
+
+      .trust-bar {
+        display: grid;
+        gap: 10px;
+      }
+
+      .trust-chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: white;
+        padding: 13px;
+        font-weight: 800;
+      }
+
+      .compare-grid,
+      .fit-grid,
+      .flow-grid,
+      .faq-list,
+      .transparency-grid {
+        display: grid;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .compare-card {
+        padding: 18px;
+      }
+
+      .compare-card h3 {
+        font-size: 18px;
+      }
+
+      .compare-card ul,
+      .reality-box ul {
+        display: grid;
+        gap: 10px;
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .compare-card li,
+      .reality-box li {
+        display: flex;
+        gap: 9px;
+        color: #334155;
+        line-height: 1.65;
+      }
+
+      .compare-card.positive {
+        border-color: #bfdbfe;
+        background: #eff6ff;
+      }
+
+      .fit-card,
+      .flow-card,
+      .faq-item {
+        padding: 16px;
+      }
+
+      .fit-card h3,
+      .flow-card h3 {
+        font-size: 16px;
+      }
+
+      .fit-card p,
+      .flow-card p {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .micro-cta {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 18px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: white;
+        color: var(--action);
+        padding: 11px 14px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
       .section {
-        padding: 58px 0;
+        scroll-margin-top: 66px;
+        padding: 50px 0;
+      }
+
+      #registrationForm {
+        scroll-margin-top: 82px;
       }
 
       .section.alt {
@@ -417,6 +572,45 @@
       .stars {
         color: var(--warning);
         letter-spacing: 0;
+      }
+
+      .job-reason {
+        margin-top: 14px;
+        color: #334155;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .job-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .tag {
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #334155;
+        padding: 6px 9px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .tag.green {
+        background: #dcfce7;
+        color: #15803d;
+      }
+
+      .job-cta {
+        width: 100%;
+        min-height: 46px;
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: var(--action);
+        font-weight: 800;
       }
 
       .notice {
@@ -530,6 +724,43 @@
         line-height: 1.75;
       }
 
+      .sim-controls {
+        display: grid;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        border-radius: 10px;
+        background: #e2e8f0;
+        padding: 4px;
+      }
+
+      .segment-button {
+        min-height: 42px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #475569;
+        font-weight: 800;
+      }
+
+      .segment-button.active {
+        background: white;
+        color: var(--action);
+        box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+      }
+
+      .small-note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
       .before-list {
         display: grid;
         gap: 10px;
@@ -569,6 +800,13 @@
         margin-top: 4px;
         color: var(--action);
         font-size: 28px;
+        font-weight: 800;
+      }
+
+      .progress-helper {
+        margin-top: 4px;
+        color: #334155;
+        font-size: 13px;
         font-weight: 800;
       }
 
@@ -674,6 +912,14 @@
         box-shadow: 0 0 0 4px #dbeafe;
       }
 
+      .form-hint {
+        display: block;
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
       .choice-grid {
         display: grid;
         gap: 12px;
@@ -742,6 +988,21 @@
         text-align: right;
       }
 
+      @media (max-width: 420px) {
+        .info-row {
+          display: grid;
+          gap: 4px;
+        }
+
+        .info-row strong {
+          text-align: left;
+        }
+
+        .info-button {
+          margin-left: 4px;
+        }
+      }
+
       .info-button {
         display: inline-grid;
         width: 32px;
@@ -769,6 +1030,28 @@
 
       .detail.open {
         display: block;
+      }
+
+      .summary-box {
+        display: grid;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .summary-row strong {
+        color: var(--ink);
+        text-align: right;
       }
 
       .confirm-label {
@@ -870,6 +1153,74 @@
         color: var(--action);
       }
 
+      .risk-box,
+      .reality-box {
+        margin-top: 28px;
+        border-radius: 10px;
+        padding: 18px;
+      }
+
+      .risk-box {
+        border: 1px solid #bbf7d0;
+        background: #f0fdf4;
+      }
+
+      .risk-box p,
+      .reality-box p {
+        margin-top: 9px;
+        color: #334155;
+        line-height: 1.75;
+      }
+
+      .reality-box {
+        border: 1px solid var(--line);
+        background: white;
+      }
+
+      .faq-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+      }
+
+      .faq-question {
+        display: flex;
+        width: 100%;
+        min-height: 54px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        padding: 0;
+        text-align: left;
+        font-weight: 800;
+      }
+
+      .faq-question span:last-child {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 7px;
+        background: #eff6ff;
+        color: var(--action);
+      }
+
+      .faq-answer {
+        display: none;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+        padding: 4px 0 2px;
+      }
+
+      .faq-item.open .faq-answer {
+        display: block;
+      }
+
       .footer {
         border-top: 1px solid var(--line);
         padding: 26px 0;
@@ -953,12 +1304,31 @@
           flex-direction: row;
         }
 
+        .hero-actions .ghost-button {
+          display: inline-flex;
+        }
+
+        .section {
+          padding: 58px 0;
+        }
+
         .job-grid {
           grid-template-columns: repeat(3, 1fr);
         }
 
         .strength-grid,
-        .trust-grid {
+        .trust-grid,
+        .fit-grid,
+        .flow-grid,
+        .transparency-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .trust-bar {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .compare-grid {
           grid-template-columns: repeat(2, 1fr);
         }
 
@@ -995,7 +1365,9 @@
 
       @media (min-width: 980px) {
         .strength-grid,
-        .trust-grid {
+        .trust-grid,
+        .fit-grid,
+        .flow-grid {
           grid-template-columns: repeat(3, 1fr);
         }
       }
@@ -1011,10 +1383,12 @@
           </a>
           <nav class="nav" aria-label="ページ内メニュー">
             <a href="#opportunities">案件</a>
-            <a href="#simulator">シミュレーター</a>
-            <a href="#register">登録</a>
+            <a href="#simulator">収入目安</a>
+            <a href="#faq">不安解消</a>
+            <a href="#conditions">条件</a>
+            <a href="#registrationForm">登録</a>
           </nav>
-          <a class="button" href="#register">登録を開始する</a>
+          <a class="button" href="#registrationForm">条件確認へ</a>
         </div>
       </header>
 
@@ -1022,26 +1396,21 @@
         <section id="top" class="hero">
           <div class="container hero-grid">
             <div>
-              <span class="eyebrow">配送パートナー登録</span>
-              <h1>最短3日で<span class="blue">稼働開始</span></h1>
+              <span class="eyebrow">配送パートナー登録｜条件確認だけでもOK</span>
+              <h1>軽バンで、収入の選択肢を増やす。</h1>
               <p class="hero-copy">
-                登録後すぐに契約ではありません。条件、車両、開始日を担当者と確認し、納得してから稼働準備へ進めます。
+                日当20,000円以上の案件を中心に案内。登録後すぐ契約ではなく、条件・車両・開始日を担当者と確認してから進められます。
               </p>
-              <div class="pills" aria-label="安心ポイント">
-                <span class="pill">入力目安3分</span>
-                <span class="pill">費用は事前確認</span>
-                <span class="pill">担当者が確認</span>
+              <div class="hero-kpis" aria-label="条件の目安">
+                <div class="kpi-card"><span>日当目安</span><strong>20,000円〜</strong></div>
+                <div class="kpi-card"><span>前払い</span><strong>売上50%まで</strong></div>
+                <div class="kpi-card"><span>開始目安</span><strong>最短3日</strong></div>
               </div>
-              <div class="checks">
-                <div class="check"><span class="check-icon">✓</span>月間売上50万円以上の案件あり</div>
-                <div class="check"><span class="check-icon">✓</span>車がなくてもスタート可能</div>
-                <div class="check"><span class="check-icon">✓</span>前払い制度対応</div>
-                <div class="check"><span class="check-icon">✓</span>人によるサポート</div>
-                <div class="check"><span class="check-icon">✓</span>完全週休二日が原則</div>
-                <div class="check"><span class="check-icon">✓</span>寮もご紹介可能</div>
-              </div>
+              <p class="reassurance">
+                この時点で契約確定ではありません。条件確認・相談だけでも問題ありません。
+              </p>
               <div class="hero-actions">
-                <a class="button" href="#register">登録を開始する</a>
+                <a class="button" href="#registrationForm">まずは条件を確認する</a>
                 <a class="ghost-button" href="#opportunities">案件を見る</a>
               </div>
             </div>
@@ -1076,28 +1445,62 @@
         </section>
 
         <section class="section alt">
-          <div class="container trust-grid">
-            <article class="card trust">
-              <span class="icon-box">1</span>
-              <div>
-                <h3>登録後すぐ契約ではありません</h3>
-                <p>条件、開始日、車両状況を確認してから稼働準備へ進みます。</p>
-              </div>
-            </article>
-            <article class="card trust">
-              <span class="icon-box">2</span>
-              <div>
-                <h3>費用と支払いを事前に表示</h3>
-                <p>管理費、業務紹介料(ロイヤリティー)、支払いサイクルを確認できます。</p>
-              </div>
-            </article>
-            <article class="card trust">
-              <span class="icon-box">3</span>
-              <div>
-                <h3>担当者が人で対応</h3>
-                <p>初回確認から稼働開始後まで、必要な場面で相談できます。</p>
-              </div>
-            </article>
+          <div class="container trust-bar" aria-label="安心ポイント">
+            <div class="trust-chip"><span class="check-icon">✓</span>条件を先に確認</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>登録後すぐ契約なし</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>車両相談可能</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>前払い相談可能</div>
+          </div>
+        </section>
+
+        <section id="difference" class="section">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Difference</p>
+              <h2>よくある軽配送求人との違い</h2>
+              <p>日当だけで判断せず、費用・支払い・車両・開始日を先に確認できます。</p>
+            </div>
+            <div class="compare-grid">
+              <article class="card compare-card">
+                <h3>よくある不安</h3>
+                <ul>
+                  <li><span>?</span>詳細がDM後まで分からない</li>
+                  <li><span>?</span>手数料が後から出てくる</li>
+                  <li><span>?</span>車両の相談がしにくい</li>
+                  <li><span>?</span>すぐ契約の雰囲気がある</li>
+                  <li><span>?</span>支払い条件が分かりづらい</li>
+                </ul>
+              </article>
+              <article class="card compare-card positive">
+                <h3>POMSの条件確認</h3>
+                <ul>
+                  <li><span class="check-icon">✓</span>管理費・紹介料を先に表示</li>
+                  <li><span class="check-icon">✓</span>前払い条件を先に確認</li>
+                  <li><span class="check-icon">✓</span>車両・リース相談可能</li>
+                  <li><span class="check-icon">✓</span>登録後すぐ契約ではない</li>
+                  <li><span class="check-icon">✓</span>担当者が条件を確認</li>
+                </ul>
+              </article>
+            </div>
+            <a class="micro-cta" href="#registrationForm">条件だけ先に確認する</a>
+          </div>
+        </section>
+
+        <section id="fit" class="section alt">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Fit</p>
+              <h2>こんな働き方をしたい人に向いています</h2>
+              <p>まだ始めるか決めていなくても、条件確認から進められます。</p>
+            </div>
+            <div class="fit-grid">
+              <article class="card fit-card"><h3>今より収入を上げたい</h3><p>日当と月間目安を先に確認。</p></article>
+              <article class="card fit-card"><h3>1人で気楽に働きたい</h3><p>配送中心の働き方を相談可能。</p></article>
+              <article class="card fit-card"><h3>未経験から始めたい</h3><p>仕事内容を確認してから判断できます。</p></article>
+              <article class="card fit-card"><h3>初月の資金が不安</h3><p>前払い条件を先に確認できます。</p></article>
+              <article class="card fit-card"><h3>車がない</h3><p>リースや車両準備を相談できます。</p></article>
+              <article class="card fit-card"><h3>週4〜5日で安定したい</h3><p>稼働日数と開始時期を確認します。</p></article>
+            </div>
           </div>
         </section>
 
@@ -1105,120 +1508,128 @@
           <div class="container">
             <div class="section-head">
               <p class="eyebrow-text">Opportunities</p>
-              <h2>案件一覧</h2>
-              <p>高単価と開始しやすさを重視した配送パートナー向け案件です。</p>
+              <h2>現在案内できる案件</h2>
+              <p>日当、月間売上目安、案件状態を先に確認できます。</p>
             </div>
             <div class="job-grid" id="jobGrid"></div>
             <div class="notice">
-              <strong>その他、福岡県内の案件もご紹介可能です。</strong><br />
+              <strong>福岡県内の案件もご紹介可能です。</strong><br />
               希望エリアや開始時期に合わせて、担当者が紹介可能な案件を確認します。
             </div>
           </div>
         </section>
 
-        <section class="section alt">
-          <div class="container">
-            <div class="section-head">
-              <p class="eyebrow-text">POMS Strength</p>
-              <h2>POMSの強み</h2>
-              <p>車両、資金、稼働後の相談まで、ひとりで抱え込まない体制です。</p>
-            </div>
-            <div class="strength-grid" id="strengthGrid"></div>
-          </div>
-        </section>
-
-        <section id="simulator" class="section">
+        <section id="simulator" class="section alt">
           <div class="container sim-grid">
             <div>
               <div class="section-head">
                 <p class="eyebrow-text">Sales Estimate</p>
-                <h2>売上目安シミュレーター</h2>
-                <p>
-                  原則として完全週休二日で稼働する前提の参考値です。収入や手取りを保証するものではありません。
-                </p>
+                <h2>収入と前払いの目安を先に確認</h2>
+                <p>案件と稼働日数を変えて、売上・差引・前払い目安を確認できます。</p>
               </div>
-              <dl class="conditions">
-                <div class="condition">
-                  <dt>基準案件</dt>
-                  <dd>川口</dd>
+              <div class="sim-controls">
+                <label>
+                  <span class="select-label">基準案件</span>
+                  <select id="simJob"></select>
+                </label>
+                <div>
+                  <p class="label">稼働日数</p>
+                  <div class="segmented" role="group" aria-label="稼働日数">
+                    <button class="segment-button" type="button" data-sim-days="4">週4日</button>
+                    <button class="segment-button active" type="button" data-sim-days="5">週5日</button>
+                  </div>
                 </div>
-                <div class="condition">
-                  <dt>日額</dt>
-                  <dd>23,246円</dd>
-                </div>
-                <div class="condition">
-                  <dt>稼働</dt>
-                  <dd>完全週休二日</dd>
-                </div>
-                <div class="condition">
-                  <dt>月間</dt>
-                  <dd>20日換算</dd>
-                </div>
-              </dl>
+              </div>
+              <p class="small-note">
+                手取り保証ではありません。稼働日数・案件・経費により変動します。
+              </p>
             </div>
             <div>
               <div class="result-grid">
-                <article class="card result">
-                  <p class="label">月間売上目安</p>
-                  <strong id="monthlySales">464,920円</strong>
-                </article>
-                <article class="card result">
-                  <p class="label">週払い上限目安</p>
-                  <strong id="weeklyAdvance">58,115円</strong>
-                </article>
-                <article class="card result">
-                  <p class="label">条件差引後目安</p>
-                  <strong id="takeHome">370,182円</strong>
-                </article>
+                <article class="card result"><p class="label">月間売上目安</p><strong id="monthlySales">-</strong></article>
+                <article class="card result"><p class="label">業務紹介料15%</p><strong id="royaltyFee">-</strong></article>
+                <article class="card result"><p class="label">管理費</p><strong>25,000円</strong></article>
+                <article class="card result"><p class="label">条件差引後目安</p><strong id="takeHome">-</strong></article>
+                <article class="card result"><p class="label">前払い可能額目安</p><strong id="weeklyAdvance">-</strong></article>
+                <article class="card result"><p class="label">前払い手数料目安</p><strong id="advanceFee">-</strong></article>
               </div>
               <article class="advance">
                 <h3>週払い利用の例</h3>
                 <p>
-                  1週間分の売上をもとに、売上の50%を上限として利用した場合の概算です。実際の利用可否、対象売上、振込日は担当者が確認します。
+                  週払い上限77,500円の場合、利用時は8% + 260円を差し引き、受取目安は71,040円です。
                 </p>
                 <p>
-                  例: 週払い上限77,500円の場合、利用時は8% + 260円を差し引き、受取目安は71,040円です。
-                </p>
-                <p>
-                  前払いの残りの50%は通常の振り込み日にご指定の口座に振り込まれます。
+                  前払いの残りの50%は通常の振り込み日にご指定の口座に振り込まれます。実際の振込日は担当者が確認します。
                 </p>
               </article>
             </div>
           </div>
         </section>
 
-        <section class="section alt">
+        <section id="flow" class="section">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Flow</p>
+              <h2>登録後すぐ契約ではありません</h2>
+              <p>条件に納得できれば、稼働準備へ進みます。</p>
+            </div>
+            <div class="flow-grid">
+              <article class="card flow-card"><h3>1. 条件確認を送信</h3><p>希望エリア、車両、開始時期を送信。</p></article>
+              <article class="card flow-card"><h3>2. 担当者が内容確認</h3><p>条件に合う案件を確認します。</p></article>
+              <article class="card flow-card"><h3>3. 車両・開始日を確認</h3><p>軽バンなしでも相談可能です。</p></article>
+              <article class="card flow-card"><h3>4. 納得できれば準備</h3><p>この時点で費用は発生しません。</p></article>
+              <article class="card flow-card"><h3>5. 研修後に稼働開始</h3><p>無理に契約を進めるものではありません。</p></article>
+            </div>
+            <div class="risk-box">
+              <h3>迷っている段階でも大丈夫です</h3>
+              <p>登録後すぐ契約ではありません。希望条件を確認し、合わなければ無理に進める必要はありません。</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" class="section alt">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">FAQ</p>
+              <h2>よくある不安を先に確認</h2>
+              <p>始める前に気になりやすい点をまとめています。</p>
+            </div>
+            <div class="faq-list" id="faqList"></div>
+          </div>
+        </section>
+
+        <section id="conditions" class="section">
           <div class="container before-grid">
             <div>
               <div class="section-head">
-                <p class="eyebrow-text">Before Registration</p>
-                <h2>登録前に確認できます</h2>
-                <p>メリットだけで進めず、支払い条件とサポート範囲を先に見える化します。</p>
+                <p class="eyebrow-text">Transparency</p>
+                <h2>後から不安になりやすい条件を、先に確認できます</h2>
+                <p>軽配送の仕事は、日当だけで判断すると後から不安が出やすいです。</p>
               </div>
-              <div class="before-list">
-                <div><span class="check-icon">✓</span>案件紹介、研修、元請け対応までサポート</div>
-                <div><span class="check-icon">✓</span>その他、福岡県内の案件も紹介可能</div>
-                <div><span class="check-icon">✓</span>前払いは売上50%まで利用可能</div>
-                <div><span class="check-icon">✓</span>軽バンなし、リース希望も相談可能</div>
-                <div><span class="check-icon">✓</span>寮の紹介も相談可能</div>
-                <div><span class="check-icon">✓</span>登録完了後に担当者が内容を確認</div>
+              <div class="reality-box">
+                <h3>始める前に知っておいてほしいこと</h3>
+                <ul>
+                  <li><span>•</span>配送は体力を使う仕事です</li>
+                  <li><span>•</span>天候や荷量により終了時間は変わります</li>
+                  <li><span>•</span>案件により条件は異なります</li>
+                  <li><span>•</span>だからこそ、事前の条件確認を大切にしています</li>
+                </ul>
               </div>
             </div>
             <article class="card" style="padding: 18px">
               <h3>条件の透明性</h3>
               <p style="margin-top: 8px; color: var(--muted); line-height: 1.7">
-                後から不安になりやすい項目を先に確認できます。
+                POMSでは、管理費・紹介料・支払いサイクル・前払い条件を先に確認できるようにしています。
               </p>
               <dl class="conditions">
                 <div class="condition"><dt>管理費</dt><dd>25,000円</dd></div>
-                <div class="condition"><dt>業務紹介料(ロイヤリティー)</dt><dd>売り上げの15%</dd></div>
+                <div class="condition"><dt>業務紹介料</dt><dd>売上の15%</dd></div>
                 <div class="condition"><dt>支払い</dt><dd>月末締め 翌々月末払い</dd></div>
-                <div class="condition"><dt>前払い</dt><dd>売上50%まで</dd></div>
+                <div class="condition"><dt>前払い</dt><dd>売上50%まで相談可</dd></div>
+                <div class="condition"><dt>前払い手数料</dt><dd>8% + 260円</dd></div>
+                <div class="condition"><dt>契約</dt><dd>納得してから</dd></div>
               </dl>
-              <div class="notice">
-                <strong>前払い例</strong><br />
-                週払い上限77,500円の場合、受取目安は71,040円です。前払いの残りの50%は通常の振り込み日にご指定の口座に振り込まれます。
-              </div>
+              <a class="micro-cta" href="#registrationForm">費用を確認して進む</a>
             </article>
           </div>
         </section>
@@ -1227,13 +1638,14 @@
           <div class="container">
             <div class="form-head">
               <div class="section-head">
-                <p class="eyebrow-text">Partner Registration</p>
-                <h2>登録フォーム</h2>
-                <p>入力は短く、確認は人が対応します。迷っている状態でも相談から進められます。</p>
+                <p class="eyebrow-text">Condition Check</p>
+                <h2>まずは条件確認から</h2>
+                <p>登録後すぐ契約ではありません。希望エリア・車両状況・開始時期を確認し、担当者がご連絡します。</p>
               </div>
               <div class="progress-card">
-                <p class="label">現在の登録状況</p>
+                <p class="label">現在の入力状況</p>
                 <p class="progress-percent" id="progressPercent">20%</p>
+                <p class="progress-helper" id="progressHelper">あと約1分</p>
               </div>
             </div>
 
@@ -1263,39 +1675,80 @@
       <div class="sticky-cta">
         <div class="sticky-inner">
           <div>
-            <p>入力目安3分</p>
-            <p>送信後に担当者が確認</p>
+            <p>日当20,000円〜</p>
+            <p id="stickySub">条件確認だけOK</p>
           </div>
-          <a class="button" href="#register">登録へ</a>
+          <a class="button" id="stickyCtaButton" href="#registrationForm">条件確認へ</a>
         </div>
       </div>
     </div>
 
     <script>
       const jobs = [
-        { name: "川口", daily: 23246, status: "一番おすすめ", rating: 5, feature: true },
-        { name: "町田", daily: 20800, status: "募集中", rating: 4 },
-        { name: "平和島", daily: 31000, status: "7月限定", rating: 5 },
-        { name: "新宿上落合", daily: 23753, status: "募集中", rating: 4 },
-        { name: "茨木", daily: 22766, status: "募集中", rating: 4 },
-        { name: "尼崎", daily: 22638, status: "募集中", rating: 4 },
+        {
+          name: "川口",
+          daily: 23246,
+          status: "人気エリア",
+          rating: 5,
+          feature: true,
+          reason: "安定して稼働しやすく、未経験から始めやすいエリアです。",
+        },
+        {
+          name: "町田",
+          daily: 20800,
+          status: "案内可能",
+          rating: 4,
+          reason: "落ち着いて始めたい方、通いやすさを重視する方に向いています。",
+        },
+        {
+          name: "平和島",
+          daily: 31000,
+          status: "7月強化",
+          rating: 5,
+          reason: "高単価を狙いたい方に向いています。枠状況は担当者が確認します。",
+        },
+        {
+          name: "新宿上落合",
+          daily: 23753,
+          status: "相談可能",
+          rating: 4,
+          reason: "都内近郊で効率よく稼働したい方に向いています。",
+        },
+        {
+          name: "茨木",
+          daily: 22766,
+          status: "案内可能",
+          rating: 4,
+          reason: "関西エリアで安定稼働を相談したい方に向いています。",
+        },
+        {
+          name: "尼崎",
+          daily: 22638,
+          status: "相談可能",
+          rating: 4,
+          reason: "車両や開始時期を相談しながら進めたい方に向いています。",
+        },
       ];
 
-      const strengths = [
-        ["前払い制度", "売上の一部を早めに受け取れる設計です。", "¥"],
-        ["リース相談", "軽バンがない状態からの開始も相談できます。", "車"],
-        ["配送研修", "初回稼働までに基本動作を確認します。", "研"],
-        ["管理者サポート", "困った時に人が対応する運用体制です。", "支"],
-        ["高単価案件", "収益性を重視した案件を中心に案内します。", "高"],
-        ["日払い週払い対応", "資金繰りに合わせた受け取り相談ができます。", "払"],
-        ["寮の紹介相談", "遠方からの開始や住まいの相談も担当者が確認します。", "住"],
+      const faqs = [
+        ["未経験でもできますか？", "未経験から始める方もいます。配送アプリを使いながら進めるため、仕事内容を確認してから判断できます。"],
+        ["車がなくても相談できますか？", "軽バンがない方も、車両リースなどを含めて相談可能です。状況により案内できる条件が変わるため、担当者が確認します。"],
+        ["登録したらすぐ契約ですか？", "いいえ。登録後すぐ契約ではありません。条件・車両・開始日を確認し、納得してから進めます。"],
+        ["前払いはできますか？", "売上の50%を上限に相談可能です。利用時は手数料8%＋振込手数料260円が目安です。"],
+        ["支払いサイクルは？", "月末締め、翌々月末払いです。前払いを利用した場合、残りの金額は通常の振込日に支払われます。"],
+        ["費用はありますか？", "管理費25,000円、業務紹介料として売上の15%があります。後から不安にならないよう、登録前に確認できます。"],
+        ["どのエリアがありますか？", "時期により案内できるエリアが変わります。希望エリアを送信後、担当者が確認します。"],
+        ["週何日から稼働できますか？", "案件により異なりますが、週4〜5日を目安に相談可能です。"],
       ];
 
-      const steps = ["基本情報", "車両情報", "希望条件", "内容確認", "完了"];
+      const steps = ["希望条件", "車両状況", "基本情報", "内容確認", "完了"];
+      const helperTexts = ["あと約1分", "あと3ステップ", "あと2ステップ", "あと1ステップ", "送信完了"];
       const state = {
         step: 0,
         submitting: false,
         confirmed: false,
+        simDays: 5,
+        simJob: "川口",
         form: {
           name: "",
           phone: "",
@@ -1305,63 +1758,123 @@
           area: "川口",
           income: "50万円以上",
           start: "最短",
-          days: "完全週休二日",
+          days: "週5日",
         },
       };
 
       const yen = (value) => `${Math.round(value).toLocaleString("ja-JP")}円`;
-      const monthlySales = jobs[0].daily * 20;
-      const weeklyAdvance = jobs[0].daily * 5 * 0.5;
-      const weeklyAdvanceNet = weeklyAdvance - (weeklyAdvance * 0.08 + 260);
-      const takeHome = monthlySales - monthlySales * 0.15 - 25000;
+      const getJob = (name) => jobs.find((job) => job.name === name) || jobs[0];
 
-      document.getElementById("monthlySales").textContent = yen(monthlySales);
-      document.getElementById("weeklyAdvance").textContent = yen(weeklyAdvance);
-      document.getElementById("takeHome").textContent = yen(takeHome);
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
 
-      document.getElementById("jobGrid").innerHTML = jobs
-        .map((job) => {
-          const badgeClass = job.status.includes("一番")
-            ? "blue"
-            : job.status.includes("限定")
+      function monthlyByDaily(daily, weeklyDays) {
+        return daily * weeklyDays * 4;
+      }
+
+      function weeklyAdvanceAmount(daily, weeklyDays) {
+        return daily * weeklyDays * 0.5;
+      }
+
+      function renderJobs() {
+        document.getElementById("jobGrid").innerHTML = jobs
+          .map((job) => {
+            const badgeClass = job.status.includes("強化")
               ? "amber"
-              : "";
+              : job.status.includes("人気")
+                ? "blue"
+                : "";
 
-          return `
-            <article class="card job-card ${job.feature ? "feature" : ""}">
-              <div class="job-head">
-                <div>
-                  <p class="label">案件名</p>
-                  <h3 class="job-name">${job.name}</h3>
+            return `
+              <article class="card job-card ${job.feature ? "feature" : ""}">
+                <div class="job-head">
+                  <div>
+                    <p class="label">エリア</p>
+                    <h3 class="job-name">${job.name}</h3>
+                  </div>
+                  <span class="badge ${badgeClass}">${job.status}</span>
                 </div>
-                <span class="badge ${badgeClass}">${job.status}</span>
-              </div>
-              <div class="line"><span>日額</span><strong>${yen(job.daily)}</strong></div>
-              <div class="line"><span>月間売上目安</span><strong>${yen(job.daily * 20)}</strong></div>
-              <div class="line"><span>おすすめ度</span><strong class="stars">${"★".repeat(job.rating)}${"☆".repeat(5 - job.rating)}</strong></div>
-            </article>
-          `;
-        })
-        .join("");
+                <div class="line"><span>日当目安</span><strong>${yen(job.daily)}</strong></div>
+                <div class="line"><span>月間売上目安</span><strong>${yen(job.daily * 20)}</strong></div>
+                <div class="line"><span>稼働日数目安</span><strong>月20日</strong></div>
+                <div class="line"><span>おすすめ</span><strong class="stars">${"★".repeat(job.rating)}${"☆".repeat(5 - job.rating)}</strong></div>
+                <p class="job-reason">${job.reason}</p>
+                <div class="job-tags">
+                  <span class="tag green">前払い相談可</span>
+                  <span class="tag">車両相談可</span>
+                </div>
+                <button class="job-cta" type="button" data-area="${job.name}">この案件で条件確認</button>
+              </article>
+            `;
+          })
+          .join("");
+      }
 
-      document.getElementById("strengthGrid").innerHTML = strengths
-        .map(
-          ([title, body, icon]) => `
-            <article class="card strength">
-              <span class="icon-box">${icon}</span>
-              <div>
-                <h3>${title}</h3>
-                <p>${body}</p>
-              </div>
-            </article>
-          `,
-        )
-        .join("");
+      function renderFaq() {
+        document.getElementById("faqList").innerHTML = faqs
+          .map(
+            ([question, answer], index) => `
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-${index}" data-faq="${index}">
+                  <span>${question}</span>
+                  <span>+</span>
+                </button>
+                <div class="faq-answer" id="faq-${index}">${answer}</div>
+              </article>
+            `,
+          )
+          .join("");
+      }
+
+      function renderSimulator() {
+        const job = getJob(state.simJob);
+        const monthlySales = monthlyByDaily(job.daily, state.simDays);
+        const royalty = monthlySales * 0.15;
+        const management = 25000;
+        const takeHome = monthlySales - royalty - management;
+        const weeklyAdvance = weeklyAdvanceAmount(job.daily, state.simDays);
+        const advanceFee = weeklyAdvance * 0.08 + 260;
+
+        document.getElementById("monthlySales").textContent = yen(monthlySales);
+        document.getElementById("royaltyFee").textContent = yen(royalty);
+        document.getElementById("takeHome").textContent = yen(takeHome);
+        document.getElementById("weeklyAdvance").textContent = yen(weeklyAdvance);
+        document.getElementById("advanceFee").textContent = yen(advanceFee);
+
+        document.querySelectorAll("[data-sim-days]").forEach((button) => {
+          button.classList.toggle("active", Number(button.dataset.simDays) === state.simDays);
+        });
+      }
+
+      function setupSimulator() {
+        const select = document.getElementById("simJob");
+        select.innerHTML = jobs
+          .map((job) => `<option value="${job.name}">${job.name} / ${yen(job.daily)}</option>`)
+          .join("");
+        select.value = state.simJob;
+        select.addEventListener("change", (event) => {
+          state.simJob = event.target.value;
+          renderSimulator();
+        });
+        document.querySelectorAll("[data-sim-days]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.simDays = Number(button.dataset.simDays);
+            renderSimulator();
+          });
+        });
+        renderSimulator();
+      }
 
       function field(label, key, options = {}) {
         const badge = options.required
           ? '<span class="required">必須</span>'
           : '<span class="optional">あとで確認可</span>';
+        const help = options.help ? `<small class="form-hint">${options.help}</small>` : "";
         return `
           <label>
             <span>${label}${badge}</span>
@@ -1372,11 +1885,12 @@
               autocomplete="${options.autoComplete || "off"}"
               data-key="${key}"
             />
+            ${help}
           </label>
         `;
       }
 
-      function selectField(label, key, options) {
+      function selectField(label, key, options, help = "") {
         return `
           <label>
             <span class="select-label">${label}</span>
@@ -1388,21 +1902,15 @@
                 )
                 .join("")}
             </select>
+            ${help ? `<small class="form-hint">${help}</small>` : ""}
           </label>
         `;
-      }
-
-      function escapeHtml(value) {
-        return String(value)
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;");
       }
 
       function renderProgress() {
         const percent = (state.step + 1) * 20;
         document.getElementById("progressPercent").textContent = `${percent}%`;
+        document.getElementById("progressHelper").textContent = helperTexts[state.step];
         document.getElementById("progressFill").style.width = `${percent}%`;
         document.getElementById("progressSteps").innerHTML = steps
           .map(
@@ -1410,6 +1918,20 @@
               `<div class="progress-step ${index <= state.step ? "active" : ""}">${(index + 1) * 20}%<br />${step}</div>`,
           )
           .join("");
+      }
+
+      function renderSummary() {
+        return `
+          <div class="summary-box">
+            <div class="summary-row"><span>希望エリア</span><strong>${escapeHtml(state.form.area)}</strong></div>
+            <div class="summary-row"><span>希望売上目安</span><strong>${escapeHtml(state.form.income)}</strong></div>
+            <div class="summary-row"><span>稼働ペース</span><strong>${escapeHtml(state.form.days)}</strong></div>
+            <div class="summary-row"><span>開始希望</span><strong>${escapeHtml(state.form.start)}</strong></div>
+            <div class="summary-row"><span>車両状況</span><strong>${escapeHtml(state.form.vehicle)}</strong></div>
+            <div class="summary-row"><span>氏名</span><strong>${escapeHtml(state.form.name || "未入力")}</strong></div>
+            <div class="summary-row"><span>電話番号</span><strong>${escapeHtml(state.form.phone || "未入力")}</strong></div>
+          </div>
+        `;
       }
 
       function renderPanel(errorMessage = "") {
@@ -1423,31 +1945,31 @@
           state.step === 3
             ? state.submitting
               ? "送信中"
-              : "内容を確認して完了"
+              : "この内容で確認へ"
             : state.step === 4
               ? "トップへ"
               : "次へ";
 
         if (state.step === 0) {
           panel.innerHTML = `
-            <h3 class="panel-title"><span class="icon-box">1</span>基本情報</h3>
-            <div class="notice">まずは連絡先を確認します。住所や年齢は担当者確認で修正できます。</div>
+            <h3 class="panel-title"><span class="icon-box">1</span>希望条件</h3>
+            <div class="notice">最初は希望条件だけ。個人情報は次の後半で入力します。</div>
             <div class="field-grid" style="margin-top: 18px">
-              ${field("氏名", "name", { required: true, placeholder: "山田 太郎", autoComplete: "name" })}
-              ${field("電話番号", "phone", { required: true, placeholder: "09012345678", inputMode: "tel", autoComplete: "tel" })}
-              ${field("住所", "address", { placeholder: "東京都大田区", autoComplete: "street-address" })}
-              ${field("年齢", "age", { placeholder: "32", inputMode: "numeric" })}
+              ${selectField("希望エリア", "area", ["川口", "町田", "平和島", "新宿上落合", "茨木", "尼崎", "その他福岡県内", "相談する"])}
+              ${selectField("希望売上目安", "income", ["40万円以上", "50万円以上", "60万円以上"])}
+              ${selectField("希望稼働日数", "days", ["週4日", "週5日", "曜日相談"])}
+              ${selectField("開始希望", "start", ["最短", "1週間以内", "今月中", "来月以降"])}
             </div>
             <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
-            <p style="margin-top: 14px; color: var(--muted); line-height: 1.7">入力内容は登録内容確認と案件案内のために使用します。</p>
           `;
         }
 
         if (state.step === 1) {
-          const options = ["軽バンあり", "軽バンなし", "リース希望", "リース相談"];
+          const options = ["軽バンあり", "軽バンなし", "リース相談したい", "これから準備予定"];
           panel.innerHTML = `
-            <h3 class="panel-title"><span class="icon-box">2</span>車両情報</h3>
-            <div class="choice-grid">
+            <h3 class="panel-title"><span class="icon-box">2</span>車両状況</h3>
+            <div class="notice">軽バンがない方も相談できます。現在の状況を選んでください。</div>
+            <div class="choice-grid" style="margin-top: 18px">
               ${options
                 .map(
                   (option) => `
@@ -1463,61 +1985,50 @@
 
         if (state.step === 2) {
           panel.innerHTML = `
-            <h3 class="panel-title"><span class="icon-box">3</span>希望条件</h3>
+            <h3 class="panel-title"><span class="icon-box">3</span>基本情報</h3>
             <div class="field-grid">
-              ${selectField("希望エリア", "area", ["川口", "町田", "平和島", "新宿上落合", "茨木", "尼崎", "その他福岡県内", "相談する"])}
-              ${selectField("希望売上目安", "income", ["40万円以上", "50万円以上", "60万円以上"])}
-              ${selectField("稼働開始希望", "start", ["最短", "1週間以内", "今月中", "来月以降"])}
-              ${selectField("稼働ペース", "days", ["完全週休二日", "曜日相談", "開始日相談"])}
+              ${field("氏名", "name", { required: true, placeholder: "山田 太郎", autoComplete: "name" })}
+              ${field("電話番号", "phone", { required: true, placeholder: "09012345678", inputMode: "tel", autoComplete: "tel", help: "担当者から条件確認のためにご連絡します。一斉送信ではありません。" })}
+              ${field("年齢", "age", { placeholder: "32", inputMode: "numeric" })}
+              ${field("住所またはエリア", "address", { placeholder: "東京都大田区", autoComplete: "street-address", help: "市区町村まででも確認可能です。詳細は担当者が確認します。" })}
             </div>
+            <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
           `;
         }
 
         if (state.step === 3) {
           panel.innerHTML = `
-            <h3 class="panel-title"><span class="icon-box">4</span>契約前の内容確認</h3>
+            <h3 class="panel-title"><span class="icon-box">4</span>内容確認</h3>
             <div class="contract-grid">
-              <div class="support-box">
-                <h3>サポート内容</h3>
-                <div class="support-list">
-                  <div><span class="check-icon">✓</span>案件紹介</div>
-                  <div><span class="check-icon">✓</span>福岡県内案件紹介</div>
-                  <div><span class="check-icon">✓</span>前払い制度</div>
-                  <div><span class="check-icon">✓</span>研修</div>
-                  <div><span class="check-icon">✓</span>リース相談</div>
-                  <div><span class="check-icon">✓</span>寮紹介相談</div>
-                  <div><span class="check-icon">✓</span>元請け対応</div>
-                  <div><span class="check-icon">✓</span>管理サポート</div>
-                </div>
+              <div>
+                <h3 style="margin-bottom: 12px">入力内容</h3>
+                ${renderSummary()}
               </div>
               <div class="condition-box">
-                <h3>条件</h3>
+                <h3>先に確認する条件</h3>
                 <div class="info-row"><span>管理費</span><strong>25,000円</strong></div>
-                <div class="info-row"><span>業務紹介料(ロイヤリティー)</span><strong>売り上げの15%</strong></div>
+                <div class="info-row"><span>業務紹介料</span><strong>売上の15%</strong></div>
                 <div class="info-row"><span>支払い</span><strong>月末締め 翌々月末払い</strong></div>
-                <div class="info-row"><span>前払い</span><strong>売上50%まで利用可能</strong></div>
+                <div class="info-row"><span>前払い</span><strong>売上50%まで相談可</strong></div>
                 <div class="info-row"><span>利用時</span><strong>8% + 260円</strong></div>
                 <div class="info-row">
-                  <span>例</span>
-                  <strong>週払い上限77,500円の場合、受取目安71,040円
-                    <button class="info-button" id="detailButton" type="button" aria-expanded="false">i</button>
+                  <span>週払い例</span>
+                  <strong>上限77,500円の場合、受取目安71,040円
+                    <button class="info-button" id="detailButton" type="button" aria-controls="advanceDetail" aria-expanded="false">i</button>
                   </strong>
                 </div>
-                <div class="info-row"><span>残額</span><strong>通常の振り込み日に指定口座へ</strong></div>
                 <div class="detail" id="advanceDetail">
-                  <strong>週払い例の内訳</strong><br />
                   週間売上目安: 155,000円<br />
                   週払い上限目安: 77,500円<br />
                   利用時: 8% + 260円 = 6,460円<br />
                   受取目安: 71,040円<br />
-                  残り50%は通常の振り込み日に指定口座へ振り込まれます。<br />
-                  実際の利用可否、対象売上、振込日は担当者が確認します。
+                  残り50%は通常の振り込み日に指定口座へ振り込まれます。
                 </div>
               </div>
             </div>
             <label class="confirm-label">
               <input type="checkbox" id="confirmed" ${state.confirmed ? "checked" : ""} />
-              内容を確認しました
+              登録後すぐ契約ではないことを確認しました
             </label>
             <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
           `;
@@ -1525,17 +2036,17 @@
 
         if (state.step === 4) {
           panel.innerHTML = `
-            <h3 class="panel-title"><span class="icon-box">✓</span>登録ありがとうございます</h3>
+            <h3 class="panel-title"><span class="icon-box">✓</span>条件確認を受け付けました</h3>
             <div class="complete-grid">
               <div class="complete-box">
-                <p>担当者より登録内容確認のお電話をいたします</p>
-                <p style="margin-top: 10px; color: #334155; line-height: 1.7">この時点で費用は発生しません。条件を確認し、納得してから次へ進みます。</p>
-                <p class="label" style="margin-top: 16px">現在の登録状況</p>
+                <p>この時点で契約確定ではありません。</p>
+                <p style="margin-top: 10px; color: #334155; line-height: 1.7">担当者が内容を確認し、条件・車両・開始日について電話またはLINEでご連絡します。</p>
+                <p class="label" style="margin-top: 16px">現在の入力状況</p>
                 <p class="done">100%</p>
               </div>
               <div class="next-box">
-                <h3>次のステップ</h3>
-                ${["担当者確認", "契約", "研修", "稼働開始"]
+                <h3>次の流れ</h3>
+                ${["内容確認", "条件確認", "稼働準備", "研修・開始"]
                   .map((item, index) => `<div class="next-step"><span>${index + 1}</span>${item}</div>`)
                   .join("")}
               </div>
@@ -1583,6 +2094,11 @@
       }
 
       async function submitRegistration() {
+        const selectedJob = getJob(state.form.area);
+        const weeklyDays = state.form.days === "週4日" ? 4 : 5;
+        const weeklyAdvance = weeklyAdvanceAmount(selectedJob.daily, weeklyDays);
+        const weeklyAdvanceNet = weeklyAdvance - (weeklyAdvance * 0.08 + 260);
+
         state.submitting = true;
         renderPanel();
 
@@ -1594,7 +2110,7 @@
           body: JSON.stringify({
             ...state.form,
             confirmed: state.confirmed,
-            jobBasis: "川口",
+            jobBasis: selectedJob.name,
             weeklyAdvance: Math.round(weeklyAdvance),
             weeklyAdvanceNet: Math.round(weeklyAdvanceNet),
             pageUrl: window.location.href,
@@ -1607,43 +2123,85 @@
         }
       }
 
-      document.getElementById("nextButton").addEventListener("click", async () => {
-        if (state.step === 4) {
-          window.location.hash = "#top";
-          return;
-        }
-
-        if (state.step === 0 && (!state.form.name.trim() || !state.form.phone.trim())) {
-          renderPanel("氏名と電話番号を入力すると次へ進めます。住所と年齢はあとで確認できます。");
-          return;
-        }
-
-        if (state.step === 3) {
-          if (!state.confirmed) return;
-
-          try {
-            await submitRegistration();
-            state.submitting = false;
-            state.step = 4;
-            renderPanel();
-          } catch (error) {
-            state.submitting = false;
-            renderPanel(error instanceof Error ? error.message : "送信できませんでした。");
+      function setupInteractions() {
+        document.getElementById("nextButton").addEventListener("click", async () => {
+          if (state.step === 4) {
+            window.location.hash = "#top";
+            return;
           }
-          return;
-        }
 
-        state.step = Math.min(state.step + 1, 4);
-        renderPanel();
-      });
+          if (state.step === 2 && !state.form.name.trim()) {
+            renderPanel("氏名を入力してください。担当者が条件確認をするために必要です。");
+            return;
+          }
 
-      document.getElementById("backButton").addEventListener("click", () => {
-        if (state.submitting) return;
-        state.step = Math.max(state.step - 1, 0);
-        renderPanel();
-      });
+          if (state.step === 2 && !state.form.phone.trim()) {
+            renderPanel("電話番号を入力してください。条件確認の連絡に使用します。");
+            return;
+          }
 
+          if (state.step === 3) {
+            if (!state.confirmed) return;
+
+            try {
+              await submitRegistration();
+              state.submitting = false;
+              state.step = 4;
+              renderPanel();
+            } catch (error) {
+              state.submitting = false;
+              renderPanel(error instanceof Error ? error.message : "送信できませんでした。");
+            }
+            return;
+          }
+
+          state.step = Math.min(state.step + 1, 4);
+          renderPanel();
+        });
+
+        document.getElementById("backButton").addEventListener("click", () => {
+          if (state.submitting) return;
+          state.step = Math.max(state.step - 1, 0);
+          renderPanel();
+        });
+
+        document.querySelectorAll(".job-cta").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.form.area = button.dataset.area;
+            state.step = 0;
+            renderPanel();
+            window.location.hash = "registrationForm";
+            setTimeout(() => {
+              document.getElementById("registrationForm").scrollIntoView({ behavior: "auto", block: "start" });
+            }, 0);
+          });
+        });
+
+        document.querySelectorAll(".faq-question").forEach((button) => {
+          button.addEventListener("click", () => {
+            const item = button.closest(".faq-item");
+            const open = !item.classList.contains("open");
+            item.classList.toggle("open", open);
+            button.setAttribute("aria-expanded", String(open));
+            button.querySelector("span:last-child").textContent = open ? "-" : "+";
+          });
+        });
+
+        const stickyButton = document.getElementById("stickyCtaButton");
+        const stickySub = document.getElementById("stickySub");
+        window.addEventListener("scroll", () => {
+          const formTop = document.getElementById("register").getBoundingClientRect().top;
+          const nearForm = formTop < window.innerHeight * 0.8;
+          stickyButton.textContent = nearForm ? "この内容で確認へ" : "条件確認へ";
+          stickySub.textContent = nearForm ? "あと約1分で送信" : "条件確認だけOK";
+        });
+      }
+
+      renderJobs();
+      renderFaq();
+      setupSimulator();
       renderPanel();
+      setupInteractions();
     </script>
   </body>
 </html>
