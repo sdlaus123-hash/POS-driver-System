@@ -57,7 +57,7 @@
 
       .shell {
         min-height: 100vh;
-        padding-bottom: 82px;
+        padding-bottom: 0;
       }
 
       .container {
@@ -113,7 +113,7 @@
       .hero {
         position: relative;
         overflow: hidden;
-        padding: 104px 0 38px;
+        padding: 98px 0 34px;
         background: #fff;
       }
 
@@ -122,7 +122,7 @@
         position: absolute;
         inset: 64px 0 0;
         background: url("./images/poms-delivery-hero.png") center / cover no-repeat;
-        opacity: 0.82;
+        opacity: 0.9;
       }
 
       .hero::after {
@@ -131,9 +131,9 @@
         inset: 0;
         background: linear-gradient(
           90deg,
-          rgba(255, 255, 255, 0.88) 0%,
-          rgba(255, 255, 255, 0.68) 46%,
-          rgba(255, 255, 255, 0.28) 100%
+          rgba(255, 255, 255, 0.82) 0%,
+          rgba(255, 255, 255, 0.58) 48%,
+          rgba(255, 255, 255, 0.16) 100%
         );
       }
 
@@ -168,7 +168,7 @@
       h1 {
         margin-top: 22px;
         max-width: 720px;
-        font-size: clamp(40px, 11vw, 78px);
+        font-size: clamp(38px, 10vw, 74px);
         line-height: 1.04;
         font-weight: 760;
         letter-spacing: 0;
@@ -183,12 +183,12 @@
       }
 
       .hero-copy {
-        margin-top: 18px;
-        max-width: 650px;
+        margin-top: 16px;
+        max-width: 600px;
         color: #334155;
         font-size: 16px;
         font-weight: 600;
-        line-height: 1.75;
+        line-height: 1.65;
       }
 
       .pills,
@@ -288,6 +288,10 @@
         padding: 18px;
       }
 
+      .hero .status-card {
+        display: none;
+      }
+
       .status-top {
         display: flex;
         align-items: flex-start;
@@ -339,14 +343,14 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
-        margin-top: 18px;
+        margin-top: 16px;
       }
 
       .kpi-card {
         border: 1px solid rgba(226, 232, 240, 0.9);
         border-radius: 10px;
         background: rgba(255, 255, 255, 0.92);
-        padding: 12px;
+        padding: 10px;
       }
 
       .kpi-card span {
@@ -360,20 +364,21 @@
         display: block;
         margin-top: 5px;
         color: var(--ink);
-        font-size: 18px;
+        font-size: 15px;
         line-height: 1.15;
+        white-space: nowrap;
       }
 
       .reassurance {
-        margin-top: 14px;
+        margin-top: 12px;
         border: 1px solid #bbf7d0;
-        border-radius: 10px;
+        border-radius: 8px;
         background: rgba(240, 253, 244, 0.94);
         color: #166534;
-        padding: 12px;
-        font-size: 14px;
+        padding: 10px;
+        font-size: 13px;
         font-weight: 800;
-        line-height: 1.6;
+        line-height: 1.5;
       }
 
       .trust-bar {
@@ -398,8 +403,8 @@
       .faq-list,
       .transparency-grid {
         display: grid;
-        gap: 14px;
-        margin-top: 28px;
+        gap: 12px;
+        margin-top: 22px;
       }
 
       .compare-card {
@@ -408,6 +413,13 @@
 
       .compare-card h3 {
         font-size: 18px;
+      }
+
+      .compare-card p {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
       }
 
       .compare-card ul,
@@ -468,7 +480,7 @@
 
       .section {
         scroll-margin-top: 66px;
-        padding: 50px 0;
+        padding: 42px 0;
       }
 
       #registrationForm {
@@ -494,26 +506,26 @@
 
       .section-head h2 {
         margin-top: 10px;
-        font-size: clamp(30px, 8vw, 42px);
+        font-size: clamp(27px, 7vw, 38px);
         line-height: 1.15;
       }
 
       .section-head p {
-        margin-top: 14px;
+        margin-top: 10px;
         color: var(--muted);
-        line-height: 1.8;
+        line-height: 1.65;
       }
 
       .job-grid,
       .strength-grid,
       .trust-grid {
         display: grid;
-        gap: 14px;
-        margin-top: 28px;
+        gap: 12px;
+        margin-top: 22px;
       }
 
       .job-card {
-        padding: 18px;
+        padding: 16px;
       }
 
       .job-card.feature {
@@ -530,7 +542,7 @@
 
       .job-name {
         margin-top: 8px;
-        font-size: 26px;
+        font-size: 24px;
         font-weight: 760;
       }
 
@@ -575,10 +587,10 @@
       }
 
       .job-reason {
-        margin-top: 14px;
+        margin-top: 12px;
         color: #334155;
         font-size: 14px;
-        line-height: 1.7;
+        line-height: 1.55;
       }
 
       .job-tags {
@@ -693,17 +705,18 @@
 
       .result-grid {
         display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
 
       .result {
-        padding: 18px;
+        padding: 16px;
       }
 
       .result strong {
         display: block;
-        margin-top: 16px;
-        font-size: 28px;
+        margin-top: 12px;
+        font-size: 22px;
       }
 
       .advance {
@@ -711,7 +724,7 @@
         border: 1px solid #bfdbfe;
         border-radius: 8px;
         background: #eff6ff;
-        padding: 18px;
+        padding: 16px;
       }
 
       .advance h3 {
@@ -721,7 +734,7 @@
       .advance p {
         margin-top: 10px;
         color: #334155;
-        line-height: 1.75;
+        line-height: 1.65;
       }
 
       .sim-controls {
@@ -1236,6 +1249,7 @@
       }
 
       .sticky-cta {
+        display: none;
         position: fixed;
         inset: auto 0 0;
         z-index: 30;
@@ -1244,6 +1258,16 @@
         padding: 10px 12px;
         box-shadow: 0 -14px 30px rgba(15, 23, 42, 0.1);
         backdrop-filter: blur(14px);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(110%);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .sticky-cta.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
       }
 
       .sticky-inner {
@@ -1300,6 +1324,10 @@
           align-items: center;
         }
 
+        .hero .status-card {
+          display: block;
+        }
+
         .hero-actions {
           flex-direction: row;
         }
@@ -1309,7 +1337,7 @@
         }
 
         .section {
-          padding: 58px 0;
+          padding: 52px 0;
         }
 
         .job-grid {
@@ -1339,7 +1367,7 @@
         }
 
         .result-grid {
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(2, 1fr);
         }
 
         .form-head,
@@ -1366,9 +1394,16 @@
       @media (min-width: 980px) {
         .strength-grid,
         .trust-grid,
-        .fit-grid,
-        .flow-grid {
+        .fit-grid {
           grid-template-columns: repeat(3, 1fr);
+        }
+
+        .compare-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .flow-grid {
+          grid-template-columns: repeat(4, 1fr);
         }
       }
     </style>
@@ -1384,7 +1419,7 @@
           <nav class="nav" aria-label="ページ内メニュー">
             <a href="#opportunities">案件</a>
             <a href="#simulator">収入目安</a>
-            <a href="#faq">不安解消</a>
+            <a href="#flow">流れ</a>
             <a href="#conditions">条件</a>
             <a href="#registrationForm">登録</a>
           </nav>
@@ -1396,18 +1431,18 @@
         <section id="top" class="hero">
           <div class="container hero-grid">
             <div>
-              <span class="eyebrow">配送パートナー登録｜条件確認だけでもOK</span>
-              <h1>軽バンで、収入の選択肢を増やす。</h1>
+              <span class="eyebrow">配送パートナー登録</span>
+              <h1>最短3日で<span class="blue">稼働開始</span></h1>
               <p class="hero-copy">
-                日当20,000円以上の案件を中心に案内。登録後すぐ契約ではなく、条件・車両・開始日を担当者と確認してから進められます。
+                日当20,000円以上の案件を中心に、費用・車両・開始日を先に確認できます。
               </p>
               <div class="hero-kpis" aria-label="条件の目安">
-                <div class="kpi-card"><span>日当目安</span><strong>20,000円〜</strong></div>
-                <div class="kpi-card"><span>前払い</span><strong>売上50%まで</strong></div>
-                <div class="kpi-card"><span>開始目安</span><strong>最短3日</strong></div>
+                <div class="kpi-card"><span>日当</span><strong>2万円〜</strong></div>
+                <div class="kpi-card"><span>車両</span><strong>なし相談</strong></div>
+                <div class="kpi-card"><span>前払い</span><strong>50%まで</strong></div>
               </div>
               <p class="reassurance">
-                この時点で契約確定ではありません。条件確認・相談だけでも問題ありません。
+                登録後すぐ契約ではありません。合わなければ進める必要はありません。
               </p>
               <div class="hero-actions">
                 <a class="button" href="#registrationForm">まずは条件を確認する</a>
@@ -1446,61 +1481,35 @@
 
         <section class="section alt">
           <div class="container trust-bar" aria-label="安心ポイント">
-            <div class="trust-chip"><span class="check-icon">✓</span>条件を先に確認</div>
-            <div class="trust-chip"><span class="check-icon">✓</span>登録後すぐ契約なし</div>
-            <div class="trust-chip"><span class="check-icon">✓</span>車両相談可能</div>
-            <div class="trust-chip"><span class="check-icon">✓</span>前払い相談可能</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>費用を先に確認</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>担当者が確認</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>車両・寮相談</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>前払い相談</div>
           </div>
         </section>
 
         <section id="difference" class="section">
           <div class="container">
             <div class="section-head">
-              <p class="eyebrow-text">Difference</p>
-              <h2>よくある軽配送求人との違い</h2>
-              <p>日当だけで判断せず、費用・支払い・車両・開始日を先に確認できます。</p>
+              <p class="eyebrow-text">Trust</p>
+              <h2>不安を減らす3つの確認</h2>
+              <p>登録は、話を聞く入口です。契約判断は内容確認後で大丈夫です。</p>
             </div>
             <div class="compare-grid">
-              <article class="card compare-card">
-                <h3>よくある不安</h3>
-                <ul>
-                  <li><span>?</span>詳細がDM後まで分からない</li>
-                  <li><span>?</span>手数料が後から出てくる</li>
-                  <li><span>?</span>車両の相談がしにくい</li>
-                  <li><span>?</span>すぐ契約の雰囲気がある</li>
-                  <li><span>?</span>支払い条件が分かりづらい</li>
-                </ul>
+              <article class="card compare-card positive">
+                <h3>費用</h3>
+                <p>管理費・業務紹介料・支払い日を先に確認。</p>
               </article>
               <article class="card compare-card positive">
-                <h3>POMSの条件確認</h3>
-                <ul>
-                  <li><span class="check-icon">✓</span>管理費・紹介料を先に表示</li>
-                  <li><span class="check-icon">✓</span>前払い条件を先に確認</li>
-                  <li><span class="check-icon">✓</span>車両・リース相談可能</li>
-                  <li><span class="check-icon">✓</span>登録後すぐ契約ではない</li>
-                  <li><span class="check-icon">✓</span>担当者が条件を確認</li>
-                </ul>
+                <h3>車両</h3>
+                <p>軽バンなし、リース、寮もまとめて相談。</p>
+              </article>
+              <article class="card compare-card positive">
+                <h3>開始</h3>
+                <p>条件に納得してから、準備へ進みます。</p>
               </article>
             </div>
             <a class="micro-cta" href="#registrationForm">条件だけ先に確認する</a>
-          </div>
-        </section>
-
-        <section id="fit" class="section alt">
-          <div class="container">
-            <div class="section-head">
-              <p class="eyebrow-text">Fit</p>
-              <h2>こんな働き方をしたい人に向いています</h2>
-              <p>まだ始めるか決めていなくても、条件確認から進められます。</p>
-            </div>
-            <div class="fit-grid">
-              <article class="card fit-card"><h3>今より収入を上げたい</h3><p>日当と月間目安を先に確認。</p></article>
-              <article class="card fit-card"><h3>1人で気楽に働きたい</h3><p>配送中心の働き方を相談可能。</p></article>
-              <article class="card fit-card"><h3>未経験から始めたい</h3><p>仕事内容を確認してから判断できます。</p></article>
-              <article class="card fit-card"><h3>初月の資金が不安</h3><p>前払い条件を先に確認できます。</p></article>
-              <article class="card fit-card"><h3>車がない</h3><p>リースや車両準備を相談できます。</p></article>
-              <article class="card fit-card"><h3>週4〜5日で安定したい</h3><p>稼働日数と開始時期を確認します。</p></article>
-            </div>
           </div>
         </section>
 
@@ -1509,7 +1518,7 @@
             <div class="section-head">
               <p class="eyebrow-text">Opportunities</p>
               <h2>現在案内できる案件</h2>
-              <p>日当、月間売上目安、案件状態を先に確認できます。</p>
+              <p>日当と状態だけ先に確認。詳しい条件は担当者が確認します。</p>
             </div>
             <div class="job-grid" id="jobGrid"></div>
             <div class="notice">
@@ -1525,7 +1534,7 @@
               <div class="section-head">
                 <p class="eyebrow-text">Sales Estimate</p>
                 <h2>収入と前払いの目安を先に確認</h2>
-                <p>案件と稼働日数を変えて、売上・差引・前払い目安を確認できます。</p>
+                <p>案件と稼働日数を変えるだけで、目安を確認できます。</p>
               </div>
               <div class="sim-controls">
                 <label>
@@ -1541,27 +1550,23 @@
                 </div>
               </div>
               <p class="small-note">
-                手取り保証ではありません。稼働日数・案件・経費により変動します。
+                保証額ではありません。管理費25,000円・業務紹介料15%を差し引いた簡易目安です。
               </p>
             </div>
             <div>
               <div class="result-grid">
                 <article class="card result"><p class="label">月間売上目安</p><strong id="monthlySales">-</strong></article>
-                <article class="card result"><p class="label">業務紹介料15%</p><strong id="royaltyFee">-</strong></article>
-                <article class="card result"><p class="label">管理費</p><strong>25,000円</strong></article>
                 <article class="card result"><p class="label">条件差引後目安</p><strong id="takeHome">-</strong></article>
-                <article class="card result"><p class="label">前払い可能額目安</p><strong id="weeklyAdvance">-</strong></article>
-                <article class="card result"><p class="label">前払い手数料目安</p><strong id="advanceFee">-</strong></article>
+                <article class="card result"><p class="label">週払い上限目安</p><strong id="weeklyAdvance">-</strong></article>
+                <article class="card result"><p class="label">利用時手数料目安</p><strong id="advanceFee">-</strong></article>
               </div>
               <article class="advance">
                 <h3>週払い利用の例</h3>
                 <p>
-                  週払い上限77,500円の場合、利用時は8% + 260円を差し引き、受取目安は71,040円です。
-                </p>
-                <p>
-                  前払いの残りの50%は通常の振り込み日にご指定の口座に振り込まれます。実際の振込日は担当者が確認します。
+                  上限77,500円の場合、受取目安は71,040円。残り50%は通常の振込日に指定口座へ振り込まれます。
                 </p>
               </article>
+              <a class="micro-cta" href="#registrationForm">この条件で確認する</a>
             </div>
           </div>
         </section>
@@ -1571,18 +1576,17 @@
             <div class="section-head">
               <p class="eyebrow-text">Flow</p>
               <h2>登録後すぐ契約ではありません</h2>
-              <p>条件に納得できれば、稼働準備へ進みます。</p>
+              <p>納得できれば、稼働準備へ進みます。</p>
             </div>
             <div class="flow-grid">
-              <article class="card flow-card"><h3>1. 条件確認を送信</h3><p>希望エリア、車両、開始時期を送信。</p></article>
-              <article class="card flow-card"><h3>2. 担当者が内容確認</h3><p>条件に合う案件を確認します。</p></article>
-              <article class="card flow-card"><h3>3. 車両・開始日を確認</h3><p>軽バンなしでも相談可能です。</p></article>
-              <article class="card flow-card"><h3>4. 納得できれば準備</h3><p>この時点で費用は発生しません。</p></article>
-              <article class="card flow-card"><h3>5. 研修後に稼働開始</h3><p>無理に契約を進めるものではありません。</p></article>
+              <article class="card flow-card"><h3>1. 条件送信</h3><p>希望エリアと車両状況を送信。</p></article>
+              <article class="card flow-card"><h3>2. 担当者確認</h3><p>案件・費用・開始日を確認。</p></article>
+              <article class="card flow-card"><h3>3. 準備</h3><p>納得できれば車両や研修へ。</p></article>
+              <article class="card flow-card"><h3>4. 稼働開始</h3><p>準備後にスタート。</p></article>
             </div>
             <div class="risk-box">
               <h3>迷っている段階でも大丈夫です</h3>
-              <p>登録後すぐ契約ではありません。希望条件を確認し、合わなければ無理に進める必要はありません。</p>
+              <p>合わなければ進める必要はありません。</p>
             </div>
           </div>
         </section>
@@ -1592,7 +1596,7 @@
             <div class="section-head">
               <p class="eyebrow-text">FAQ</p>
               <h2>よくある不安を先に確認</h2>
-              <p>始める前に気になりやすい点をまとめています。</p>
+              <p>気になりやすい点だけまとめています。</p>
             </div>
             <div class="faq-list" id="faqList"></div>
           </div>
@@ -1603,23 +1607,22 @@
             <div>
               <div class="section-head">
                 <p class="eyebrow-text">Transparency</p>
-                <h2>後から不安になりやすい条件を、先に確認できます</h2>
-                <p>軽配送の仕事は、日当だけで判断すると後から不安が出やすいです。</p>
+                <h2>費用と支払い条件</h2>
+                <p>後から不安になりやすい条件を先に表示します。</p>
               </div>
               <div class="reality-box">
-                <h3>始める前に知っておいてほしいこと</h3>
+                <h3>事前に確認すること</h3>
                 <ul>
                   <li><span>•</span>配送は体力を使う仕事です</li>
                   <li><span>•</span>天候や荷量により終了時間は変わります</li>
-                  <li><span>•</span>案件により条件は異なります</li>
-                  <li><span>•</span>だからこそ、事前の条件確認を大切にしています</li>
+                  <li><span>•</span>条件に納得してから進めます</li>
                 </ul>
               </div>
             </div>
             <article class="card" style="padding: 18px">
               <h3>条件の透明性</h3>
               <p style="margin-top: 8px; color: var(--muted); line-height: 1.7">
-                POMSでは、管理費・紹介料・支払いサイクル・前払い条件を先に確認できるようにしています。
+                POMSでは、管理費・業務紹介料・支払いサイクル・前払い条件を先に確認できるようにしています。
               </p>
               <dl class="conditions">
                 <div class="condition"><dt>管理費</dt><dd>25,000円</dd></div>
@@ -1640,7 +1643,7 @@
               <div class="section-head">
                 <p class="eyebrow-text">Condition Check</p>
                 <h2>まずは条件確認から</h2>
-                <p>登録後すぐ契約ではありません。希望エリア・車両状況・開始時期を確認し、担当者がご連絡します。</p>
+                <p>希望エリア・車両状況・開始時期だけ先に送れます。</p>
               </div>
               <div class="progress-card">
                 <p class="label">現在の入力状況</p>
@@ -1691,54 +1694,52 @@
           status: "人気エリア",
           rating: 5,
           feature: true,
-          reason: "安定して稼働しやすく、未経験から始めやすいエリアです。",
+          reason: "一番おすすめ。安定して始めやすい案件です。",
         },
         {
           name: "町田",
           daily: 20800,
           status: "案内可能",
           rating: 4,
-          reason: "落ち着いて始めたい方、通いやすさを重視する方に向いています。",
+          reason: "通いやすさを重視する方に。",
         },
         {
           name: "平和島",
           daily: 31000,
           status: "7月強化",
           rating: 5,
-          reason: "高単価を狙いたい方に向いています。枠状況は担当者が確認します。",
+          reason: "7月限定の高単価案件。",
         },
         {
           name: "新宿上落合",
           daily: 23753,
           status: "相談可能",
           rating: 4,
-          reason: "都内近郊で効率よく稼働したい方に向いています。",
+          reason: "都内近郊で稼働したい方に。",
         },
         {
           name: "茨木",
           daily: 22766,
           status: "案内可能",
           rating: 4,
-          reason: "関西エリアで安定稼働を相談したい方に向いています。",
+          reason: "関西エリアで相談可能。",
         },
         {
           name: "尼崎",
           daily: 22638,
           status: "相談可能",
           rating: 4,
-          reason: "車両や開始時期を相談しながら進めたい方に向いています。",
+          reason: "車両や開始時期も相談可能。",
         },
       ];
 
       const faqs = [
-        ["未経験でもできますか？", "未経験から始める方もいます。配送アプリを使いながら進めるため、仕事内容を確認してから判断できます。"],
-        ["車がなくても相談できますか？", "軽バンがない方も、車両リースなどを含めて相談可能です。状況により案内できる条件が変わるため、担当者が確認します。"],
-        ["登録したらすぐ契約ですか？", "いいえ。登録後すぐ契約ではありません。条件・車両・開始日を確認し、納得してから進めます。"],
-        ["前払いはできますか？", "売上の50%を上限に相談可能です。利用時は手数料8%＋振込手数料260円が目安です。"],
-        ["支払いサイクルは？", "月末締め、翌々月末払いです。前払いを利用した場合、残りの金額は通常の振込日に支払われます。"],
-        ["費用はありますか？", "管理費25,000円、業務紹介料として売上の15%があります。後から不安にならないよう、登録前に確認できます。"],
-        ["どのエリアがありますか？", "時期により案内できるエリアが変わります。希望エリアを送信後、担当者が確認します。"],
-        ["週何日から稼働できますか？", "案件により異なりますが、週4〜5日を目安に相談可能です。"],
+        ["未経験でもできますか？", "仕事内容を確認してから判断できます。"],
+        ["車がなくても相談できますか？", "軽バン、リース、寮の相談が可能です。"],
+        ["登録したらすぐ契約ですか？", "いいえ。条件に納得してから進みます。"],
+        ["前払いはできますか？", "売上50%まで相談可能です。利用時は8% + 260円が目安です。"],
+        ["支払いサイクルは？", "月末締め、翌々月末払いです。残り分は通常振込日に支払われます。"],
+        ["費用はありますか？", "管理費25,000円、業務紹介料は売上の15%です。"],
       ];
 
       const steps = ["希望条件", "車両状況", "基本情報", "内容確認", "完了"];
@@ -1801,13 +1802,8 @@
                 </div>
                 <div class="line"><span>日当目安</span><strong>${yen(job.daily)}</strong></div>
                 <div class="line"><span>月間売上目安</span><strong>${yen(job.daily * 20)}</strong></div>
-                <div class="line"><span>稼働日数目安</span><strong>月20日</strong></div>
                 <div class="line"><span>おすすめ</span><strong class="stars">${"★".repeat(job.rating)}${"☆".repeat(5 - job.rating)}</strong></div>
                 <p class="job-reason">${job.reason}</p>
-                <div class="job-tags">
-                  <span class="tag green">前払い相談可</span>
-                  <span class="tag">車両相談可</span>
-                </div>
                 <button class="job-cta" type="button" data-area="${job.name}">この案件で条件確認</button>
               </article>
             `;
@@ -1841,7 +1837,6 @@
         const advanceFee = weeklyAdvance * 0.08 + 260;
 
         document.getElementById("monthlySales").textContent = yen(monthlySales);
-        document.getElementById("royaltyFee").textContent = yen(royalty);
         document.getElementById("takeHome").textContent = yen(takeHome);
         document.getElementById("weeklyAdvance").textContent = yen(weeklyAdvance);
         document.getElementById("advanceFee").textContent = yen(advanceFee);
@@ -1915,7 +1910,7 @@
         document.getElementById("progressSteps").innerHTML = steps
           .map(
             (step, index) =>
-              `<div class="progress-step ${index <= state.step ? "active" : ""}">${(index + 1) * 20}%<br />${step}</div>`,
+              `<div class="progress-step ${index <= state.step ? "active" : ""}" aria-label="${step}">${(index + 1) * 20}%</div>`,
           )
           .join("");
       }
@@ -1953,7 +1948,7 @@
         if (state.step === 0) {
           panel.innerHTML = `
             <h3 class="panel-title"><span class="icon-box">1</span>希望条件</h3>
-            <div class="notice">最初は希望条件だけ。個人情報は次の後半で入力します。</div>
+            <div class="notice">最初は希望条件だけでOKです。</div>
             <div class="field-grid" style="margin-top: 18px">
               ${selectField("希望エリア", "area", ["川口", "町田", "平和島", "新宿上落合", "茨木", "尼崎", "その他福岡県内", "相談する"])}
               ${selectField("希望売上目安", "income", ["40万円以上", "50万円以上", "60万円以上"])}
@@ -1968,7 +1963,7 @@
           const options = ["軽バンあり", "軽バンなし", "リース相談したい", "これから準備予定"];
           panel.innerHTML = `
             <h3 class="panel-title"><span class="icon-box">2</span>車両状況</h3>
-            <div class="notice">軽バンがない方も相談できます。現在の状況を選んでください。</div>
+            <div class="notice">軽バンがない方も相談できます。</div>
             <div class="choice-grid" style="margin-top: 18px">
               ${options
                 .map(
@@ -1988,9 +1983,9 @@
             <h3 class="panel-title"><span class="icon-box">3</span>基本情報</h3>
             <div class="field-grid">
               ${field("氏名", "name", { required: true, placeholder: "山田 太郎", autoComplete: "name" })}
-              ${field("電話番号", "phone", { required: true, placeholder: "09012345678", inputMode: "tel", autoComplete: "tel", help: "担当者から条件確認のためにご連絡します。一斉送信ではありません。" })}
+              ${field("電話番号", "phone", { required: true, placeholder: "09012345678", inputMode: "tel", autoComplete: "tel", help: "担当者から条件確認のためにご連絡します。" })}
               ${field("年齢", "age", { placeholder: "32", inputMode: "numeric" })}
-              ${field("住所またはエリア", "address", { placeholder: "東京都大田区", autoComplete: "street-address", help: "市区町村まででも確認可能です。詳細は担当者が確認します。" })}
+              ${field("住所またはエリア", "address", { placeholder: "東京都大田区", autoComplete: "street-address", help: "市区町村まででも確認可能です。" })}
             </div>
             <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
           `;
@@ -2040,7 +2035,7 @@
             <div class="complete-grid">
               <div class="complete-box">
                 <p>この時点で契約確定ではありません。</p>
-                <p style="margin-top: 10px; color: #334155; line-height: 1.7">担当者が内容を確認し、条件・車両・開始日について電話またはLINEでご連絡します。</p>
+                <p style="margin-top: 10px; color: #334155; line-height: 1.7">担当者が条件・車両・開始日を確認してご連絡します。</p>
                 <p class="label" style="margin-top: 16px">現在の入力状況</p>
                 <p class="done">100%</p>
               </div>
@@ -2189,11 +2184,43 @@
 
         const stickyButton = document.getElementById("stickyCtaButton");
         const stickySub = document.getElementById("stickySub");
-        window.addEventListener("scroll", () => {
+        const stickyBar = document.querySelector(".sticky-cta");
+        const updateSticky = () => {
           const formTop = document.getElementById("register").getBoundingClientRect().top;
           const nearForm = formTop < window.innerHeight * 0.8;
-          stickyButton.textContent = nearForm ? "この内容で確認へ" : "条件確認へ";
-          stickySub.textContent = nearForm ? "あと約1分で送信" : "条件確認だけOK";
+          stickyBar.classList.toggle("show", window.scrollY > window.innerHeight * 0.7 && !nearForm);
+          stickyButton.textContent = "条件確認へ";
+          stickySub.textContent = "条件確認だけOK";
+        };
+        window.addEventListener("scroll", updateSticky, { passive: true });
+        updateSticky();
+      }
+
+      function scrollToCurrentHash(hash = window.location.hash) {
+        if (!hash) return;
+        const target = document.getElementById(hash.slice(1));
+        if (!target) return;
+
+        const align = () => {
+          const offset = 82;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: "auto" });
+        };
+
+        [50, 300, 700].forEach((delay) => setTimeout(align, delay));
+      }
+
+      function bindAnchorScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.addEventListener("click", (event) => {
+            const hash = link.getAttribute("href");
+            if (!hash || hash === "#") return;
+            const target = document.getElementById(hash.slice(1));
+            if (!target) return;
+            event.preventDefault();
+            history.pushState(null, "", hash);
+            scrollToCurrentHash(hash);
+          });
         });
       }
 
@@ -2202,6 +2229,9 @@
       setupSimulator();
       renderPanel();
       setupInteractions();
+      bindAnchorScroll();
+      scrollToCurrentHash();
+      window.addEventListener("hashchange", () => scrollToCurrentHash());
     </script>
   </body>
 </html>
