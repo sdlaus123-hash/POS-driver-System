@@ -185,8 +185,11 @@
     if (!window.liff) return null;
     await window.liff.init({ liffId });
     if (!window.liff.isLoggedIn()) {
-      window.liff.login({ redirectUri: location.href });
-      return new Promise(() => {});
+      if (window.liff.isInClient && window.liff.isInClient()) {
+        window.liff.login({ redirectUri: location.href });
+        return new Promise(() => {});
+      }
+      return null;
     }
     const profile = await window.liff.getProfile();
     const normalized = {
