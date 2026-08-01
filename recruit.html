@@ -1,0 +1,2237 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POMS Driver Portal</title>
+    <meta
+      name="description"
+      content="POMSの配送パートナー登録サービス。条件を確認してから稼働準備へ進めます。"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #ffffff;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --line: #e2e8f0;
+        --soft: #f8fafc;
+        --action: #2563eb;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+          "Yu Gothic", "Noto Sans JP", sans-serif;
+        letter-spacing: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .shell {
+        min-height: 100vh;
+        padding-bottom: 0;
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 20;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(18px);
+      }
+
+      .header-inner {
+        display: flex;
+        height: 64px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 8px;
+        background: var(--ink);
+        color: white;
+        letter-spacing: 0;
+      }
+
+      .nav {
+        display: none;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 98px 0 34px;
+        background: #fff;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 64px 0 0;
+        background: url("./images/poms-delivery-hero.png") center / cover no-repeat;
+        opacity: 0.9;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.82) 0%,
+          rgba(255, 255, 255, 0.58) 48%,
+          rgba(255, 255, 255, 0.16) 100%
+        );
+      }
+
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        min-height: 36px;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--action);
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: 22px;
+        max-width: 720px;
+        font-size: clamp(38px, 10vw, 74px);
+        line-height: 1.04;
+        font-weight: 760;
+        letter-spacing: 0;
+      }
+
+      .blue {
+        color: var(--action);
+      }
+
+      .hero h1 .blue {
+        display: block;
+      }
+
+      .hero-copy {
+        margin-top: 16px;
+        max-width: 600px;
+        color: #334155;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.65;
+      }
+
+      .pills,
+      .checks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .pills {
+        margin-top: 20px;
+      }
+
+      .checks {
+        margin-top: 18px;
+      }
+
+      .pill,
+      .check {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #334155;
+        padding: 9px 12px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .check {
+        min-height: 42px;
+        flex: 1 1 100%;
+      }
+
+      .check-icon {
+        color: var(--success);
+        font-weight: 900;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .hero-actions .ghost-button {
+        display: none;
+      }
+
+      .button,
+      .ghost-button {
+        display: inline-flex;
+        min-height: 52px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 8px;
+        padding: 14px 18px;
+        border: 1px solid transparent;
+        font-weight: 800;
+      }
+
+      .button {
+        background: var(--action);
+        color: white;
+        box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        background: #1d4ed8;
+      }
+
+      .ghost-button {
+        border-color: #cbd5e1;
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .ghost-button:hover,
+      .ghost-button:focus-visible {
+        border-color: var(--action);
+        color: var(--action);
+      }
+
+      .status-card,
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+      }
+
+      .status-card {
+        padding: 18px;
+      }
+
+      .hero .status-card {
+        display: none;
+      }
+
+      .status-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .big-number {
+        margin-top: 4px;
+        font-size: 34px;
+        font-weight: 760;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+        padding: 12px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 22px;
+      }
+
+      .featured {
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        padding: 14px;
+      }
+
+      .hero-kpis {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .kpi-card {
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 10px;
+      }
+
+      .kpi-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .kpi-card strong {
+        display: block;
+        margin-top: 5px;
+        color: var(--ink);
+        font-size: 15px;
+        line-height: 1.15;
+        white-space: nowrap;
+      }
+
+      .reassurance {
+        margin-top: 12px;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        background: rgba(240, 253, 244, 0.94);
+        color: #166534;
+        padding: 10px;
+        font-size: 13px;
+        font-weight: 800;
+        line-height: 1.5;
+      }
+
+      .trust-bar {
+        display: grid;
+        gap: 10px;
+      }
+
+      .trust-chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: white;
+        padding: 13px;
+        font-weight: 800;
+      }
+
+      .compare-grid,
+      .fit-grid,
+      .flow-grid,
+      .faq-list,
+      .transparency-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .compare-card {
+        padding: 18px;
+      }
+
+      .compare-card h3 {
+        font-size: 18px;
+      }
+
+      .compare-card p {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .compare-card ul,
+      .reality-box ul {
+        display: grid;
+        gap: 10px;
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .compare-card li,
+      .reality-box li {
+        display: flex;
+        gap: 9px;
+        color: #334155;
+        line-height: 1.65;
+      }
+
+      .compare-card.positive {
+        border-color: #bfdbfe;
+        background: #eff6ff;
+      }
+
+      .fit-card,
+      .flow-card,
+      .faq-item {
+        padding: 16px;
+      }
+
+      .fit-card h3,
+      .flow-card h3 {
+        font-size: 16px;
+      }
+
+      .fit-card p,
+      .flow-card p {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .micro-cta {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 18px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: white;
+        color: var(--action);
+        padding: 11px 14px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .section {
+        scroll-margin-top: 66px;
+        padding: 42px 0;
+      }
+
+      #registrationForm {
+        scroll-margin-top: 82px;
+      }
+
+      .section.alt {
+        border-block: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .section-head {
+        max-width: 680px;
+      }
+
+      .section-head .eyebrow-text {
+        color: var(--action);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .section-head h2 {
+        margin-top: 10px;
+        font-size: clamp(27px, 7vw, 38px);
+        line-height: 1.15;
+      }
+
+      .section-head p {
+        margin-top: 10px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .job-grid,
+      .strength-grid,
+      .trust-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .job-card {
+        padding: 16px;
+      }
+
+      .job-card.feature {
+        border-color: #93c5fd;
+        box-shadow: 0 0 0 3px #dbeafe;
+      }
+
+      .job-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .job-name {
+        margin-top: 8px;
+        font-size: 24px;
+        font-weight: 760;
+      }
+
+      .badge {
+        border-radius: 7px;
+        background: #dcfce7;
+        color: #15803d;
+        padding: 7px 10px;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .badge.blue {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+
+      .badge.amber {
+        background: #fef3c7;
+        color: #b45309;
+      }
+
+      .line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .line strong {
+        color: var(--ink);
+        font-size: 18px;
+      }
+
+      .stars {
+        color: var(--warning);
+        letter-spacing: 0;
+      }
+
+      .job-reason {
+        margin-top: 12px;
+        color: #334155;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .job-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .tag {
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #334155;
+        padding: 6px 9px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .tag.green {
+        background: #dcfce7;
+        color: #15803d;
+      }
+
+      .job-cta {
+        width: 100%;
+        min-height: 46px;
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: var(--action);
+        font-weight: 800;
+      }
+
+      .notice {
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        padding: 14px;
+        color: #334155;
+        line-height: 1.7;
+      }
+
+      .notice strong {
+        color: var(--action);
+      }
+
+      .strength,
+      .trust {
+        display: flex;
+        gap: 14px;
+        padding: 16px;
+      }
+
+      .icon-box {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: var(--action);
+        font-weight: 900;
+      }
+
+      .strength h3,
+      .trust h3 {
+        font-size: 16px;
+      }
+
+      .strength p,
+      .trust p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .sim-grid,
+      .before-grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .conditions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .condition {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 12px;
+      }
+
+      .condition dt {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .condition dd {
+        margin: 4px 0 0;
+        font-weight: 800;
+      }
+
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .result {
+        padding: 16px;
+      }
+
+      .result strong {
+        display: block;
+        margin-top: 12px;
+        font-size: 22px;
+      }
+
+      .advance {
+        margin-top: 12px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        padding: 16px;
+      }
+
+      .advance h3 {
+        color: var(--ink);
+      }
+
+      .advance p {
+        margin-top: 10px;
+        color: #334155;
+        line-height: 1.65;
+      }
+
+      .sim-controls {
+        display: grid;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        border-radius: 10px;
+        background: #e2e8f0;
+        padding: 4px;
+      }
+
+      .segment-button {
+        min-height: 42px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #475569;
+        font-weight: 800;
+      }
+
+      .segment-button.active {
+        background: white;
+        color: var(--action);
+        box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+      }
+
+      .small-note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .before-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 26px;
+      }
+
+      .before-list div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 13px;
+        font-weight: 800;
+      }
+
+      .form-wrap {
+        margin-top: 28px;
+        padding: 16px;
+      }
+
+      .form-head {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .progress-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+      }
+
+      .progress-percent {
+        margin-top: 4px;
+        color: var(--action);
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .progress-helper {
+        margin-top: 4px;
+        color: #334155;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .progress-track {
+        overflow: hidden;
+        height: 8px;
+        border-radius: 999px;
+        background: #e2e8f0;
+      }
+
+      .progress-fill {
+        width: 20%;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--action);
+        transition: width 0.25s ease;
+      }
+
+      .progress-steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .progress-step {
+        min-width: 0;
+        border-radius: 7px;
+        background: var(--soft);
+        color: var(--muted);
+        padding: 8px 4px;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .progress-step.active {
+        background: #eff6ff;
+        color: var(--action);
+      }
+
+      .panel {
+        min-height: 390px;
+        margin-top: 22px;
+      }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        font-size: 25px;
+      }
+
+      .field-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      label span,
+      .select-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #334155;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .required,
+      .optional {
+        border-radius: 6px;
+        padding: 3px 7px;
+        font-size: 11px;
+      }
+
+      .required {
+        background: #eff6ff;
+        color: var(--action);
+      }
+
+      .optional {
+        background: #f1f5f9;
+        color: #475569;
+      }
+
+      input,
+      select {
+        width: 100%;
+        height: 48px;
+        margin-top: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: var(--ink);
+        outline: none;
+        padding: 0 13px;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--action);
+        box-shadow: 0 0 0 4px #dbeafe;
+      }
+
+      .form-hint {
+        display: block;
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .choice-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .choice {
+        display: flex;
+        min-height: 78px;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+        text-align: left;
+        font-weight: 800;
+      }
+
+      .choice.active {
+        border-color: var(--action);
+        background: #eff6ff;
+        color: var(--action);
+        box-shadow: 0 0 0 3px #dbeafe;
+      }
+
+      .contract-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .support-box,
+      .condition-box {
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      .support-box {
+        border: 1px solid #bfdbfe;
+        background: #eff6ff;
+      }
+
+      .condition-box {
+        border: 1px solid var(--line);
+        background: var(--soft);
+      }
+
+      .support-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .info-row strong {
+        color: var(--ink);
+        text-align: right;
+      }
+
+      @media (max-width: 420px) {
+        .info-row {
+          display: grid;
+          gap: 4px;
+        }
+
+        .info-row strong {
+          text-align: left;
+        }
+
+        .info-button {
+          margin-left: 4px;
+        }
+      }
+
+      .info-button {
+        display: inline-grid;
+        width: 32px;
+        height: 32px;
+        margin-left: 6px;
+        place-items: center;
+        border: 1px solid #bfdbfe;
+        border-radius: 7px;
+        background: white;
+        color: var(--action);
+        font-weight: 900;
+      }
+
+      .detail {
+        display: none;
+        margin-top: 14px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+        color: #334155;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .detail.open {
+        display: block;
+      }
+
+      .summary-box {
+        display: grid;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .summary-row strong {
+        color: var(--ink);
+        text-align: right;
+      }
+
+      .confirm-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+        font-weight: 800;
+      }
+
+      .confirm-label input {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        accent-color: var(--action);
+      }
+
+      .form-actions {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 10px;
+        border-top: 1px solid var(--line);
+        margin-top: 20px;
+        padding-top: 18px;
+      }
+
+      .secondary {
+        min-height: 48px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: white;
+        color: #334155;
+        font-weight: 800;
+      }
+
+      .error {
+        display: none;
+        margin-top: 14px;
+        border: 1px solid #fcd34d;
+        border-radius: 8px;
+        background: #fffbeb;
+        color: #92400e;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.7;
+      }
+
+      .error.show {
+        display: block;
+      }
+
+      .complete-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .complete-box {
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        background: #f0fdf4;
+        padding: 18px;
+      }
+
+      .complete-box .done {
+        margin-top: 14px;
+        color: var(--success);
+        font-size: 52px;
+        font-weight: 800;
+      }
+
+      .next-box {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+        padding: 18px;
+      }
+
+      .next-step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        font-weight: 800;
+      }
+
+      .next-step span {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: white;
+        color: var(--action);
+      }
+
+      .risk-box,
+      .reality-box {
+        margin-top: 28px;
+        border-radius: 10px;
+        padding: 18px;
+      }
+
+      .risk-box {
+        border: 1px solid #bbf7d0;
+        background: #f0fdf4;
+      }
+
+      .risk-box p,
+      .reality-box p {
+        margin-top: 9px;
+        color: #334155;
+        line-height: 1.75;
+      }
+
+      .reality-box {
+        border: 1px solid var(--line);
+        background: white;
+      }
+
+      .faq-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+      }
+
+      .faq-question {
+        display: flex;
+        width: 100%;
+        min-height: 54px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        padding: 0;
+        text-align: left;
+        font-weight: 800;
+      }
+
+      .faq-question span:last-child {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 7px;
+        background: #eff6ff;
+        color: var(--action);
+      }
+
+      .faq-answer {
+        display: none;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+        padding: 4px 0 2px;
+      }
+
+      .faq-item.open .faq-answer {
+        display: block;
+      }
+
+      .footer {
+        border-top: 1px solid var(--line);
+        padding: 26px 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .footer strong {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+
+      .sticky-cta {
+        display: none;
+        position: fixed;
+        inset: auto 0 0;
+        z-index: 30;
+        border-top: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.96);
+        padding: 10px 12px;
+        box-shadow: 0 -14px 30px rgba(15, 23, 42, 0.1);
+        backdrop-filter: blur(14px);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(110%);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .sticky-cta.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .sticky-inner {
+        display: flex;
+        max-width: 520px;
+        margin: 0 auto;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .sticky-inner div {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .sticky-inner p:first-child {
+        color: var(--action);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .sticky-inner p:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .sticky-inner .button {
+        min-height: 44px;
+        padding: 10px 14px;
+        white-space: nowrap;
+      }
+
+      @media (min-width: 720px) {
+        .shell {
+          padding-bottom: 0;
+        }
+
+        .nav {
+          display: flex;
+        }
+
+        .hero {
+          min-height: 86vh;
+          display: flex;
+          align-items: center;
+          padding-top: 92px;
+        }
+
+        .hero-grid {
+          grid-template-columns: minmax(0, 1fr) 380px;
+          align-items: center;
+        }
+
+        .hero .status-card {
+          display: block;
+        }
+
+        .hero-actions {
+          flex-direction: row;
+        }
+
+        .hero-actions .ghost-button {
+          display: inline-flex;
+        }
+
+        .section {
+          padding: 52px 0;
+        }
+
+        .job-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .strength-grid,
+        .trust-grid,
+        .fit-grid,
+        .flow-grid,
+        .transparency-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .trust-bar {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .compare-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .sim-grid,
+        .before-grid {
+          grid-template-columns: 0.9fr 1.1fr;
+          align-items: start;
+        }
+
+        .result-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form-head,
+        .complete-grid,
+        .contract-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .field-grid,
+        .choice-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form-actions {
+          flex-direction: row;
+          justify-content: space-between;
+        }
+
+        .sticky-cta {
+          display: none;
+        }
+      }
+
+      @media (min-width: 980px) {
+        .strength-grid,
+        .trust-grid,
+        .fit-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .compare-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .flow-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="header">
+        <div class="container header-inner">
+          <a class="brand" href="#top" aria-label="POMS">
+            <span class="brand-mark">P</span>
+            <span>POMS</span>
+          </a>
+          <nav class="nav" aria-label="ページ内メニュー">
+            <a href="#opportunities">案件</a>
+            <a href="#simulator">収入目安</a>
+            <a href="#flow">流れ</a>
+            <a href="#conditions">条件</a>
+            <a href="#registrationForm">登録</a>
+          </nav>
+          <a class="button" href="#registrationForm">条件確認へ</a>
+        </div>
+      </header>
+
+      <main>
+        <section id="top" class="hero">
+          <div class="container hero-grid">
+            <div>
+              <span class="eyebrow">配送パートナー登録</span>
+              <h1>最短3日で<span class="blue">稼働開始</span></h1>
+              <p class="hero-copy">
+                日当20,000円以上の案件を中心に、費用・車両・開始日を先に確認できます。
+              </p>
+              <div class="hero-kpis" aria-label="条件の目安">
+                <div class="kpi-card"><span>日当</span><strong>2万円〜</strong></div>
+                <div class="kpi-card"><span>車両</span><strong>なし相談</strong></div>
+                <div class="kpi-card"><span>前払い</span><strong>50%まで</strong></div>
+              </div>
+              <p class="reassurance">
+                登録後すぐ契約ではありません。合わなければ進める必要はありません。
+              </p>
+              <div class="hero-actions">
+                <a class="button" href="#registrationForm">まずは条件を確認する</a>
+                <a class="ghost-button" href="#opportunities">案件を見る</a>
+              </div>
+            </div>
+
+            <aside class="status-card" aria-label="登録状況">
+              <div class="status-top">
+                <div>
+                  <p class="label">現在登録者数</p>
+                  <p class="big-number">128名</p>
+                </div>
+                <span class="icon-box">✓</span>
+              </div>
+              <div class="metric-grid">
+                <div class="metric">
+                  <p class="label">今月稼働開始</p>
+                  <strong>11名</strong>
+                </div>
+                <div class="metric">
+                  <p class="label">最短開始</p>
+                  <strong>3日</strong>
+                </div>
+              </div>
+              <div class="featured">
+                <p class="label">一番おすすめ</p>
+                <div class="line">
+                  <strong>川口</strong>
+                  <strong class="blue">23,246円</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section alt">
+          <div class="container trust-bar" aria-label="安心ポイント">
+            <div class="trust-chip"><span class="check-icon">✓</span>費用を先に確認</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>担当者が確認</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>車両・寮相談</div>
+            <div class="trust-chip"><span class="check-icon">✓</span>前払い相談</div>
+          </div>
+        </section>
+
+        <section id="difference" class="section">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Trust</p>
+              <h2>不安を減らす3つの確認</h2>
+              <p>登録は、話を聞く入口です。契約判断は内容確認後で大丈夫です。</p>
+            </div>
+            <div class="compare-grid">
+              <article class="card compare-card positive">
+                <h3>費用</h3>
+                <p>管理費・業務紹介料・支払い日を先に確認。</p>
+              </article>
+              <article class="card compare-card positive">
+                <h3>車両</h3>
+                <p>軽バンなし、リース、寮もまとめて相談。</p>
+              </article>
+              <article class="card compare-card positive">
+                <h3>開始</h3>
+                <p>条件に納得してから、準備へ進みます。</p>
+              </article>
+            </div>
+            <a class="micro-cta" href="#registrationForm">条件だけ先に確認する</a>
+          </div>
+        </section>
+
+        <section id="opportunities" class="section">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Opportunities</p>
+              <h2>現在案内できる案件</h2>
+              <p>日当と状態だけ先に確認。詳しい条件は担当者が確認します。</p>
+            </div>
+            <div class="job-grid" id="jobGrid"></div>
+            <div class="notice">
+              <strong>福岡県内の案件もご紹介可能です。</strong><br />
+              希望エリアや開始時期に合わせて、担当者が紹介可能な案件を確認します。
+            </div>
+          </div>
+        </section>
+
+        <section id="simulator" class="section alt">
+          <div class="container sim-grid">
+            <div>
+              <div class="section-head">
+                <p class="eyebrow-text">Sales Estimate</p>
+                <h2>収入と前払いの目安を先に確認</h2>
+                <p>案件と稼働日数を変えるだけで、目安を確認できます。</p>
+              </div>
+              <div class="sim-controls">
+                <label>
+                  <span class="select-label">基準案件</span>
+                  <select id="simJob"></select>
+                </label>
+                <div>
+                  <p class="label">稼働日数</p>
+                  <div class="segmented" role="group" aria-label="稼働日数">
+                    <button class="segment-button" type="button" data-sim-days="4">週4日</button>
+                    <button class="segment-button active" type="button" data-sim-days="5">週5日</button>
+                  </div>
+                </div>
+              </div>
+              <p class="small-note">
+                保証額ではありません。管理費25,000円・業務紹介料15%を差し引いた簡易目安です。
+              </p>
+            </div>
+            <div>
+              <div class="result-grid">
+                <article class="card result"><p class="label">月間売上目安</p><strong id="monthlySales">-</strong></article>
+                <article class="card result"><p class="label">条件差引後目安</p><strong id="takeHome">-</strong></article>
+                <article class="card result"><p class="label">週払い上限目安</p><strong id="weeklyAdvance">-</strong></article>
+                <article class="card result"><p class="label">利用時手数料目安</p><strong id="advanceFee">-</strong></article>
+              </div>
+              <article class="advance">
+                <h3>週払い利用の例</h3>
+                <p>
+                  上限77,500円の場合、受取目安は71,040円。残り50%は通常の振込日に指定口座へ振り込まれます。
+                </p>
+              </article>
+              <a class="micro-cta" href="#registrationForm">この条件で確認する</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="flow" class="section">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">Flow</p>
+              <h2>登録後すぐ契約ではありません</h2>
+              <p>納得できれば、稼働準備へ進みます。</p>
+            </div>
+            <div class="flow-grid">
+              <article class="card flow-card"><h3>1. 条件送信</h3><p>希望エリアと車両状況を送信。</p></article>
+              <article class="card flow-card"><h3>2. 担当者確認</h3><p>案件・費用・開始日を確認。</p></article>
+              <article class="card flow-card"><h3>3. 準備</h3><p>納得できれば車両や研修へ。</p></article>
+              <article class="card flow-card"><h3>4. 稼働開始</h3><p>準備後にスタート。</p></article>
+            </div>
+            <div class="risk-box">
+              <h3>迷っている段階でも大丈夫です</h3>
+              <p>合わなければ進める必要はありません。</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" class="section alt">
+          <div class="container">
+            <div class="section-head">
+              <p class="eyebrow-text">FAQ</p>
+              <h2>よくある不安を先に確認</h2>
+              <p>気になりやすい点だけまとめています。</p>
+            </div>
+            <div class="faq-list" id="faqList"></div>
+          </div>
+        </section>
+
+        <section id="conditions" class="section">
+          <div class="container before-grid">
+            <div>
+              <div class="section-head">
+                <p class="eyebrow-text">Transparency</p>
+                <h2>費用と支払い条件</h2>
+                <p>後から不安になりやすい条件を先に表示します。</p>
+              </div>
+              <div class="reality-box">
+                <h3>事前に確認すること</h3>
+                <ul>
+                  <li><span>•</span>配送は体力を使う仕事です</li>
+                  <li><span>•</span>天候や荷量により終了時間は変わります</li>
+                  <li><span>•</span>条件に納得してから進めます</li>
+                </ul>
+              </div>
+            </div>
+            <article class="card" style="padding: 18px">
+              <h3>条件の透明性</h3>
+              <p style="margin-top: 8px; color: var(--muted); line-height: 1.7">
+                POMSでは、管理費・業務紹介料・支払いサイクル・前払い条件を先に確認できるようにしています。
+              </p>
+              <dl class="conditions">
+                <div class="condition"><dt>管理費</dt><dd>25,000円</dd></div>
+                <div class="condition"><dt>業務紹介料</dt><dd>売上の15%</dd></div>
+                <div class="condition"><dt>支払い</dt><dd>月末締め 翌々月末払い</dd></div>
+                <div class="condition"><dt>前払い</dt><dd>売上50%まで相談可</dd></div>
+                <div class="condition"><dt>前払い手数料</dt><dd>8% + 260円</dd></div>
+                <div class="condition"><dt>契約</dt><dd>納得してから</dd></div>
+              </dl>
+              <a class="micro-cta" href="#registrationForm">費用を確認して進む</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="register" class="section alt">
+          <div class="container">
+            <div class="form-head">
+              <div class="section-head">
+                <p class="eyebrow-text">Condition Check</p>
+                <h2>まずは条件確認から</h2>
+                <p>希望エリア・車両状況・開始時期だけ先に送れます。</p>
+              </div>
+              <div class="progress-card">
+                <p class="label">現在の入力状況</p>
+                <p class="progress-percent" id="progressPercent">20%</p>
+                <p class="progress-helper" id="progressHelper">あと約1分</p>
+              </div>
+            </div>
+
+            <form class="card form-wrap" id="registrationForm">
+              <div class="progress-track" aria-hidden="true">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="progress-steps" id="progressSteps"></div>
+              <div class="panel" id="panel"></div>
+
+              <div class="form-actions">
+                <button class="secondary" id="backButton" type="button">戻る</button>
+                <button class="button" id="nextButton" type="button">次へ</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container">
+          <strong>株式会社パシフィックワンマイルサポート</strong>
+          POMS Driver Portalは、条件確認後に納得してから進める配送パートナー登録サービスです。
+        </div>
+      </footer>
+
+      <div class="sticky-cta">
+        <div class="sticky-inner">
+          <div>
+            <p>日当20,000円〜</p>
+            <p id="stickySub">条件確認だけOK</p>
+          </div>
+          <a class="button" id="stickyCtaButton" href="#registrationForm">条件確認へ</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const jobs = [
+        {
+          name: "川口",
+          daily: 23246,
+          status: "人気エリア",
+          rating: 5,
+          feature: true,
+          reason: "一番おすすめ。安定して始めやすい案件です。",
+        },
+        {
+          name: "町田",
+          daily: 20800,
+          status: "案内可能",
+          rating: 4,
+          reason: "通いやすさを重視する方に。",
+        },
+        {
+          name: "平和島",
+          daily: 31000,
+          status: "7月強化",
+          rating: 5,
+          reason: "7月限定の高単価案件。",
+        },
+        {
+          name: "新宿上落合",
+          daily: 23753,
+          status: "相談可能",
+          rating: 4,
+          reason: "都内近郊で稼働したい方に。",
+        },
+        {
+          name: "茨木",
+          daily: 22766,
+          status: "案内可能",
+          rating: 4,
+          reason: "関西エリアで相談可能。",
+        },
+        {
+          name: "尼崎",
+          daily: 22638,
+          status: "相談可能",
+          rating: 4,
+          reason: "車両や開始時期も相談可能。",
+        },
+      ];
+
+      const faqs = [
+        ["未経験でもできますか？", "仕事内容を確認してから判断できます。"],
+        ["車がなくても相談できますか？", "軽バン、リース、寮の相談が可能です。"],
+        ["登録したらすぐ契約ですか？", "いいえ。条件に納得してから進みます。"],
+        ["前払いはできますか？", "売上50%まで相談可能です。利用時は8% + 260円が目安です。"],
+        ["支払いサイクルは？", "月末締め、翌々月末払いです。残り分は通常振込日に支払われます。"],
+        ["費用はありますか？", "管理費25,000円、業務紹介料は売上の15%です。"],
+      ];
+
+      const steps = ["希望条件", "車両状況", "基本情報", "内容確認", "完了"];
+      const helperTexts = ["あと約1分", "あと3ステップ", "あと2ステップ", "あと1ステップ", "送信完了"];
+      const state = {
+        step: 0,
+        submitting: false,
+        confirmed: false,
+        simDays: 5,
+        simJob: "川口",
+        form: {
+          name: "",
+          phone: "",
+          address: "",
+          age: "",
+          vehicle: "軽バンなし",
+          area: "川口",
+          income: "50万円以上",
+          start: "最短",
+          days: "週5日",
+        },
+      };
+
+      const yen = (value) => `${Math.round(value).toLocaleString("ja-JP")}円`;
+      const getJob = (name) => jobs.find((job) => job.name === name) || jobs[0];
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function monthlyByDaily(daily, weeklyDays) {
+        return daily * weeklyDays * 4;
+      }
+
+      function weeklyAdvanceAmount(daily, weeklyDays) {
+        return daily * weeklyDays * 0.5;
+      }
+
+      function renderJobs() {
+        document.getElementById("jobGrid").innerHTML = jobs
+          .map((job) => {
+            const badgeClass = job.status.includes("強化")
+              ? "amber"
+              : job.status.includes("人気")
+                ? "blue"
+                : "";
+
+            return `
+              <article class="card job-card ${job.feature ? "feature" : ""}">
+                <div class="job-head">
+                  <div>
+                    <p class="label">エリア</p>
+                    <h3 class="job-name">${job.name}</h3>
+                  </div>
+                  <span class="badge ${badgeClass}">${job.status}</span>
+                </div>
+                <div class="line"><span>日当目安</span><strong>${yen(job.daily)}</strong></div>
+                <div class="line"><span>月間売上目安</span><strong>${yen(job.daily * 20)}</strong></div>
+                <div class="line"><span>おすすめ</span><strong class="stars">${"★".repeat(job.rating)}${"☆".repeat(5 - job.rating)}</strong></div>
+                <p class="job-reason">${job.reason}</p>
+                <button class="job-cta" type="button" data-area="${job.name}">この案件で条件確認</button>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderFaq() {
+        document.getElementById("faqList").innerHTML = faqs
+          .map(
+            ([question, answer], index) => `
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-${index}" data-faq="${index}">
+                  <span>${question}</span>
+                  <span>+</span>
+                </button>
+                <div class="faq-answer" id="faq-${index}">${answer}</div>
+              </article>
+            `,
+          )
+          .join("");
+      }
+
+      function renderSimulator() {
+        const job = getJob(state.simJob);
+        const monthlySales = monthlyByDaily(job.daily, state.simDays);
+        const royalty = monthlySales * 0.15;
+        const management = 25000;
+        const takeHome = monthlySales - royalty - management;
+        const weeklyAdvance = weeklyAdvanceAmount(job.daily, state.simDays);
+        const advanceFee = weeklyAdvance * 0.08 + 260;
+
+        document.getElementById("monthlySales").textContent = yen(monthlySales);
+        document.getElementById("takeHome").textContent = yen(takeHome);
+        document.getElementById("weeklyAdvance").textContent = yen(weeklyAdvance);
+        document.getElementById("advanceFee").textContent = yen(advanceFee);
+
+        document.querySelectorAll("[data-sim-days]").forEach((button) => {
+          button.classList.toggle("active", Number(button.dataset.simDays) === state.simDays);
+        });
+      }
+
+      function setupSimulator() {
+        const select = document.getElementById("simJob");
+        select.innerHTML = jobs
+          .map((job) => `<option value="${job.name}">${job.name} / ${yen(job.daily)}</option>`)
+          .join("");
+        select.value = state.simJob;
+        select.addEventListener("change", (event) => {
+          state.simJob = event.target.value;
+          renderSimulator();
+        });
+        document.querySelectorAll("[data-sim-days]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.simDays = Number(button.dataset.simDays);
+            renderSimulator();
+          });
+        });
+        renderSimulator();
+      }
+
+      function field(label, key, options = {}) {
+        const badge = options.required
+          ? '<span class="required">必須</span>'
+          : '<span class="optional">あとで確認可</span>';
+        const help = options.help ? `<small class="form-hint">${options.help}</small>` : "";
+        return `
+          <label>
+            <span>${label}${badge}</span>
+            <input
+              value="${escapeHtml(state.form[key])}"
+              placeholder="${options.placeholder || ""}"
+              inputmode="${options.inputMode || "text"}"
+              autocomplete="${options.autoComplete || "off"}"
+              data-key="${key}"
+            />
+            ${help}
+          </label>
+        `;
+      }
+
+      function selectField(label, key, options, help = "") {
+        return `
+          <label>
+            <span class="select-label">${label}</span>
+            <select data-key="${key}">
+              ${options
+                .map(
+                  (option) =>
+                    `<option ${state.form[key] === option ? "selected" : ""}>${option}</option>`,
+                )
+                .join("")}
+            </select>
+            ${help ? `<small class="form-hint">${help}</small>` : ""}
+          </label>
+        `;
+      }
+
+      function renderProgress() {
+        const percent = (state.step + 1) * 20;
+        document.getElementById("progressPercent").textContent = `${percent}%`;
+        document.getElementById("progressHelper").textContent = helperTexts[state.step];
+        document.getElementById("progressFill").style.width = `${percent}%`;
+        document.getElementById("progressSteps").innerHTML = steps
+          .map(
+            (step, index) =>
+              `<div class="progress-step ${index <= state.step ? "active" : ""}" aria-label="${step}">${(index + 1) * 20}%</div>`,
+          )
+          .join("");
+      }
+
+      function renderSummary() {
+        return `
+          <div class="summary-box">
+            <div class="summary-row"><span>希望エリア</span><strong>${escapeHtml(state.form.area)}</strong></div>
+            <div class="summary-row"><span>希望売上目安</span><strong>${escapeHtml(state.form.income)}</strong></div>
+            <div class="summary-row"><span>稼働ペース</span><strong>${escapeHtml(state.form.days)}</strong></div>
+            <div class="summary-row"><span>開始希望</span><strong>${escapeHtml(state.form.start)}</strong></div>
+            <div class="summary-row"><span>車両状況</span><strong>${escapeHtml(state.form.vehicle)}</strong></div>
+            <div class="summary-row"><span>氏名</span><strong>${escapeHtml(state.form.name || "未入力")}</strong></div>
+            <div class="summary-row"><span>電話番号</span><strong>${escapeHtml(state.form.phone || "未入力")}</strong></div>
+          </div>
+        `;
+      }
+
+      function renderPanel(errorMessage = "") {
+        renderProgress();
+        const panel = document.getElementById("panel");
+        const backButton = document.getElementById("backButton");
+        const nextButton = document.getElementById("nextButton");
+        backButton.disabled = state.step === 0 || state.submitting;
+        nextButton.disabled = state.submitting || (state.step === 3 && !state.confirmed);
+        nextButton.textContent =
+          state.step === 3
+            ? state.submitting
+              ? "送信中"
+              : "この内容で確認へ"
+            : state.step === 4
+              ? "トップへ"
+              : "次へ";
+
+        if (state.step === 0) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">1</span>希望条件</h3>
+            <div class="notice">最初は希望条件だけでOKです。</div>
+            <div class="field-grid" style="margin-top: 18px">
+              ${selectField("希望エリア", "area", ["川口", "町田", "平和島", "新宿上落合", "茨木", "尼崎", "その他福岡県内", "相談する"])}
+              ${selectField("希望売上目安", "income", ["40万円以上", "50万円以上", "60万円以上"])}
+              ${selectField("希望稼働日数", "days", ["週4日", "週5日", "曜日相談"])}
+              ${selectField("開始希望", "start", ["最短", "1週間以内", "今月中", "来月以降"])}
+            </div>
+            <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
+          `;
+        }
+
+        if (state.step === 1) {
+          const options = ["軽バンあり", "軽バンなし", "リース相談したい", "これから準備予定"];
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">2</span>車両状況</h3>
+            <div class="notice">軽バンがない方も相談できます。</div>
+            <div class="choice-grid" style="margin-top: 18px">
+              ${options
+                .map(
+                  (option) => `
+                    <button class="choice ${state.form.vehicle === option ? "active" : ""}" type="button" data-choice="${option}">
+                      <span class="icon-box">車</span>${option}
+                    </button>
+                  `,
+                )
+                .join("")}
+            </div>
+          `;
+        }
+
+        if (state.step === 2) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">3</span>基本情報</h3>
+            <div class="field-grid">
+              ${field("氏名", "name", { required: true, placeholder: "山田 太郎", autoComplete: "name" })}
+              ${field("電話番号", "phone", { required: true, placeholder: "09012345678", inputMode: "tel", autoComplete: "tel", help: "担当者から条件確認のためにご連絡します。" })}
+              ${field("年齢", "age", { placeholder: "32", inputMode: "numeric" })}
+              ${field("住所またはエリア", "address", { placeholder: "東京都大田区", autoComplete: "street-address", help: "市区町村まででも確認可能です。" })}
+            </div>
+            <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
+          `;
+        }
+
+        if (state.step === 3) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">4</span>内容確認</h3>
+            <div class="contract-grid">
+              <div>
+                <h3 style="margin-bottom: 12px">入力内容</h3>
+                ${renderSummary()}
+              </div>
+              <div class="condition-box">
+                <h3>先に確認する条件</h3>
+                <div class="info-row"><span>管理費</span><strong>25,000円</strong></div>
+                <div class="info-row"><span>業務紹介料</span><strong>売上の15%</strong></div>
+                <div class="info-row"><span>支払い</span><strong>月末締め 翌々月末払い</strong></div>
+                <div class="info-row"><span>前払い</span><strong>売上50%まで相談可</strong></div>
+                <div class="info-row"><span>利用時</span><strong>8% + 260円</strong></div>
+                <div class="info-row">
+                  <span>週払い例</span>
+                  <strong>上限77,500円の場合、受取目安71,040円
+                    <button class="info-button" id="detailButton" type="button" aria-controls="advanceDetail" aria-expanded="false">i</button>
+                  </strong>
+                </div>
+                <div class="detail" id="advanceDetail">
+                  週間売上目安: 155,000円<br />
+                  週払い上限目安: 77,500円<br />
+                  利用時: 8% + 260円 = 6,460円<br />
+                  受取目安: 71,040円<br />
+                  残り50%は通常の振り込み日に指定口座へ振り込まれます。
+                </div>
+              </div>
+            </div>
+            <label class="confirm-label">
+              <input type="checkbox" id="confirmed" ${state.confirmed ? "checked" : ""} />
+              登録後すぐ契約ではないことを確認しました
+            </label>
+            <p class="error ${errorMessage ? "show" : ""}">${errorMessage}</p>
+          `;
+        }
+
+        if (state.step === 4) {
+          panel.innerHTML = `
+            <h3 class="panel-title"><span class="icon-box">✓</span>条件確認を受け付けました</h3>
+            <div class="complete-grid">
+              <div class="complete-box">
+                <p>この時点で契約確定ではありません。</p>
+                <p style="margin-top: 10px; color: #334155; line-height: 1.7">担当者が条件・車両・開始日を確認してご連絡します。</p>
+                <p class="label" style="margin-top: 16px">現在の入力状況</p>
+                <p class="done">100%</p>
+              </div>
+              <div class="next-box">
+                <h3>次の流れ</h3>
+                ${["内容確認", "条件確認", "稼働準備", "研修・開始"]
+                  .map((item, index) => `<div class="next-step"><span>${index + 1}</span>${item}</div>`)
+                  .join("")}
+              </div>
+            </div>
+          `;
+        }
+
+        bindPanelEvents();
+      }
+
+      function bindPanelEvents() {
+        document.querySelectorAll("[data-key]").forEach((input) => {
+          input.addEventListener("input", (event) => {
+            state.form[event.target.dataset.key] = event.target.value;
+          });
+          input.addEventListener("change", (event) => {
+            state.form[event.target.dataset.key] = event.target.value;
+          });
+        });
+
+        document.querySelectorAll("[data-choice]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.form.vehicle = button.dataset.choice;
+            renderPanel();
+          });
+        });
+
+        const confirmed = document.getElementById("confirmed");
+        if (confirmed) {
+          confirmed.addEventListener("change", (event) => {
+            state.confirmed = event.target.checked;
+            renderPanel();
+          });
+        }
+
+        const detailButton = document.getElementById("detailButton");
+        if (detailButton) {
+          detailButton.addEventListener("click", () => {
+            const detail = document.getElementById("advanceDetail");
+            const open = !detail.classList.contains("open");
+            detail.classList.toggle("open", open);
+            detailButton.setAttribute("aria-expanded", String(open));
+          });
+        }
+      }
+
+      async function submitRegistration() {
+        const selectedJob = getJob(state.form.area);
+        const weeklyDays = state.form.days === "週4日" ? 4 : 5;
+        const weeklyAdvance = weeklyAdvanceAmount(selectedJob.daily, weeklyDays);
+        const weeklyAdvanceNet = weeklyAdvance - (weeklyAdvance * 0.08 + 260);
+
+        state.submitting = true;
+        renderPanel();
+
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...state.form,
+            confirmed: state.confirmed,
+            jobBasis: selectedJob.name,
+            weeklyAdvance: Math.round(weeklyAdvance),
+            weeklyAdvanceNet: Math.round(weeklyAdvanceNet),
+            pageUrl: window.location.href,
+          }),
+        });
+
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}));
+          throw new Error(body.message || "送信できませんでした。時間をおいて再度お試しください。");
+        }
+      }
+
+      function setupInteractions() {
+        document.getElementById("nextButton").addEventListener("click", async () => {
+          if (state.step === 4) {
+            window.location.hash = "#top";
+            return;
+          }
+
+          if (state.step === 2 && !state.form.name.trim()) {
+            renderPanel("氏名を入力してください。担当者が条件確認をするために必要です。");
+            return;
+          }
+
+          if (state.step === 2 && !state.form.phone.trim()) {
+            renderPanel("電話番号を入力してください。条件確認の連絡に使用します。");
+            return;
+          }
+
+          if (state.step === 3) {
+            if (!state.confirmed) return;
+
+            try {
+              await submitRegistration();
+              state.submitting = false;
+              state.step = 4;
+              renderPanel();
+            } catch (error) {
+              state.submitting = false;
+              renderPanel(error instanceof Error ? error.message : "送信できませんでした。");
+            }
+            return;
+          }
+
+          state.step = Math.min(state.step + 1, 4);
+          renderPanel();
+        });
+
+        document.getElementById("backButton").addEventListener("click", () => {
+          if (state.submitting) return;
+          state.step = Math.max(state.step - 1, 0);
+          renderPanel();
+        });
+
+        document.querySelectorAll(".job-cta").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.form.area = button.dataset.area;
+            state.step = 0;
+            renderPanel();
+            window.location.hash = "registrationForm";
+            setTimeout(() => {
+              document.getElementById("registrationForm").scrollIntoView({ behavior: "auto", block: "start" });
+            }, 0);
+          });
+        });
+
+        document.querySelectorAll(".faq-question").forEach((button) => {
+          button.addEventListener("click", () => {
+            const item = button.closest(".faq-item");
+            const open = !item.classList.contains("open");
+            item.classList.toggle("open", open);
+            button.setAttribute("aria-expanded", String(open));
+            button.querySelector("span:last-child").textContent = open ? "-" : "+";
+          });
+        });
+
+        const stickyButton = document.getElementById("stickyCtaButton");
+        const stickySub = document.getElementById("stickySub");
+        const stickyBar = document.querySelector(".sticky-cta");
+        const updateSticky = () => {
+          const formTop = document.getElementById("register").getBoundingClientRect().top;
+          const nearForm = formTop < window.innerHeight * 0.8;
+          stickyBar.classList.toggle("show", window.scrollY > window.innerHeight * 0.7 && !nearForm);
+          stickyButton.textContent = "条件確認へ";
+          stickySub.textContent = "条件確認だけOK";
+        };
+        window.addEventListener("scroll", updateSticky, { passive: true });
+        updateSticky();
+      }
+
+      function scrollToCurrentHash(hash = window.location.hash) {
+        if (!hash) return;
+        const target = document.getElementById(hash.slice(1));
+        if (!target) return;
+
+        const align = () => {
+          const offset = 82;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: "auto" });
+        };
+
+        [50, 300, 700].forEach((delay) => setTimeout(align, delay));
+      }
+
+      function bindAnchorScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.addEventListener("click", (event) => {
+            const hash = link.getAttribute("href");
+            if (!hash || hash === "#") return;
+            const target = document.getElementById(hash.slice(1));
+            if (!target) return;
+            event.preventDefault();
+            history.pushState(null, "", hash);
+            scrollToCurrentHash(hash);
+          });
+        });
+      }
+
+      renderJobs();
+      renderFaq();
+      setupSimulator();
+      renderPanel();
+      setupInteractions();
+      bindAnchorScroll();
+      scrollToCurrentHash();
+      window.addEventListener("hashchange", () => scrollToCurrentHash());
+    </script>
+  </body>
+</html>
